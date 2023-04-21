@@ -35,7 +35,7 @@ const MattermostEmoji = () => {
   return (
     <Emo>
       <IconButton onClick={handleClick}>
-        <MoodIcon />
+        <MoodIcon sx={{ fontSize: "30px" }} />
       </IconButton>
       <Popover
         open={open}
@@ -49,6 +49,7 @@ const MattermostEmoji = () => {
           vertical: "top",
           horizontal: "center",
         }}
+        style={{ width: "1000px" }}
       >
         <div
           style={{
@@ -64,13 +65,13 @@ const MattermostEmoji = () => {
               style={{ cursor: "pointer", padding: "4px" }}
               onClick={() => handleEmojiClick(emoji)}
             >
-              <img src={emoji} alt={emoji} width={24} height={24} />
+              <img src={emoji} alt={emoji} width={40} height={40} />
             </span>
           ))}
         </div>
       </Popover>
       {selectedEmoji && (
-        <img src={selectedEmoji} alt={selectedEmoji} width={24} height={24} />
+        <img src={selectedEmoji} alt={selectedEmoji} width={40} height={40} />
       )}
     </Emo>
   );
