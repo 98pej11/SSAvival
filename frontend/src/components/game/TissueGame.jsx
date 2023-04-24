@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TissueGame() {
   const [isDragging, setIsDragging] = useState(false);
