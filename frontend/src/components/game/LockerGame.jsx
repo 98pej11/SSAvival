@@ -1,13 +1,119 @@
 import styled from "styled-components";
-import { Dialog, Button, DialogTitle, DialogContent, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import paperPassword from "../../assets/paper_password.png";
-import * as React from "react";
+import lockerBook from "../../assets/locker_book.png";
+import React, { useState, useEffect } from "react";
+
+export default function LockerGame(props) {
+  const timeLimit = 5;
+  const [lockerOpen, setLockerOpen] = useState(false);
+  const [enteredValue, setEnteredValue] = useState("");
+  const [timeLeft, setTimeLeft] = useState(timeLimit * 100);
+  const correctPassword = "1234";
+
+  const handleNumButtonClick = (e) => {
+    const { innerText } = e.target;
+    setEnteredValue((prev) => {
+      if (prev.length >= 3) {
+        if (prev + innerText === correctPassword) {
+          setLockerOpen(true);
+        }
+        return "";
+      }
+      return prev + innerText;
+    });
+  };
+
+  useEffect(() => {
+    let intervalId = null;
+    if (timeLeft > 0) {
+      intervalId = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 10);
+    }
+    return () => clearInterval(intervalId);
+  }, [timeLeft]);
+
+  return (
+    <>
+      <Box
+        style={{
+          width: "100%",
+          backgroundColor: "#007aff",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Box
+          style={{
+            width: `${100 - timeLeft / timeLimit}%`,
+            height: "10px",
+            backgroundColor: "#eee",
+          }}
+        />
+      </Box>
+      <LockerDoor>
+        {lockerOpen ? (
+          <LockerInside>
+            <BookInside src={lockerBook} alt="LockerBook" />
+          </LockerInside>
+        ) : (
+          <>
+            <EnteredPassword>{enteredValue}</EnteredPassword>
+            <KeyPad>
+              <NumButtonContainer>
+                <NumButton onClick={handleNumButtonClick}>1</NumButton>
+                <NumButton onClick={handleNumButtonClick}>2</NumButton>
+                <NumButton onClick={handleNumButtonClick}>3</NumButton>
+                <NumButton onClick={handleNumButtonClick}>4</NumButton>
+                <NumButton onClick={handleNumButtonClick}>5</NumButton>
+                <NumButton onClick={handleNumButtonClick}>6</NumButton>
+                <NumButton onClick={handleNumButtonClick}>7</NumButton>
+                <NumButton onClick={handleNumButtonClick}>8</NumButton>
+                <NumButton onClick={handleNumButtonClick}>9</NumButton>
+                <NumButton onClick={handleNumButtonClick}>*</NumButton>
+                <NumButton onClick={handleNumButtonClick}>0</NumButton>
+                <NumButton onClick={handleNumButtonClick}>#</NumButton>
+              </NumButtonContainer>
+              <OuterCircle />
+              <InnerCircle />
+            </KeyPad>
+            <PasswordInfo src={paperPassword} alt="PasswordPaper" />
+            <RequiredPassword>{correctPassword}</RequiredPassword>
+          </>
+        )}
+      </LockerDoor>
+    </>
+  );
+}
 
 const LockerDoor = styled.div`
   width: 500px;
   height: 500px;
   background-color: #ffffff;
   border: 2px solid #000000;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const LockerInside = styled.div`
+  width: 450px;
+  height: 450px;
+  background-color: #cccccc;
+  border: 1px solid #000000;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const BookInside = styled.img`
+  width: 350px;
+  height: 350px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -109,94 +215,3 @@ const RequiredPassword = styled(Box)`
   font-weight: bold;
   font-size: 2.5rem;
 `;
-
-// const StyledDialogTitle = styled(DialogTitle)`
-//   background-color: #f0f0f0;
-//   color: #000000;
-//   font-weight: bold;
-// `;
-
-// const StyledDialogContent = styled(DialogContent)`
-//   padding: 16px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 16px;
-// `;
-
-// const StyledDialog = styled(Dialog)`
-//   .MuiPaper-root {
-//     margin: 0;
-//     border-radius: 0;
-//   }
-// `;
-
-export default function LockerGame(props) {
-  const [lockerOpen, setLockerOpen] = React.useState(false);
-  const [enteredValue, setEnteredValue] = React.useState("");
-  const correctPassword = "1234";
-
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-  const handleNumButtonClick = (e) => {
-    const { innerText } = e.target;
-    setEnteredValue((prev) => {
-      if (prev.length >= 3) {
-        if (prev + innerText === correctPassword) {
-          setLockerOpen(true);
-        }
-        return "";
-      }
-      return prev + innerText;
-    });
-  };
-
-  return (
-    <>
-      {/* <Button onClick={handleClickOpen}>Open Dialog</Button>
-      <StyledDialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth={false}
-      >
-        <StyledDialogTitle>My Dialog</StyledDialogTitle>
-        <StyledDialogContent> */}
-      <LockerDoor>
-        {lockerOpen ? (
-          <> 문이 열렸습니다. </>
-        ) : (
-          <>
-            <EnteredPassword>{enteredValue}</EnteredPassword>
-            <KeyPad>
-              <NumButtonContainer>
-                <NumButton onClick={handleNumButtonClick}>1</NumButton>
-                <NumButton onClick={handleNumButtonClick}>2</NumButton>
-                <NumButton onClick={handleNumButtonClick}>3</NumButton>
-                <NumButton onClick={handleNumButtonClick}>4</NumButton>
-                <NumButton onClick={handleNumButtonClick}>5</NumButton>
-                <NumButton onClick={handleNumButtonClick}>6</NumButton>
-                <NumButton onClick={handleNumButtonClick}>7</NumButton>
-                <NumButton onClick={handleNumButtonClick}>8</NumButton>
-                <NumButton onClick={handleNumButtonClick}>9</NumButton>
-                <NumButton onClick={handleNumButtonClick}>*</NumButton>
-                <NumButton onClick={handleNumButtonClick}>0</NumButton>
-                <NumButton onClick={handleNumButtonClick}>#</NumButton>
-              </NumButtonContainer>
-              <OuterCircle />
-              <InnerCircle />
-            </KeyPad>
-            <PasswordInfo src={paperPassword} alt="PasswordPaper" />
-            <RequiredPassword>{correctPassword}</RequiredPassword>
-          </>
-        )}
-      </LockerDoor>
-      {/* </StyledDialogContent>
-      </StyledDialog> */}
-    </>
-  );
-}
