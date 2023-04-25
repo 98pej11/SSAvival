@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 import paperPassword from "../../assets/paper_password.png";
 import lockerBook from "../../assets/locker_book.png";
+import happyPepe from "../../assets/happy_pepe.png";
+import pepeSad from "../../assets/pepe_sad.png";
 import React, { useState, useEffect } from "react";
 
 export default function LockerGame(props) {
@@ -34,58 +36,83 @@ export default function LockerGame(props) {
     return () => clearInterval(intervalId);
   }, [timeLeft]);
 
+  const progress = 100 - timeLeft / timeLimit;
+
   return (
     <>
       <Box
         style={{
-          width: "100%",
-          backgroundColor: "#007aff",
           display: "flex",
-          justifyContent: "flex-end",
+          alignItems: "center",
+          marginBottom: "20px",
         }}
       >
+        <img src={pepeSad} style={{ marginRight: "10px" }} />
         <Box
           style={{
-            width: `${100 - timeLeft / timeLimit}%`,
-            height: "10px",
-            backgroundColor: "#eee",
+            width: "100%",
+            backgroundColor: "#007aff",
+            display: "flex",
+            justifyContent: "flex-end",
           }}
-        />
+        >
+          <Box
+            style={{
+              width: `${progress}%`,
+              height: "10px",
+              backgroundColor: "#eee",
+            }}
+          />
+        </Box>
       </Box>
-      <LockerDoor>
-        {lockerOpen ? (
-          <LockerInside>
-            <BookInside src={lockerBook} alt="LockerBook" />
-          </LockerInside>
-        ) : (
-          <>
-            <EnteredPassword>{enteredValue}</EnteredPassword>
-            <KeyPad>
-              <NumButtonContainer>
-                <NumButton onClick={handleNumButtonClick}>1</NumButton>
-                <NumButton onClick={handleNumButtonClick}>2</NumButton>
-                <NumButton onClick={handleNumButtonClick}>3</NumButton>
-                <NumButton onClick={handleNumButtonClick}>4</NumButton>
-                <NumButton onClick={handleNumButtonClick}>5</NumButton>
-                <NumButton onClick={handleNumButtonClick}>6</NumButton>
-                <NumButton onClick={handleNumButtonClick}>7</NumButton>
-                <NumButton onClick={handleNumButtonClick}>8</NumButton>
-                <NumButton onClick={handleNumButtonClick}>9</NumButton>
-                <NumButton onClick={handleNumButtonClick}>*</NumButton>
-                <NumButton onClick={handleNumButtonClick}>0</NumButton>
-                <NumButton onClick={handleNumButtonClick}>#</NumButton>
-              </NumButtonContainer>
-              <OuterCircle />
-              <InnerCircle />
-            </KeyPad>
-            <PasswordInfo src={paperPassword} alt="PasswordPaper" />
-            <RequiredPassword>{correctPassword}</RequiredPassword>
-          </>
-        )}
-      </LockerDoor>
+      <Box
+        style={{
+          width: "100%",
+          height: "50px",
+        }}
+      />
+      <LockerDoorContainer>
+        <LockerDoor>
+          {lockerOpen ? (
+            <LockerInside>
+              <BookInside src={lockerBook} alt="LockerBook" />
+            </LockerInside>
+          ) : (
+            <>
+              <EnteredPassword>{enteredValue}</EnteredPassword>
+              <KeyPad>
+                <NumButtonContainer>
+                  <NumButton onClick={handleNumButtonClick}>1</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>2</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>3</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>4</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>5</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>6</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>7</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>8</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>9</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>*</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>0</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>#</NumButton>
+                </NumButtonContainer>
+                <OuterCircle />
+                <InnerCircle />
+              </KeyPad>
+              <PasswordInfo src={paperPassword} alt="PasswordPaper" />
+              <RequiredPassword>{correctPassword}</RequiredPassword>
+            </>
+          )}
+        </LockerDoor>
+      </LockerDoorContainer>
     </>
   );
 }
+
+const LockerDoorContainer = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const LockerDoor = styled.div`
   width: 500px;
