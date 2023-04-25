@@ -7,8 +7,9 @@ import { useDrag } from "react-use-gesture";
 // import Box from "@mui/material/Box";
 
 // import Button from "@mui/material/Button";
-
-import idCard from "../../assets/idCard.png";
+import reader from "../../assets/reader.png";
+import idCard from "../../assets/IDcard.svg";
+import back from "../../assets/card_back.png";
 // import online from "../../assets/online.png";
 
 import Draggable from "react-draggable";
@@ -16,39 +17,17 @@ import Draggable from "react-draggable";
 
 export default function Emoji() {
   // 카드 위치 좌표
-  const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
+  // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
 
-  const cardPos = useSpring({ x: 0, y: 0 });
+  const cardPos = useSpring({ x: Math.floor(Math.random() * 600), y: -250 });
 
   // 드래그
   const bindCardPos = useDrag((params) => {
-    console.log(params.offset[0], params.offset[1]);
+    console.log("나", params.offset[0], params.offset[1]);
     cardPos.x.set(params.offset[0]);
     cardPos.y.set(params.offset[1]);
-  });
 
-  // 카드 드래그할 때 투명도
-  const [Opacity, setOpacity] = useState(false);
-  // 카드 태그할 때 바뀌는 카드 리더기
-  const [divColor, setDivColor] = useState("white");
-  // 태그 성공 횟수
-  const [score, setScore] = useState(0);
-  // 카드 리더기 위치 좌표
-  const targetPosition = { x: 626, y: -819 }; // Example target position
-  // 카드 리더기에 찍히는 것 감지하는 범위
-  const targetRange = 50; // Example target range
-
-  const handleStart = () => {
-    setOpacity(true);
-  };
-  const handleEnd = () => {
-    setOpacity(false);
-  };
-
-  // 카드 리더기에 도착하는 것 감지
-  const trackPos = (data) => {
-    const currentPosition = { x: data.x, y: data.y };
-    setPosition(currentPosition);
+    const currentPosition = { x: params.offset[0], y: params.offset[1] };
     const distance = Math.sqrt(
       Math.pow(currentPosition.x - targetPosition.x, 2) +
         Math.pow(currentPosition.y - targetPosition.y, 2)
@@ -59,70 +38,83 @@ export default function Emoji() {
       console.log("Arrived at target location! score is", score);
       // 카드 찍기에 성공하면 카드 리더기 빛난 후
       divColor.style.backgroundColor = "red";
-      divColor.style.transform = "roatate(45deg)";
-
-      // 지연 효과
-      setTimeout(() => {
-        setPosition({
-          x: Math.floor(Math.random() * 600),
-          y: -300,
-        });
-      }, 150); // 이 코드를 실행하기 전에 3초 동안 기다립니다.
-
-      console.log(position);
+      console.log("여기");
+      cardPos.x.set(Math.floor(Math.random() * 600));
+      // cardPos.x.set(params.offset[0]);
+      cardPos.y.set(-250);
+      params.offset[0] = Math.floor(Math.random() * 600);
+      params.offset[1] = -250;
     } else {
       // 카드 리더기 밖이면 색 변화 x
+
       divColor.style.backgroundColor = "white";
-      divColor.style.transform = "roatate(45deg)";
     }
+  });
+
+  // 카드 드래그할 때 투명도
+  const [Opacity, setOpacity] = useState(false);
+  // 카드 태그할 때 바뀌는 카드 리더기
+  const [divColor, setDivColor] = useState("white");
+  // 태그 성공 횟수
+  const [score, setScore] = useState(0);
+  // 카드 리더기 위치 좌표
+  const targetPosition = { x: 800, y: -420 }; // Example target position
+  // 카드 리더기에 찍히는 것 감지하는 범위
+  const targetRange = 80; // Example target range
+
+  const handleStart = () => {
+    setOpacity(true);
+  };
+  const handleEnd = () => {
+    setOpacity(false);
   };
 
   return (
-    <div>
-      <div
+    <div style={{ userSelect: "none", width: "1200px", height: "600px" }}>
+      <img
+        src={back}
+        alt="background"
         style={{
-          width: 1000,
-          height: 600,
+          width: "1200px",
+          height: "600px",
           display: "flex",
-          backgroundColor: "#D4F2FF",
-          border: 1,
-          borderColor: "",
+          position: "absolute",
+          userSelect: "none",
         }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: "350px",
-            height: "500px",
-            backgroundColor: "gray",
-            marginTop: "2%",
-            marginLeft: "60%",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            ref={setDivColor}
-            onDrag={(e, data) => trackPos(data)}
-            style={{
-              width: "70%",
-              height: "70%",
-              backgroundColor: divColor,
-              marginTop: "5%",
-            }}
-          ></div>
-        </div>
-      </div>
+      />
+
+      <div>태그 횟수 : {score}</div>
+      <img
+        src={reader}
+        alt="cardReader"
+        style={{
+          width: "300px",
+          height: "500px",
+          marginTop: "50px",
+          marginLeft: "800px",
+          position: "relative",
+        }}
+      />
+
+      <div
+        ref={setDivColor}
+        onDrag={(e, data) => bindCardPos(data)}
+        style={{
+          width: "160px",
+          height: "100px",
+          backgroundColor: divColor,
+          marginTop: "-440px",
+          marginLeft: "867px",
+          position: "absolute",
+          border: "solid",
+          borderColor: "black",
+        }}
+      ></div>
+      {/* </div> */}
 
       <animated.div
         {...bindCardPos()}
-        onDrag={(e, data) => trackPos(data)}
-        onStart={handleStart}
-        onStop={handleEnd}
-        // position={{ x: position.x, y: position.y }}
         style={{
-          // position: "relative",
-          // top: position.y,
-          // left: position.x,
           x: cardPos.x,
           y: cardPos.y,
         }}
@@ -133,11 +125,12 @@ export default function Emoji() {
           style={{
             width: "300px",
             height: "250px",
+            pointerEvents: "none",
           }}
         />
       </animated.div>
 
-      <Draggable
+      {/* <Draggable
         onDrag={(e, data) => trackPos(data)}
         onStart={handleStart}
         onStop={handleEnd}
@@ -160,7 +153,7 @@ export default function Emoji() {
             x: {position.x.toFixed(0)}, y: {position.y.toFixed(0)}
           </div>
         </div>
-      </Draggable>
+      </Draggable> */}
     </div>
   );
 }
