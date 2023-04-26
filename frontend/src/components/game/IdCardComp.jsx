@@ -62,6 +62,9 @@ export default function Emoji() {
   // 카드 리더기에 찍히는 것 감지하는 범위
   const targetRange = 80; // Example target range
 
+  // 카드 찍고 일시적으로 사라지게 하기 => 몰루?!?!
+  const [state, setState] = useState(false);
+
   const handleStart = () => {
     setOpacity(true);
   };
@@ -69,6 +72,11 @@ export default function Emoji() {
     setOpacity(false);
   };
 
+  // const fadeCard=()=>{
+  //   this.setState((state)=>({
+  //     select:!state.select,
+  //   }));
+  // }
   return (
     <div style={{ userSelect: "none", width: "1200px", height: "600px" }}>
       <img
@@ -84,7 +92,6 @@ export default function Emoji() {
         }}
       />
 
-      <div>태그 횟수 : {score}</div>
       <img
         src={reader}
         alt="cardReader"
@@ -96,7 +103,9 @@ export default function Emoji() {
           position: "relative",
         }}
       />
-
+      <TestDiv>
+        <div className="text">How are you?</div>
+      </TestDiv>
       <div
         ref={setDivColor}
         onDrag={(e, data) => bindCardPos(data)}
@@ -111,7 +120,6 @@ export default function Emoji() {
           borderColor: "black",
         }}
       ></div>
-      {/* </div> */}
 
       <animated.div
         {...bindCardPos()}
@@ -128,6 +136,7 @@ export default function Emoji() {
             height: "250px",
             pointerEvents: "none",
           }}
+          animated
         />
       </animated.div>
 
@@ -158,6 +167,20 @@ export default function Emoji() {
     </div>
   );
 }
+
+const TestDiv = styled(`div`)({
+  position: "relative",
+  fontSize: "5rem",
+  animation: "slide 3s ease-in-out",
+  "@keyframes slide": {
+    from: {
+      left: "-650px",
+    },
+    to: {
+      left: "500px",
+    },
+  },
+});
 
 // const StyledBadge = styled(Badge)(({ theme }) => ({
 //   "& .MuiBadge-badge": {

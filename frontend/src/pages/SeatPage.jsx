@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import EmojiComp from "../components/game/EmojiComp";
-import TimerBar from "../components/game/TimerBar";
+import SeatComp from "../components/game/SeatComp";
 import GameComp from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
@@ -18,11 +17,11 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  title: "MM에 알맞은 이모지를 붙여보자",
-  number: 2,
+  title: "시간 안에 우리 팀원들을 다 앉을 수 있게 하자!",
+  number: 5,
 };
 
-export default function EmojiPage() {
+export default function SeatPage() {
   return (
     <Pages>
       <Header props={myProps} />
@@ -36,7 +35,7 @@ export default function EmojiPage() {
         }}
       >
         <GameComp props={myProps}>
-          <EmojiComp {...myProps} />
+          <SeatComp {...myProps} />
         </GameComp>
       </div>
     </Pages>
