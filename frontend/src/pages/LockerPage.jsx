@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import GameComp from "../components/game/GameComp";
-import Header from "../components/game/Header";
+import Header from "../components/game/GameHeader";
 import LockerGame from "../components/game/LockerGame";
 import game from "../assets/game.png";
 
