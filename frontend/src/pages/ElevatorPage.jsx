@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import EmojiComp from "../components/game/EmojiComp";
+import ElevatorGame from "../components/game/ElevatorGame";
 import GameComp from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
@@ -15,11 +15,11 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  title: "MM에 알맞은 이모지를 붙여보자",
+  title: "엘레베이터를 붙잡아!",
   number: 2,
 };
 
-export default function EmojiPage() {
+export default function ElevatorPage() {
   return (
     <Pages>
       <Header props={myProps} />
@@ -33,7 +33,7 @@ export default function EmojiPage() {
         }}
       >
         <GameComp props={myProps}>
-          <EmojiComp {...myProps} />
+          <ElevatorGame {...myProps} />
         </GameComp>
       </div>
     </Pages>

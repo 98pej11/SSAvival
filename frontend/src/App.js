@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EmojiPage from "./pages/EmojiPage";
+
+import ElevatorPage from "./pages/ElevatorPage";
 import TissuePage from "./pages/TissuePage";
 import GamePage from "./pages/GamePage";
 import LockerPage from "./pages/LockerPage";
 import AttendancePage from "./pages/AttendancePage";
+import EmojiPage from "./pages/EmojiPage";
 
 const Pages = styled.div`
   position: relative;
@@ -21,6 +23,7 @@ function App() {
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/elevator" element={<ElevatorPage />} />
         </Routes>
       </Pages>
     </BrowserRouter>
