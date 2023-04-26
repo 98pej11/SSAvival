@@ -5,6 +5,7 @@ import EmojiPage from "./pages/EmojiPage";
 import TissuePage from "./pages/TissuePage";
 import GamePage from "./pages/GamePage";
 import LockerPage from "./pages/LockerPage";
+import AttendancePage from "./pages/AttendancePage";
 
 const Pages = styled.div`
   position: relative;
@@ -19,6 +20,7 @@ function App() {
           <Route path="/game" element={<GamePage />} />
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
         </Routes>
       </Pages>
     </BrowserRouter>

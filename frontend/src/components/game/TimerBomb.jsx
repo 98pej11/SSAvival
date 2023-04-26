@@ -13,8 +13,8 @@ import bombRed from "../../assets/timer/bomb_red.png";
 const TimerBomb = ({ timeLimit }) => {
   const [timeLeft, setTimeLeft] = useState(timeLimit * 100);
   const progress = 100 - timeLeft / timeLimit;
-  const before2Sec = ((timeLimit - 2) / timeLimit) * 100;
-  const before1Sec = ((timeLimit - 1) / timeLimit) * 100;
+  const before2sec = ((timeLimit - 2) / timeLimit) * 100;
+  const before1sec = ((timeLimit - 1) / timeLimit) * 100;
 
   useEffect(() => {
     let intervalId = null;
@@ -31,7 +31,7 @@ const TimerBomb = ({ timeLimit }) => {
       <BombImg
         src={
           progress < 100
-            ? progress < before1Sec
+            ? progress < before1sec
               ? bombIdle
               : bombRed
             : bombBoom
@@ -40,8 +40,8 @@ const TimerBomb = ({ timeLimit }) => {
       />
       <ColoredBar
         progress={progress}
-        before1Sec={before1Sec}
-        before2Sec={before2Sec}
+        before1sec={before1sec}
+        before2sec={before2sec}
       >
         <GreyBar progress={progress} />
       </ColoredBar>
@@ -67,10 +67,10 @@ const BombImg = styled.img`
 
 const ColoredBar = styled(Box)`
   width: 100%;
-  background-color: ${({ progress, before1Sec, before2Sec }) =>
-    progress > before1Sec
+  background-color: ${({ progress, before1sec, before2sec }) =>
+    progress > before1sec
       ? "#EC2C54"
-      : progress > before2Sec
+      : progress > before2sec
       ? "#FFD923"
       : "#3396F4"};
   display: flex;
