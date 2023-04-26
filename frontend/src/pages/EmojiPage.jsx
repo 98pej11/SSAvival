@@ -8,11 +8,9 @@ import "../index.css";
 import game from "../assets/game.png";
 
 const Pages = styled.div`
-  position: relative;
   background-image: url(${game});
-  // background-size: auto;
-  background-size: contain;
-  // background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
   width: 100%;
   height: 100%;
 `;
@@ -31,7 +29,7 @@ export default function EmojiPage() {
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
+          marginTop: "1%",
           height: "100vh",
         }}
       >
