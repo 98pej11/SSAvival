@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Box } from "@mui/material";
-import paperPassword from "../../assets/paper_password.png";
-import lockerBook from "../../assets/locker_book.png";
+import paperPassword from "../../assets/game_locker/paper_password.png";
+import lockerBook from "../../assets/game_locker/locker_book.png";
 import React, { useState, useEffect } from "react";
 
 function generateRandomPassword() {

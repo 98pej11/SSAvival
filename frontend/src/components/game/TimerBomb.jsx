@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import styled from "styled-components";
-import bombIdle from "../../assets/bomb_idle.png";
-import bombBoom from "../../assets/bomb_boom.png";
-import bombRed from "../../assets/bomb_red.png";
+import bombIdle from "../../assets/timer/bomb_idle.png";
+import bombBoom from "../../assets/timer/bomb_boom.png";
+import bombRed from "../../assets/timer/bomb_red.png";
 
 // timeLimit 값을 입력받아서 그 초만큼의 타이머를 생성
 // 2초 남으면 타이머의 색상이 노란색으로 바뀜
