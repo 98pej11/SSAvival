@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 import paperPassword from "../../assets/paper_password.png";
 import lockerBook from "../../assets/locker_book.png";
-import happyPepe from "../../assets/happy_pepe.png";
-import pepeSad from "../../assets/pepe_sad.png";
+import bombIdle from "../../assets/bomb_idle.png";
 import React, { useState, useEffect } from "react";
 
 export default function LockerGame(props) {
@@ -47,11 +46,16 @@ export default function LockerGame(props) {
           marginBottom: "20px",
         }}
       >
-        <img src={pepeSad} style={{ marginRight: "10px" }} />
+        <img
+          src={bombIdle}
+          style={{ marginRight: "0px", width: "50px", height: "50px" }}
+        />
         <Box
           style={{
             width: "100%",
-            backgroundColor: "#007aff",
+            backgroundColor: `${
+              progress > 85 ? "#EC2C54" : progress > 60 ? "#FFD923" : "#3396F4"
+            }`,
             display: "flex",
             justifyContent: "flex-end",
           }}
