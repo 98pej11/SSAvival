@@ -1,24 +1,6 @@
 import * as React from "react";
-import styled from "styled-components";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import TimerBar from "./TimerBar";
-import { alpha } from "@mui/material/styles";
-
-// const GameBox = styled.div`
-//    display: inline-block,
-//   justify-content: center,
-//         align-items: center,
-//         flex-wrap: wrap,
-//         border: 1px solid gray,
-//         border-radius: 10,
-//         background-color: white,
-//         padding: 5,
-//         max-width: 60%, // 최대 너비 값 설정
-//         width: 100%,
-//         height: 80vh,
-//         overflow: hidden,
-// `;
+import TimerBomb from "./TimerBomb";
 export default function GameComp(props) {
   const { children } = props;
   return (
@@ -39,9 +21,9 @@ export default function GameComp(props) {
         overflow: "hidden",
       }}
     >
-      <TimerBar initialValue={80} decreaseValue={1} decreaseInterval={1000} />
+      {/* 타이머 시간을 초로 집어넣으면 됩니다. */}
+      <TimerBomb timeLimit={10} />
       {children}
-      {/* <Paper sx={{ marginBottom: 10}}></Paper> */}
     </Box>
   );
 }
