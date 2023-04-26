@@ -2,22 +2,31 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 import paperPassword from "../../assets/paper_password.png";
 import lockerBook from "../../assets/locker_book.png";
-import bombIdle from "../../assets/bomb_idle.png";
 import React, { useState, useEffect } from "react";
 
+function generateRandomPassword() {
+  const randomNumber = Math.floor(Math.random() * 10000);
+  const paddedNumber = randomNumber.toString().padStart(4, "0");
+  return paddedNumber;
+}
+
 export default function LockerGame(props) {
-  const timeLimit = 5;
-  const [lockerOpen, setLockerOpen] = useState(false);
+  // minigameClear를 redux로 옮겨야 할지도? 타이머에 클리어 정보를 전달해야 하는데, props와 emit으로는 너무 어려움
+  const [minigameClear, setMinigameClear] = useState(false);
   const [enteredValue, setEnteredValue] = useState("");
-  const [timeLeft, setTimeLeft] = useState(timeLimit * 100);
-  const correctPassword = "1234";
+  // 추후 비밀번호를 props로 받아오게 만들 수도 있음
+  const [correctPassword, setCorrectPassword] = useState("");
+
+  useEffect(() => {
+    setCorrectPassword(generateRandomPassword());
+  }, []);
 
   const handleNumButtonClick = (e) => {
     const { innerText } = e.target;
     setEnteredValue((prev) => {
       if (prev.length >= 3) {
         if (prev + innerText === correctPassword) {
-          setLockerOpen(true);
+          setMinigameClear(true);
         }
         return "";
       }
@@ -25,59 +34,11 @@ export default function LockerGame(props) {
     });
   };
 
-  useEffect(() => {
-    let intervalId = null;
-    if (timeLeft > 0) {
-      intervalId = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 10);
-    }
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
-
-  const progress = 100 - timeLeft / timeLimit;
-
   return (
     <>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <img
-          src={bombIdle}
-          style={{ marginRight: "0px", width: "50px", height: "50px" }}
-        />
-        <Box
-          style={{
-            width: "100%",
-            backgroundColor: `${
-              progress > 85 ? "#EC2C54" : progress > 60 ? "#FFD923" : "#3396F4"
-            }`,
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Box
-            style={{
-              width: `${progress}%`,
-              height: "10px",
-              backgroundColor: "#eee",
-            }}
-          />
-        </Box>
-      </Box>
-      <Box
-        style={{
-          width: "100%",
-          height: "50px",
-        }}
-      />
       <LockerDoorContainer>
         <LockerDoor>
-          {lockerOpen ? (
+          {minigameClear ? (
             <LockerInside>
               <BookInside src={lockerBook} alt="LockerBook" />
             </LockerInside>
@@ -120,7 +81,7 @@ const LockerDoorContainer = styled(Box)`
 
 const LockerDoor = styled.div`
   width: 500px;
-  height: 500px;
+  height: 400px;
   background-color: #ffffff;
   border: 2px solid #000000;
   text-align: center;
@@ -132,7 +93,7 @@ const LockerDoor = styled.div`
 
 const LockerInside = styled.div`
   width: 450px;
-  height: 450px;
+  height: 350px;
   background-color: #cccccc;
   border: 1px solid #000000;
   text-align: center;
@@ -162,7 +123,7 @@ const NumButtonContainer = styled.div`
 
 const EnteredPassword = styled(Box)`
   position: absolute;
-  top: 24%;
+  top: 18%;
   left: 15%;
   transform: translate(-50%, -50%);
   width: 60px;
