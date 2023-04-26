@@ -39,10 +39,10 @@ export default function Emoji() {
       // 카드 찍기에 성공하면 카드 리더기 빛난 후
       divColor.style.backgroundColor = "red";
       console.log("여기");
-      cardPos.x.set(Math.floor(Math.random() * 600));
-      // cardPos.x.set(params.offset[0]);
+      var tempXpos = Math.floor(Math.random() * 600);
+      cardPos.x.set(tempXpos);
       cardPos.y.set(-250);
-      params.offset[0] = Math.floor(Math.random() * 600);
+      params.offset[0] = tempXpos;
       params.offset[1] = -250;
     } else {
       // 카드 리더기 밖이면 색 변화 x
@@ -80,6 +80,7 @@ export default function Emoji() {
           display: "flex",
           position: "absolute",
           userSelect: "none",
+          pointerEvents: "none",
         }}
       />
 
