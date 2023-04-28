@@ -21,7 +21,7 @@ public class StatisticsDto {
     private int drawCnt;
     private long userId;
 
-    public Statistics toDto() {
+    public Statistics toEntity() {
         Statistics statistics = Statistics.builder()
                 .statisticsId(statisticsId)
                 .totalCnt(totalCnt)

@@ -21,7 +21,7 @@ public class UserDto {
     private int campus;
     private int mileage;
 
-    public User toDto() {
+    public User toEntity() {
         User user = User.builder()
                 .userId(userId)
                 .nickname(nickname)
