@@ -1,187 +1,1020 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSpring, animated, Any } from "react-spring";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 import pepe from "../../assets/pepe_finding.svg";
-import Badge from "@mui/material/Badge";
-import { useDrag } from "react-use-gesture";
+// import Badge from "@mui/material/Badge";
+// import { useDrag } from "react-use-gesture";
 // import Box from "@mui/material/Box";
 
 // import Button from "@mui/material/Button";
-import reader from "../../assets/reader.png";
-import idCard from "../../assets/IDcard.svg";
-import back from "../../assets/card_back.png";
+
 // import online from "../../assets/online.png";
 
-import Draggable from "react-draggable";
+// import Draggable from "react-draggable";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 // import { useDrag } from "react-use-gesture";
 
-export default function Emoji() {
+export default function Seating() {
   // 카드 위치 좌표
   // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
+  const cnt = 0;
+  const [seats, setSeats] = useState([]);
+  // let seats = new Array(15).fill(false);
+  // selecting random index without same element
+  const selectIndex = (selectingNumber) => {
+    let temp = Array.from({ length: 15 }, (v, i) => i);
+    console.log(
+      "난temp야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ",
+      temp
+    );
+    let randomIndexArray = [];
+    while (randomIndexArray.length <= selectingNumber) {
+      var movenum = temp.splice(Math.floor(Math.random() * temp.length), 1)[0];
+      if (!(movenum in randomIndexArray)) {
+        console.log("아직 다 안 차서 얘를 랜덤 배열에 넣어줄 것임 ", movenum);
+        randomIndexArray.push(movenum);
+      }
+      if (randomIndexArray.length === selectingNumber) {
+        console.log(
+          "다찼다 나가~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        );
+        break;
+      }
+    }
+    return randomIndexArray;
+  };
 
-  const cardPos = useSpring({ x: Math.floor(Math.random() * 600), y: -250 });
+  // while (cnt < 6) {
+  //   // 6-cnt번째 회차에 6-cnt개의 빈 자리의 인덱스 배열
+  //   let randomIndexArray = selectIndex(seats, 6 - cnt);
+
+  //   cnt += 1;
+  // }
+  // const cardPos = useSpring({ x: Math.floor(Math.random() * 600), y: -250 });
+
+  // const randomIndexArray = [];
+  const [randomIndexArray, setRandomIndexArray] = useState([]);
+  const [state, setState] = useState({
+    items1: [
+      { id: "item-1", content: "HIHI" },
+      { id: "item-2", content: "Item 2" },
+      { id: "item-3", content: "Item 3" },
+      { id: "item-4", content: "Item 4" },
+      { id: "item-5", content: "Item 5" },
+      { id: "item-6", content: "Item 6" },
+    ],
+    items2: [],
+    items3: [],
+    items4: [],
+    items5: [],
+    items6: [],
+    items7: [],
+    items8: [],
+    items9: [],
+    items10: [],
+    items11: [],
+    items12: [],
+    items13: [],
+    items14: [],
+    items15: [],
+    items16: [],
+  });
+
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+
+    // 드래그앤드롭이 시작된 droppable과 끝난 droppable이 다른 경우
+    if (!destination) {
+      return;
+    }
+
+    // 같은 droppable 내에서 요소를 이동하는 경우
+    if (source.droppableId === destination.droppableId) {
+      const items = reorder(
+        state[source.droppableId],
+        source.index,
+        destination.index
+      );
+
+      setState({
+        ...state,
+        [source.droppableId]: items,
+      });
+    } else {
+      // 다른 droppable로 요소를 이동하는 경우
+      const result = move(
+        state[source.droppableId],
+        state[destination.droppableId],
+        source,
+        destination
+      );
+
+      setState({
+        ...state,
+        [source.droppableId]: result[source.droppableId],
+        [destination.droppableId]: result[destination.droppableId],
+      });
+    }
+  };
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+    destClone.splice(droppableDestination.index, 0, removed);
+
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
+  const [pepe, setPepe] = useState({
+    userPepe: [],
+  });
+
+  useEffect(() => {
+    let temp = new Array(15).fill(false);
+    setRandomIndexArray(selectIndex(6));
+  }, []);
+
+  useEffect(() => {
+    let temp = new Array(15).fill(false);
+    var step;
+    for (step = 0; step < 6; step++) {
+      var idx = randomIndexArray[step];
+      temp[idx] = true;
+    }
+    setSeats([...temp, ...seats]);
+  }, [randomIndexArray]);
+
+  // const onDragEnd = () => {
+  //   console.log("나 움직였다아아아ㅏ");
+  // };
+  // console.log("나 바뀐 seats이야....", seats);
 
   return (
-    <div
-      style={{
-        userSelect: "none",
-        width: "1200px",
-        height: "600px",
-        backgroundColor: "white",
-        display: "flex",
-        // justifyContent: "center",
-      }}
-    >
-      {/* 줄 서 있는 페페들 */}
-      <WaitingLine>
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-      </WaitingLine>{" "}
-      <AllArea>
-        <LeftSide>
-          {/* 1분단 */}
-          <First>
-            <FirstSet>
-              <FirstSetset>
-                <Chair>의자</Chair>
-                <Chair>의자</Chair>
-              </FirstSetset>
-
-              <NormalTable>테이블1</NormalTable>
-              <FirstSetset>
-                <Chair>의자</Chair>
-                <Chair>의자</Chair>
-              </FirstSetset>
-            </FirstSet>
-
-            <FirstSet>
-              <FirstSetset>
-                <Chair>의자</Chair>
-                <Chair>의자</Chair>
-              </FirstSetset>
-
-              <NormalTable>테이블1</NormalTable>
-              <FirstSetset>
-                <Chair>의자</Chair>
-                <Chair>의자</Chair>
-              </FirstSetset>
-            </FirstSet>
-          </First>
-          {/* 2분단 */}
-          <Second>
-            <SecondSet>
-              <Chair>의자</Chair>
-              <MiniTable>테이블3</MiniTable>
-            </SecondSet>
-
-            <SecondSet>
-              <Chair>의자</Chair>
-              <MiniTable>테이블3</MiniTable>
-            </SecondSet>
-
-            <SecondSet>
-              <Chair>의자</Chair>
-              <MiniTable>테이블3</MiniTable>
-            </SecondSet>
-
-            <SecondSet>
-              <Chair>의자</Chair>
-              <MiniTable>테이블3</MiniTable>
-            </SecondSet>
-          </Second>
-        </LeftSide>
-        <RightSide>
-          {/* 3분단 */}
-          <Third>난 세번째야</Third>
-          {/* 4분단 */}
-          <Fourth>
-            <LongTable>테이블 6</LongTable>
-          </Fourth>
-        </RightSide>
-      </AllArea>
-      {/* <Draggable
-        onDrag={(e, data) => trackPos(data)}
-        onStart={handleStart}
-        onStop={handleEnd}
-        position={{ x: position.x, y: position.y }}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{
+          userSelect: "none",
+          width: "1200px",
+          height: "600px",
+          backgroundColor: "white",
+          display: "flex",
+          // justifyContent: "center",
+        }}
       >
-        <div
-          // ref={nodeRef}
-          className="box"
-          style={{ opacity: Opacity ? "0.6" : "1" }}
-        >
-          <img
-            src={idCard}
-            alt="idCard"
+        {/* 줄 서 있는 페페들 */}
+        <Droppable droppableId="items1">
+          {(provided, snapshot) => (
+            <WaitingLine
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{
+                backgroundColor: snapshot.isDraggingOver ? "purple" : "yellpw",
+                padding: 4,
+                width: 250,
+                minHeight: 50,
+              }}
+            >
+              {state.items1.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                      style={{
+                        userSelect: "none",
+                        padding: 16,
+                        margin: "0 0 8px 0",
+                        minHeight: "50px",
+                        height: "50px",
+                        backgroundColor: snapshot.isDragging
+                          ? "#263B4A"
+                          : "#456C86",
+                        color: "white",
+                        ...provided.draggableProps.style,
+                      }}
+                    >
+                      {item.content}
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </WaitingLine>
+          )}
+        </Droppable>
+
+        {/* <WaitingLine>
+
+        <Draggable>
+          <Wating
+            src={pepe}
+            alt="pepe_finding"
             style={{
-              width: "300px",
-              height: "250px",
+              width: "80px",
             }}
           />
-          <div>
-            x: {position.x.toFixed(0)}, y: {position.y.toFixed(0)}
-          </div>
-        </div>
-      </Draggable> */}
-    </div>
+        </Draggable>
+      </WaitingLine>{" "} */}
+
+        {/* 예제 */}
+        {/* <DragDropContext>
+
+      </DragDropContext> */}
+        <AllArea>
+          <LeftSide>
+            {/* 1분단 */}
+            <First>
+              <FirstSet>
+                <FirstSetset style={{ marginBottom: "5px" }}>
+                  {seats[0] ? (
+                    <Droppable droppableId="items2">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items2.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+
+                  {seats[1] ? (
+                    <Droppable droppableId="items3">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items3.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+                </FirstSetset>
+
+                <NormalTable>테이블1</NormalTable>
+                <FirstSetset style={{ marginTop: "5px" }}>
+                  {seats[2] ? (
+                    <Droppable droppableId="items4">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items4.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+
+                  {seats[3] ? (
+                    <Droppable droppableId="items5">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items5.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+                </FirstSetset>
+              </FirstSet>
+
+              <FirstSet>
+                <FirstSetset style={{ marginBottom: "5px" }}>
+                  {seats[4] ? (
+                    <Droppable droppableId="items6">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items6.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+
+                  {seats[5] ? (
+                    <Droppable droppableId="items7">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items7.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+                </FirstSetset>
+                <NormalTable>테이블1</NormalTable>
+                <FirstSetset style={{ marginTop: "5px" }}>
+                  {seats[6] ? (
+                    <Droppable droppableId="items8">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items8.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+
+                  {seats[7] ? (
+                    <Droppable droppableId="items9">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver
+                              ? "purple"
+                              : "yellpw",
+                          }}
+                        >
+                          {state.items9.map((item, index) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
+                                <Chair
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  style={{ backgroundColor: "red" }}
+                                  // style={{
+                                  //   userSelect: "none",
+                                  //   padding: 16,
+                                  //   margin: "0 0 8px 0",
+                                  //   minHeight: "50px",
+                                  //   backgroundColor: snapshot.isDragging
+                                  //     ? "#263B4A"
+                                  //     : "#456C86",
+                                  //   color: "white",
+                                  //   ...provided.draggableProps.style,
+                                  // }}
+                                >
+                                  {item.content}
+                                </Chair>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  ) : (
+                    <Chair>의자</Chair>
+                  )}
+                </FirstSetset>
+              </FirstSet>
+            </First>
+            {/* 2분단 */}
+            <Second>
+              <SecondSet>
+                {seats[8] ? (
+                  <Droppable droppableId="items10">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items10.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                <MiniTable>테이블3</MiniTable>
+              </SecondSet>
+
+              <SecondSet>
+                {seats[9] ? (
+                  <Droppable droppableId="items11">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items11.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                <MiniTable>테이블3</MiniTable>
+              </SecondSet>
+
+              <SecondSet>
+                {seats[10] ? (
+                  <Droppable droppableId="items12">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items12.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                <MiniTable>테이블3</MiniTable>
+              </SecondSet>
+
+              <SecondSet>
+                {seats[11] ? (
+                  <Droppable droppableId="items13">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items13.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                <MiniTable>테이블3</MiniTable>
+              </SecondSet>
+            </Second>
+          </LeftSide>
+          <RightSide>
+            {/* 3분단 */}
+            <Third>난 세번째야</Third>
+
+            {/* 4분단 */}
+            <Fourth>
+              <FourthSet>
+                {seats[12] ? (
+                  <Droppable droppableId="items14">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items14.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                {seats[13] ? (
+                  <Droppable droppableId="items15">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items15.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+                {seats[14] ? (
+                  <Droppable droppableId="items16">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: snapshot.isDraggingOver
+                            ? "purple"
+                            : "yellpw",
+                        }}
+                      >
+                        {state.items16.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Chair
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                style={{ backgroundColor: "red" }}
+                                // style={{
+                                //   userSelect: "none",
+                                //   padding: 16,
+                                //   margin: "0 0 8px 0",
+                                //   minHeight: "50px",
+                                //   backgroundColor: snapshot.isDragging
+                                //     ? "#263B4A"
+                                //     : "#456C86",
+                                //   color: "white",
+                                //   ...provided.draggableProps.style,
+                                // }}
+                              >
+                                {item.content}
+                              </Chair>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ) : (
+                  <Chair>의자</Chair>
+                )}
+              </FourthSet>
+              <LongTable>테이블 6</LongTable>
+            </Fourth>
+          </RightSide>
+        </AllArea>
+      </div>
+    </DragDropContext>
   );
 }
 
@@ -217,7 +1050,8 @@ const Wating = styled(`img`)({
   marginTop: "0",
   marginBottom: "10px",
   position: "relative",
-  //   left: "0",
+  userSelect: "none",
+  // pointerEvents: "none",
   "@keyframes motion": {
     "0%": { marginTop: "0px" },
     "100%": { marginTop: "10px" },
@@ -247,7 +1081,7 @@ const RightSide = styled(`div`)({
   width: "600px",
   //   flex: "0.4",
   flexDirection: "row",
-  backgroundColor: "green",
+  // backgroundColor: "green",
 });
 
 const First = styled(`div`)({
@@ -267,10 +1101,13 @@ const Second = styled(`div`)({
 const Third = styled(`div`)({
   backgroundColor: "pink",
   //   width: "50%",
-  flex: "1.2",
+  flex: "1.4",
 });
 const Fourth = styled(`div`)({
-  backgroundColor: "brown",
+  // backgroundColor: "brown",
+  display: "flex",
+  flexDirection: "row",
+  // MarginRight: "0px",
   //   width: "50%",
   flex: "1",
 });
@@ -286,6 +1123,7 @@ const FirstSetset = styled(`div`)({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-evenly",
+
   // alignContent: "center",
 });
 
@@ -294,8 +1132,16 @@ const SecondSet = styled(`div`)({
   marginTop: "100px",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
-  alignContent: "center",
+
+  // justifyContent: "center",
+  // alignContent: "center",
+});
+
+const FourthSet = styled(`div`)({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-evenly",
+  marginLeft: "60px",
 });
 
 const Chair = styled(`div`)({
@@ -321,9 +1167,11 @@ const MiniTable = styled(`div`)({
 
 const LongTable = styled(`div`)({
   backgroundColor: "gray",
-  width: "80px",
+  width: "85px",
   height: "500px",
-  marginLeft: "0px",
+  // right: "0",
+  // marginLeft: "auto",
+  marginRight: "68px",
   //   marginTop: "100px",
   bottom: "0",
 });

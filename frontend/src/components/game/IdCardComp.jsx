@@ -103,9 +103,9 @@ export default function Emoji() {
           position: "relative",
         }}
       />
-      <TestDiv>
+      {/* <TestDiv>
         <div className="text">How are you?</div>
-      </TestDiv>
+      </TestDiv> */}
       <div
         ref={setDivColor}
         onDrag={(e, data) => bindCardPos(data)}
@@ -168,19 +168,19 @@ export default function Emoji() {
   );
 }
 
-const TestDiv = styled(`div`)({
-  position: "relative",
-  fontSize: "5rem",
-  animation: "slide 3s ease-in-out",
-  "@keyframes slide": {
-    from: {
-      left: "-650px",
-    },
-    to: {
-      left: "500px",
-    },
-  },
-});
+// const TestDiv = styled(`div`)({
+//   position: "relative",
+//   fontSize: "5rem",
+//   animation: "slide 3s ease-in-out",
+//   "@keyframes slide": {
+//     from: {
+//       left: "-650px",
+//     },
+//     to: {
+//       left: "500px",
+//     },
+//   },
+// });
 
 // const StyledBadge = styled(Badge)(({ theme }) => ({
 //   "& .MuiBadge-badge": {
