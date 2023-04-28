@@ -1,27 +1,53 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../components/main/MainHeader";
+import MainHeader from "../components/main/MainHeader";
+import MainComp1 from "../components/main/MainComp1";
+import MainComp2 from "../components/main/MainComp2";
+import MainComp3 from "../components/main/MainComp3";
+import MainComp4 from "../components/main/MainComp4";
 
-const myProps = {
-  title: "사물함 비밀번호 입력해보자",
-  number: 3,
-};
-
+const Comp = styled.div`
+  display: flex;
+  margin-left: 13%;
+  margin-right: 13%;
+`;
+const Comp1 = styled.div`
+  flex: 1;
+  margin: 10px 10px;
+`;
+const Comp2 = styled.div`
+  flex: 2;
+  margin: 10px 10px;
+`;
+const Comp3 = styled.div`
+  flex: 2;
+  margin: 10px 10px;
+`;
+const Comp4 = styled.div`
+  flex: 1;
+  margin: 10px 10px;
+`;
 export default function MainPage() {
   return (
     <div>
-      <Header props={myProps} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        {/* <GameComp props={myProps}>
-          <LockerGame {...myProps} />
-        </GameComp> */}
-      </div>
+      <MainHeader />
+      <Comp>
+        <Comp1>
+          <MainComp1 />
+        </Comp1>
+        <Comp2>
+          <MainComp2 />
+        </Comp2>
+      </Comp>
+
+      <Comp>
+        <Comp3>
+          <MainComp3 />
+        </Comp3>
+        <Comp4>
+          <MainComp4 />
+        </Comp4>
+      </Comp>
     </div>
   );
 }
