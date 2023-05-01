@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
+import MyChart from "./MyChart";
 
 const Comp2 = styled.div`
   font-family: "neodgm";
@@ -17,27 +17,39 @@ const Line = styled.div`
   color: white;
 `;
 const Line2 = styled.div`
-  padding-left: 20px;
   padding-top: 30px;
   // padding-bottom: 30px;
   display: flex;
+  justify-content: center;
   gap: 20px;
   color: white;
 `;
 const Chips = styled.div`
-  span {
-    margin: 5px;
-  }
+  padding: 5px 2px;
   border-bottom: 1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
-const Title = styled.div``;
+const Title = styled.div`
+  margin-left: 10px;
+`;
 const Content = styled.div`
   margin-right: 30px;
 `;
-const Data = styled.div`
-  padding-top: 50px;
-  padding-bottom: 50px;
-`;
+
+const options = {
+  title: {
+    display: true,
+    text: "Doughnut Chart",
+  },
+  legend: {
+    display: true,
+    position: "top",
+  },
+  maintainAspectRatio: false,
+};
+
 export default function MainComp2() {
   return (
     <Comp2>
@@ -69,66 +81,65 @@ export default function MainComp2() {
             marginBottom: 20,
           }}
         ></div>
-        <div style={{ flex: 3, marginTop: 30 }}>
+        <div style={{ flex: 3, margin: 10 }}>
           <Line2>
             <Title>나의 전적</Title>
           </Line2>
           <Line2>
-            <Box
-              sx={{
-                width: "120px",
-                height: "120px",
-                backgroundColor: "white",
-                borderRadius: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgress color="primary" size={100}>
-                <Typography
-                  variant="caption"
-                  component="div"
-                  color="text.secondary"
-                >
-                  {`${Math.round(80)}%`}
-                </Typography>
-              </CircularProgress>
-            </Box>
+            <MyChart />
             <div>
               <Chips>
                 <Chip
-                  label="대전 횟수"
+                  label="대전횟수"
                   color="success"
-                  variant="filled"
-                  sx={{ width: 100, height: 30 }}
+                  variant="outlined"
+                  sx={{
+                    width: 80,
+                    height: 30,
+                    bgcolor: "white",
+                    color: "#CEBC4D",
+                    border: "1px solid #CEBC4D",
+                  }}
                 />
                 <span>244전</span>
               </Chips>
               <Chips>
                 <Chip
                   label="승리"
-                  color="success"
-                  variant="filled"
-                  sx={{ width: 100, height: 30 }}
+                  sx={{
+                    width: 80,
+                    height: 30,
+                    bgcolor: "white",
+                    color: "#3396F4",
+                    border: "1px solid #3396F4",
+                    // borderColor: "",
+                  }}
                 />
                 <span>244전</span>
               </Chips>
               <Chips>
                 <Chip
                   label="무승부"
-                  color="success"
-                  variant="filled"
-                  sx={{ width: 100, height: 30 }}
+                  sx={{
+                    width: 80,
+                    height: 30,
+                    bgcolor: "white",
+                    color: "#6B6E71",
+                    border: "1px solid #6B6E71",
+                  }}
                 />
                 <span>244전</span>
               </Chips>
               <Chips>
                 <Chip
                   label="패배"
-                  color="success"
-                  variant="filled"
-                  sx={{ width: 100, height: 30 }}
+                  sx={{
+                    width: 80,
+                    height: 30,
+                    bgcolor: "white",
+                    color: "#EC2C54",
+                    border: "1px solid #EC2C54",
+                  }}
                 />
                 <span>244전</span>
               </Chips>

@@ -1,48 +1,44 @@
 import React from "react";
 import styled from "styled-components";
+import Box from "@mui/material/Box";
+import CampusChart from "./CampusChart";
+import Ranking from "./Ranking";
 
 const Comp3 = styled.div`
   // font-family: "neodgm";
+  width: "100%";
 `;
 
-const ChartContainer = styled.div`
+const ChartWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 300px;
-  background-color: #eee;
+  height: 100%;
   padding: 20px;
+  gap: 40px;
 `;
-
-const Bar = styled.div`
-  flex-grow: 1;
-  background-color: #007bff;
-  color: white;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
-`;
-
-function BarChart({ data, columns }) {
-  return (
-    <ChartContainer>
-      {data.map((value, index) => (
-        <Bar key={index} style={{ height: `${value}%` }}>
-          {value}%<div>{columns[index]}</div>
-        </Bar>
-      ))}
-    </ChartContainer>
-  );
-}
 
 export default function MainComp3() {
-  const data = [10, 40, 20, 10, 20];
-  const columns = ["서울", "대전", "부울경", "구미", "광주"];
-
   return (
     <Comp3>
-      <BarChart data={data} columns={columns} />
+      <Box
+        sx={{
+          width: "100%",
+          height: "45vh",
+          backgroundColor: "white",
+          border: "1px solid gray",
+          borderRadius: 12,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <ChartWrapper>
+          <CampusChart />
+          <Ranking />
+        </ChartWrapper>
+      </Box>
     </Comp3>
   );
 }

@@ -18,6 +18,7 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   margin-left: 3%;
+  gap: 10px;
 `;
 const Line = styled.div`
   font-size: 0.8rem;
@@ -34,7 +35,7 @@ export default function MainComp4(props) {
           borderRadius: 12,
         }}
       >
-        <Title>Quest / 전적</Title>
+        <Title>최근 Quest</Title>
         {/* <CircularProgress variant="determinate" {...props} /> */}
         <Row>
           <Box

@@ -20,7 +20,7 @@ const Comp2 = styled.div`
   margin: 10px 10px;
 `;
 const Comp3 = styled.div`
-  flex: 2;
+  flex: 3;
   margin: 10px 10px;
 `;
 const Comp4 = styled.div`
