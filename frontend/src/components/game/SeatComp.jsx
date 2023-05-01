@@ -2,7 +2,8 @@ import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useSpring, animated, Any } from "react-spring";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
-import pepe from "../../assets/pepe_finding.svg";
+import pepe_sad from "../../assets/pepe_sad.png";
+import pepe_finding from "../../assets/pepe_finding.svg";
 // import Badge from "@mui/material/Badge";
 // import { useDrag } from "react-use-gesture";
 // import Box from "@mui/material/Box";
@@ -21,8 +22,6 @@ export default function Seating() {
   // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
   const cnt = 0;
   const [seats, setSeats] = useState([]);
-  // let seats = new Array(15).fill(false);
-  // selecting random index without same element
   const selectIndex = (selectingNumber) => {
     let temp = Array.from({ length: 15 }, (v, i) => i);
     console.log(
@@ -58,12 +57,16 @@ export default function Seating() {
   const [randomIndexArray, setRandomIndexArray] = useState([]);
   const [state, setState] = useState({
     items1: [
-      { id: "item-1", content: "HIHI" },
-      { id: "item-2", content: "Item 2" },
-      { id: "item-3", content: "Item 3" },
-      { id: "item-4", content: "Item 4" },
-      { id: "item-5", content: "Item 5" },
-      { id: "item-6", content: "Item 6" },
+      {
+        id: "item-1",
+        content: "pepe",
+        imageUrl: pepe_finding,
+      },
+      { id: "item-2", content: "Item 2", imageUrl: pepe_sad },
+      { id: "item-3", content: "Item 3", imageUrl: pepe_finding },
+      { id: "item-4", content: "Item 4", imageUrl: pepe_sad },
+      { id: "item-5", content: "Item 5", imageUrl: pepe_finding },
+      { id: "item-6", content: "Item 6", imageUrl: pepe_sad },
     ],
     items2: [],
     items3: [],
@@ -123,7 +126,6 @@ export default function Seating() {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-
     return result;
   };
 
@@ -141,9 +143,9 @@ export default function Seating() {
     return result;
   };
 
-  const [pepe, setPepe] = useState({
-    userPepe: [],
-  });
+  // const [pepe, setPepe] = useState({
+  //   userPepe: [],
+  // });
 
   useEffect(() => {
     let temp = new Array(15).fill(false);
@@ -184,7 +186,7 @@ export default function Seating() {
               {...provided.droppableProps}
               ref={provided.innerRef}
               style={{
-                backgroundColor: snapshot.isDraggingOver ? "purple" : "yellpw",
+                // backgroundColor: snapshot.isDraggingOver ? "gray" : "yellpw",
                 padding: 4,
                 width: 250,
                 minHeight: 50,
@@ -192,27 +194,30 @@ export default function Seating() {
             >
               {state.items1.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                      style={{
-                        userSelect: "none",
-                        padding: 16,
-                        margin: "0 0 8px 0",
-                        minHeight: "50px",
-                        height: "50px",
-                        backgroundColor: snapshot.isDragging
-                          ? "#263B4A"
-                          : "#456C86",
-                        color: "white",
-                        ...provided.draggableProps.style,
-                      }}
-                    >
-                      {item.content}
-                    </div>
-                  )}
+                  {(provided, snapshot) => {
+                    const imageStyle = {
+                      backgroundImage: `url(${item.imageUrl})`,
+                      // backgroundImage: `url("../../assets/pepe_finding.svg")`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      userSelect: "none",
+                      padding: 16,
+                      margin: "0 0 8px 0",
+                      minHeight: "50px",
+                      height: "50px",
+                      ...provided.draggableProps.style,
+                    };
+                    return (
+                      <Waiting
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        style={imageStyle}
+                      >
+                        {item.content}
+                      </Waiting>
+                    );
+                  }}
                 </Draggable>
               ))}
               {provided.placeholder}
@@ -238,6 +243,9 @@ export default function Seating() {
 
       </DragDropContext> */}
         <AllArea>
+          {/* <Wating src={pepe} alt="pepe_sad"></Wating>
+          <img src={pepe}></img>
+          <div style={{ backgroundImage: `url(${pepe})` }}></div> */}
           <LeftSide>
             {/* 1분단 */}
             <First>
@@ -249,11 +257,14 @@ export default function Seating() {
                         <div
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
-                          }}
+                          style={
+                            {
+                              // backgroundColor: snapshot.isDraggingOver
+                              //   ? "purple"
+                              //   : "yellow",
+                              // backgroundColor: "pink",
+                            }
+                          }
                         >
                           {state.items2.map((item, index) => (
                             <Draggable
@@ -266,7 +277,13 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    // backgroundColor: snapshot.isDragging
+                                    //   ? "pink"
+                                    //   : "green",
+
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -301,7 +318,7 @@ export default function Seating() {
                           style={{
                             backgroundColor: snapshot.isDraggingOver
                               ? "purple"
-                              : "yellpw",
+                              : "yellow",
                           }}
                         >
                           {state.items3.map((item, index) => (
@@ -315,7 +332,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -367,7 +386,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -416,7 +437,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -469,7 +492,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -518,7 +543,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -569,7 +596,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -618,7 +647,9 @@ export default function Seating() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  style={{ backgroundColor: "red" }}
+                                  style={{
+                                    backgroundImage: `url(${item.imageUrl})`,
+                                  }}
                                   // style={{
                                   //   userSelect: "none",
                                   //   padding: 16,
@@ -672,7 +703,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -724,7 +757,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -776,7 +811,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -828,7 +865,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -857,9 +896,34 @@ export default function Seating() {
               </SecondSet>
             </Second>
           </LeftSide>
+
           <RightSide>
             {/* 3분단 */}
-            <Third>난 세번째야</Third>
+            <Third>
+              <ThirdSet>
+                <ThirdSetSet>
+                  <Chair></Chair>
+                  <Chair></Chair>
+                </ThirdSetSet>
+                <DiaTable></DiaTable>
+                <ThirdSetSet>
+                  <Chair></Chair>
+                  <Chair></Chair>
+                </ThirdSetSet>
+              </ThirdSet>
+
+              <ThirdSet>
+                <ThirdSetSet>
+                  <Chair></Chair>
+                  <Chair></Chair>
+                </ThirdSetSet>
+                <DiaTable></DiaTable>
+                <ThirdSetSet>
+                  <Chair></Chair>
+                  <Chair></Chair>
+                </ThirdSetSet>
+              </ThirdSet>
+            </Third>
 
             {/* 4분단 */}
             <Fourth>
@@ -887,7 +951,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -935,7 +1001,11 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -983,7 +1053,9 @@ export default function Seating() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: "red" }}
+                                style={{
+                                  backgroundImage: `url(${item.imageUrl})`,
+                                }}
                                 // style={{
                                 //   userSelect: "none",
                                 //   padding: 16,
@@ -1037,7 +1109,7 @@ const WaitingLine = styled(`div`)({
   //   animation: "none",
   display: "flex",
   flexDirection: "row",
-  width: "850px",
+  width: "1000px",
   justifyContent: "space-around",
   //   paddingRight: "40%",
   // backgroundColor: "blue",
@@ -1045,7 +1117,7 @@ const WaitingLine = styled(`div`)({
   marginBottom: "100px",
 });
 
-const Wating = styled(`img`)({
+const Waiting = styled(`div`)({
   animation: "motion 0.3s linear 0s infinite alternate",
   marginTop: "0",
   marginBottom: "10px",
@@ -1099,7 +1171,7 @@ const Second = styled(`div`)({
   flex: "1",
 });
 const Third = styled(`div`)({
-  backgroundColor: "pink",
+  // backgroundColor: "pink",
   //   width: "50%",
   flex: "1.4",
 });
@@ -1137,6 +1209,35 @@ const SecondSet = styled(`div`)({
   // alignContent: "center",
 });
 
+const ThirdSet = styled(`div`)({
+  // backgroundColor: "black",
+  // width: "80px",
+  height: "40%",
+  marginTop: "10%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignContent: "center",
+  // backgroundColor: "skyblue",
+  // margin: "3px 0 0 30px",
+  // webKitTransform: "rotate(-45deg)",
+  // MozTransformOrigin: "rotate(-45deg)",
+  // msTransform: "rotate",
+  // OTransform: "rotate(-45deg)",
+  // transform: "rotate(-45deg)",
+  // WebkitTransformOrigin: "0 100%",
+  // MozTransformOrigin: "0 100%",
+  // msTransformOrigin: "0 100%",
+  // transformOrigin: "0 100%",
+});
+
+const ThirdSetSet = styled(`div`)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-around",
+  // backgroundColor: "brown",
+});
+
 const FourthSet = styled(`div`)({
   display: "flex",
   flexDirection: "column",
@@ -1146,27 +1247,54 @@ const FourthSet = styled(`div`)({
 
 const Chair = styled(`div`)({
   width: "50px",
-  height: "50px",
-  backgroundColor: "black",
+  height: "30px",
+  border: "2px solid black",
+  borderRadius: "30%",
+  backgroundColor: "gray",
 });
 
 const NormalTable = styled(`div`)({
-  backgroundColor: "gray",
+  backgroundColor: "rgba(230, 230, 230, 1)",
+  border: "2px solid black",
+  borderRadius: "10%",
   // marginTop: "100px",
   width: "250px",
   height: "120px",
 });
 
 const MiniTable = styled(`div`)({
-  backgroundColor: "gray",
+  backgroundColor: "rgba(230, 230, 230, 1)",
+  border: "2px solid black",
+  borderRadius: "10%",
   width: "100px",
   height: "80px",
   // marginTop: "100px",
   bottom: "0",
 });
 
+const DiaTable = styled(`div`)({
+  width: "90px",
+  height: "90px",
+  backgroundColor: "rgba(230, 230, 230, 1)",
+  border: "2px solid black",
+  borderRadius: "10%",
+  // margin: "3px 0 0 30px",
+  webKitTransform: "rotate(-45deg)",
+  MozTransformOrigin: "rotate(-45deg)",
+  msTransform: "rotate",
+  OTransform: "rotate(-45deg)",
+  transform: "rotate(-45deg)",
+  WebkitTransformOrigin: "0 100%",
+  MozTransformOrigin: "0 100%",
+  msTransformOrigin: "0 100%",
+  transformOrigin: "0 100%",
+  marginLeft: "160px",
+});
+
 const LongTable = styled(`div`)({
-  backgroundColor: "gray",
+  backgroundColor: "rgba(230, 230, 230, 1)",
+  border: "2px solid black",
+  borderRadius: "10%",
   width: "85px",
   height: "500px",
   // right: "0",
