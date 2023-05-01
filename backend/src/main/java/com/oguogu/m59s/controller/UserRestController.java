@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +28,15 @@ public class UserRestController {
         UserDto userDto = userService.detailUser(userId);
         resultMap.put("result",SUCCESS);
         resultMap.put("user",userDto);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/main/ranking")
+    public ResponseEntity<Map<String, Object>> userList(){
+        List<UserDto> userDtoList = userService.listUser();
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        resultMap.put("userList",userDtoList);
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
 
