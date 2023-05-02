@@ -7,6 +7,7 @@ import GamePage from "./pages/GamePage";
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import TestPage from "./pages/TestPage";
+import PuzzlePage from "./pages/PuzzlePage";
 const Pages = styled.div`
   position: relative;
 `;
@@ -21,6 +22,7 @@ function App() {
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/id-card" element={<IdCardPage />} />
           <Route path="/seat" element={<SeatPage />} />
+          <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/test" element={<TestPage />} />
         </Routes>
       </Pages>
