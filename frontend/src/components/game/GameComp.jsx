@@ -21,11 +21,19 @@ export default function GameComp(props) {
         border: "none", // 테두리 없애기
         borderRadius: 10,
         boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+<<<<<<< HEAD
         backgroundColor: "rgba(0, 0, 0, 0.7)" , // 배경색 투명하게 만들기
         // padding: 5,
         maxWidth: "60%", // 최대 너비 값 설정
         width: "100%",
         height: "70vh",
+=======
+        backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경색 투명하게 만들기
+        padding: 3,
+        maxWidth: "70%", // 최대 너비 값 설정
+        width: "100%",
+        height: "72vh",
+>>>>>>> dac50cf39630d1ff2dcf69bbde9c74beaa781604
         overflow: "hidden",
 
         // 게임 컴포넌트의 개별 배경이 있는 경우(ex_모니터)
