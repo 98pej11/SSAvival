@@ -5,7 +5,7 @@ export const data = {
       {
         label: "나의 전적",
         data: [32, 10, 18],
-        backgroundColor: ["red", "gray", "green"],
+        backgroundColor: ["#3396F4", "#8898A9", "#EC2C54"],
       },
     ],
   },

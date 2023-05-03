@@ -11,11 +11,10 @@ const Comp3 = styled.div`
 
 const ChartWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 20px;
   gap: 40px;
 `;
 
@@ -26,17 +25,20 @@ export default function MainComp3() {
         sx={{
           width: "100%",
           height: "45vh",
-          backgroundColor: "white",
-          border: "1px solid gray",
+          backgroundColor: "rgba(255,255,255,0.4)",
+          border: "1px solid #BEBEBE",
           borderRadius: 12,
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
         }}
       >
         <ChartWrapper>
-          <CampusChart />
-          <Ranking />
+          <div style={{ width: "50%", height: "80%" }}>
+            <CampusChart />
+          </div>
+          <div style={{ width: "50%", height: "80%" }}>
+            <Ranking />
+          </div>
         </ChartWrapper>
       </Box>
     </Comp3>

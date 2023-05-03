@@ -3,7 +3,7 @@ export const data = {
     labels: ["서울", "대전", "구미", "광주", "부울경"],
     datasets: [
       {
-        label: "most widely spoken languages",
+        label: "캠퍼스 순위",
         data: [1132, 1117, 615, 534, 280],
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
@@ -18,14 +18,14 @@ export const data = {
     ],
   },
 
-  line: {
-    labels: ["English", "Chinese", "Hindi", "Spanish", "French"],
-    datasets: [
-      {
-        label: "most widely spoken languages",
-        data: [1132, 1117, 615, 534, 280],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-      },
-    ],
-  },
+  //   line: {
+  //     labels: ["서울", "대전", "구미", "광주", "부울경"],
+  //     datasets: [
+  //       {
+  //         label: "most widely spoken languages",
+  //         data: [1132, 1117, 615, 534, 280],
+  //         backgroundColor: "rgba(255, 99, 132, 0.6)",
+  //       },
+  //     ],
+  //   },
 };

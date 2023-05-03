@@ -6,10 +6,14 @@ import MainComp2 from "../components/main/MainComp2";
 import MainComp3 from "../components/main/MainComp3";
 import MainComp4 from "../components/main/MainComp4";
 
+const Header = styled.div`
+  margin-left: 20%;
+  margin-right: 20%;
+`;
 const Comp = styled.div`
   display: flex;
-  margin-left: 13%;
-  margin-right: 13%;
+  margin-left: 20%;
+  margin-right: 20%;
 `;
 const Comp1 = styled.div`
   flex: 1;
@@ -29,8 +33,10 @@ const Comp4 = styled.div`
 `;
 export default function MainPage() {
   return (
-    <div>
-      <MainHeader />
+    <div style={{ backgroundColor: "#F2F2F2", height: "100vh" }}>
+      <Header>
+        <MainHeader />
+      </Header>
       <Comp>
         <Comp1>
           <MainComp1 />

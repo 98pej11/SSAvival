@@ -23,8 +23,7 @@ export default function MyChart() {
   return (
     <Box
       sx={{
-        width: "150px",
-        height: "150px",
+        height: "70%",
         // padding: "20px",
         backgroundColor: "white",
         borderRadius: "30px",

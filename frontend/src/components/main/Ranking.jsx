@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -14,21 +16,25 @@ const Rank = styled.div`
   div {
     text-align: center;
   }
+  margin-bottom: 5%;
 `;
 
+const Title = styled.div`
+  font-size: 1.2rem;
+`;
 const columns = [
   { field: "id", headerName: "", width: 30 },
-  { field: "user", headerName: "", width: 130 },
-  { field: "score", headerName: "", width: 100 },
-  { field: "fight", headerName: "", width: 100 },
+  { field: "user", headerName: "", width: 200 },
+  { field: "score", headerName: "", width: 200 },
+  { field: "fight", headerName: "", width: 150 },
 ];
 
 const rows = [
-  { id: 1, user: "은동이", score: 35, fight: 2 },
-  { id: 2, user: "리윤두", score: 42, fight: 3 },
-  { id: 3, user: "김행균", score: 45, fight: 1 },
-  { id: 4, user: "양용용", score: 16, fight: 1 },
-  { id: 5, user: "서영둔", score: null, fight: 4 },
+  { id: 1, user: "은동이", score: 35 },
+  { id: 2, user: "리윤두", score: 42 },
+  { id: 3, user: "김행균", score: 45 },
+  { id: 4, user: "양용용", score: 16 },
+  { id: 5, user: "서영둔", score: 12 },
 ];
 
 const Pag = styled.div`
@@ -40,16 +46,68 @@ const Pag = styled.div`
 export default function Ranking() {
   return (
     <Rank>
-      <div>주간 랭킹</div>
-      <Box sx={{ width: "300px", height: "60% " }}>
-        <Table sx={{ textAlign: "center" }}>
+      <Title>금주의 랭킹</Title>
+      <Box sx={{ width: "350px", height: "100px" }}>
+        <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
             {rows.map((item) => (
               <TableRow key={item.id}>
-                <TableCell sx={{ padding: 0 }}>{item.id}</TableCell>
-                <TableCell sx={{ height: "5px" }}>{item.user}</TableCell>
-                <TableCell sx={{ height: "5px" }}>{item.score} M</TableCell>
-                <TableCell sx={{ height: "5px" }}>{item.fight}</TableCell>
+                <TableCell
+                  sx={{
+                    padding: 0.7,
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                    fontFamily: "neodgm",
+                  }}
+                >
+                  {item.id}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    padding: 0.7,
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                    fontFamily: "neodgm",
+                  }}
+                >
+                  {item.user}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    padding: 0.7,
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                    fontFamily: "neodgm",
+                  }}
+                >
+                  {item.score} M
+                </TableCell>
+                <TableCell
+                  sx={{
+                    padding: 0.7,
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                    fontFamily: "neodgm",
+                  }}
+                >
+                  <Button
+                    sx={{
+                      fontFamily: "neodgm",
+                      bgcolor: "#FFD211",
+                      color: "black",
+                      borderRadius: 10,
+                      boxShadow: "none", // 그림자 없애기
+                      "&:hover": {
+                        bgcolor: "#3396F4",
+                        color: "white",
+                      },
+                    }}
+                    variant="contained"
+                    endIcon={<ArrowCircleRightIcon />}
+                  >
+                    가상대전
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

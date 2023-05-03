@@ -24,8 +24,8 @@ export default function CampusChart() {
   return (
     <Box
       sx={{
-        width: "300px",
-        height: "280px",
+        // width: "300px",
+        height: "100%",
         // padding: "20px",
 
         borderRadius: "30px",

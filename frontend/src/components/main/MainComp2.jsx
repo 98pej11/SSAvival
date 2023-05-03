@@ -15,6 +15,7 @@ const Line = styled.div`
   display: flex;
   justify-content: space-between;
   color: white;
+  font-size: 1.4rem;
 `;
 const Line2 = styled.div`
   padding-top: 30px;
@@ -23,19 +24,21 @@ const Line2 = styled.div`
   justify-content: center;
   gap: 20px;
   color: white;
+  font-size: 1.4rem;
 `;
 const Chips = styled.div`
-  padding: 5px 2px;
-  border-bottom: 1px;
+  padding: 10px 2px;
+
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
 `;
 const Title = styled.div`
   margin-left: 10px;
 `;
 const Content = styled.div`
   margin-right: 30px;
+  color: yellow;
 `;
 
 const options = {
@@ -86,7 +89,9 @@ export default function MainComp2() {
             <Title>나의 전적</Title>
           </Line2>
           <Line2>
-            <MyChart />
+            <div style={{ width: "50%", height: "300px" }}>
+              <MyChart />
+            </div>
             <div>
               <Chips>
                 <Chip

@@ -5,23 +5,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
 const Comp4 = styled.div`
-  // font-family: "neodgm";
+  font-family: "neodgm";
 `;
 
 const Title = styled.div`
-  padding-left: 30px;
   padding-top: 30px;
   padding-bottom: 10px;
   font-family: "neodgm";
+  font-size: 1.3rem;
+  text-align: center;
 `;
 const Row = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-left: 3%;
-  gap: 10px;
+  margin: 10px;
 `;
 const Line = styled.div`
-  font-size: 0.8rem;
+  font-size: 1.1rem;
 `;
 export default function MainComp4(props) {
   return (
@@ -32,25 +33,26 @@ export default function MainComp4(props) {
           width: "100%",
           height: "45vh",
           backgroundColor: "#F2F2F2",
+          border: "1px solid #BEBEBE",
           borderRadius: 12,
         }}
       >
         <Title>최근 Quest</Title>
+
         {/* <CircularProgress variant="determinate" {...props} /> */}
         <Row>
           <Box
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "50px",
-              height: "50px",
+              width: "70px",
+              height: "70px",
               backgroundColor: "#3396F4",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              margin: "3%",
-              fontSize: 12,
+              fontSize: "1rem",
             }}
           >
             승리
@@ -65,15 +67,15 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "50px",
-              height: "50px",
+              width: "70px",
+              height: "70px",
               backgroundColor: "#EC2C54",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              margin: "3%",
-              fontSize: 12,
+
+              fontSize: "1rem",
             }}
           >
             패배
@@ -88,15 +90,14 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "50px",
-              height: "50px",
+              width: "70px",
+              height: "70px",
               backgroundColor: "#8898A9",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              margin: "3%",
-              fontSize: 12,
+              fontSize: "1rem",
             }}
           >
             무승부
@@ -111,15 +112,14 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "50px",
-              height: "50px",
+              width: "70px",
+              height: "70px",
               backgroundColor: "#3396F4",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              margin: "3%",
-              fontSize: 12,
+              fontSize: "1rem",
             }}
           >
             패배
