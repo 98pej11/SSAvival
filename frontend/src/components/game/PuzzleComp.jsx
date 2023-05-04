@@ -13,17 +13,47 @@ export default function Puzzle() {
     const fetchImages = async () => {
       console.log("나 이미지 변경됐어");
       const newImages = await CutImages("child_pepe.png");
+
       console.log("나 유즈이펙트 안의 이미지야", newImages);
       setImages(newImages);
+      const updateState = {
+        items1: [
+          { id: "items5", content: "Item 5", imgUrl: newImages[1] },
+          { id: "items11", content: "Item 11", imgUrl: newImages[7] },
+          { id: "items8", content: "Item 8", imgUrl: newImages[4] },
+        ],
+        items2: [
+          { id: "items6", content: "Item 6", imgUrl: newImages[2] },
+          { id: "items12", content: "Item 12", imgUrl: newImages[8] },
+          { id: "items4", content: "Item 4", imgUrl: newImages[0] },
+        ],
+        items3: [
+          { id: "items9", content: "Item 9", imgUrl: newImages[5] },
+          { id: "items7", content: "Item 7", imgUrl: newImages[3] },
+          { id: "items10", content: "Item 10", imgUrl: newImages[6] },
+        ],
+        items4: [],
+        items5: [],
+        items6: [],
+        items7: [],
+        items8: [],
+        items9: [],
+        items10: [],
+        items11: [],
+        items12: [],
+      };
+      setState(updateState);
+      console.log("the latest", state.items1);
     };
     if (images.length === 0) {
       fetchImages();
     }
-  }, [images]);
+  }, []);
 
   const CutImages = async (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
+      img.crossOrigin = "Anonymous";
       img.src = src;
       const newImages = [];
       img.onload = () => {
@@ -57,19 +87,19 @@ export default function Puzzle() {
 
   const [state, setState] = useState({
     items1: [
-      { id: "item-1", content: "Item 1", imgUrl: images[0] },
-      { id: "item-2", content: "Item 2", imgUrl: images[1] },
-      { id: "item-3", content: "Item 3", imgUrl: images[2] },
+      { id: "items5", content: "Item 5", imgUrl: images[1] },
+      { id: "items11", content: "Item 11", imgUrl: images[7] },
+      { id: "items8", content: "Item 8", imgUrl: images[4] },
     ],
     items2: [
-      { id: "item-4", content: "Item 4", imgUrl: images[3] },
-      { id: "item-5", content: "Item 5", imgUrl: images[4] },
-      { id: "item-6", content: "Item 6", imgUrl: images[5] },
+      { id: "items6", content: "Item 6", imgUrl: images[2] },
+      { id: "items12", content: "Item 12", imgUrl: images[8] },
+      { id: "items4", content: "Item 4", imgUrl: images[0] },
     ],
     items3: [
-      { id: "item-7", content: "Item 7", imgUrl: images[6] },
-      { id: "item-8", content: "Item 8", imgUrl: images[7] },
-      { id: "item-9", content: "Item 9", imgUrl: images[8] },
+      { id: "items9", content: "Item 9", imgUrl: images[5] },
+      { id: "items7", content: "Item 7", imgUrl: images[3] },
+      { id: "items10", content: "Item 10", imgUrl: images[6] },
     ],
     items4: [],
     items5: [],
@@ -81,6 +111,18 @@ export default function Puzzle() {
     items11: [],
     items12: [],
   });
+  console.log(state);
+  const [droppableIDs, setDroppableIDs] = useState([
+    "items4",
+    "items5",
+    "items6",
+    "items7",
+    "items8",
+    "items9",
+    "items10",
+    "items11",
+    "items12",
+  ]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -92,16 +134,15 @@ export default function Puzzle() {
 
     // 같은 droppable 내에서 요소를 이동하는 경우
     if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        state[source.droppableId],
-        source.index,
-        destination.index
-      );
-
-      setState({
-        ...state,
-        [source.droppableId]: items,
-      });
+      // const items = reorder(
+      //   state[source.droppableId],
+      //   source.index,
+      //   destination.index
+      // );
+      // setState({
+      //   ...state,
+      //   [source.droppableId]: items,
+      // });
     } else {
       // 다른 droppable로 요소를 이동하는 경우
       const result = move(
@@ -110,12 +151,18 @@ export default function Puzzle() {
         source,
         destination
       );
-
-      setState({
-        ...state,
-        [source.droppableId]: result[source.droppableId],
-        [destination.droppableId]: result[destination.droppableId],
-      });
+      console.log(
+        "move 다음 일이다....",
+        result[source.droppableId],
+        result[destination.droppableId].id
+      );
+      if (true) {
+        setState({
+          ...state,
+          [source.droppableId]: result[source.droppableId],
+          [destination.droppableId]: result[destination.droppableId],
+        });
+      }
     }
   };
 
@@ -128,6 +175,8 @@ export default function Puzzle() {
   };
 
   const move = (source, destination, droppableSource, droppableDestination) => {
+    console.log("나움직인다아아아 이건 소스", source);
+    console.log("나움직인드다다다 이건 데스티네이션", destination);
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -137,14 +186,28 @@ export default function Puzzle() {
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
-
     return result;
+  };
+
+  // 다 맞췄는지 확인용, 바뀔때마다 확인해서 checkFin 모든 원소가 true이면 겜종료해야됨.
+  // const checkFin = [];
+
+  const isRightAnswer = (droppableId, id) => {
+    console.log("나 id야", id);
+    console.log("나 droppableId야", droppableId);
+    console.log("난 true게 false게", droppableId == id);
+    if (droppableId == id) {
+      // checkFin 변경
+      return true;
+    }
+    return false;
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <QuizSide>
+          {/* <img src={images[1]} /> */}
           <Droppable droppableId="items1">
             {(provided, snapshot) => (
               <div
@@ -162,24 +225,27 @@ export default function Puzzle() {
                 {state.items1.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
-                      <div
+                      <img
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        style={{
-                          userSelect: "none",
-                          padding: 16,
-                          margin: "0 0 8px 0",
-                          minHeight: "50px",
-                          backgroundColor: snapshot.isDragging
-                            ? "#263B4A"
-                            : "#456C86",
-                          color: "white",
-                          ...provided.draggableProps.style,
-                        }}
+                        src={item.imgUrl}
+                        alt={item.name}
+                        crossorigin={"anonymous"}
+                        // style={{
+                        //   userSelect: "none",
+                        //   padding: 16,
+                        //   margin: "0 0 8px 0",
+                        //   minHeight: "50px",
+                        //   backgroundColor: snapshot.isDragging
+                        //     ? "#263B4A"
+                        //     : "#456C86",
+                        //   color: "white",
+                        //   ...provided.draggableProps.style,
+                        // }}
                       >
-                        {item.content}
-                      </div>
+                        {/* {item.content} */}
+                      </img>
                     )}
                   </Draggable>
                 ))}
@@ -205,24 +271,13 @@ export default function Puzzle() {
                 {state.items2.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
-                      <div
+                      <img
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        style={{
-                          userSelect: "none",
-                          padding: 16,
-                          margin: "0 0 8px 0",
-                          minHeight: "50px",
-                          backgroundColor: snapshot.isDragging
-                            ? "#263B4A"
-                            : "#456C86",
-                          color: "white",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {item.content}
-                      </div>
+                        src={item.imgUrl}
+                        alt={item.name}
+                      ></img>
                     )}
                   </Draggable>
                 ))}
@@ -248,24 +303,13 @@ export default function Puzzle() {
                 {state.items3.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
-                      <div
+                      <img
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        style={{
-                          userSelect: "none",
-                          padding: 16,
-                          margin: "0 0 8px 0",
-                          minHeight: "50px",
-                          backgroundColor: snapshot.isDragging
-                            ? "#263B4A"
-                            : "#456C86",
-                          color: "white",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {item.content}
-                      </div>
+                        src={item.imgUrl}
+                        alt={item.name}
+                      ></img>
                     )}
                   </Draggable>
                 ))}
@@ -276,11 +320,9 @@ export default function Puzzle() {
         </QuizSide>
 
         <AnswerSide>
-          <div
-            style={{ display: "flex", flexDirection: "row", width: "500px" }}
-          >
+          <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId="items4">
+              <Droppable droppableId={droppableIDs[0]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -290,8 +332,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items4.map((item, index) => (
@@ -299,27 +341,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -330,7 +361,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items5">
+              <Droppable droppableId={droppableIDs[1]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -340,8 +371,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items5.map((item, index) => (
@@ -349,27 +380,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[1], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -380,7 +400,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items6">
+              <Droppable droppableId={droppableIDs[2]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -390,8 +410,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items6.map((item, index) => (
@@ -399,27 +419,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[2], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -428,13 +437,11 @@ export default function Puzzle() {
                 )}
               </Droppable>
             </EachAnswer>
-          </div>
+          </AnswerRow>
 
-          <div
-            style={{ display: "flex", flexDirection: "row", width: "500px" }}
-          >
+          <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId="items7">
+              <Droppable droppableId={droppableIDs[3]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -444,8 +451,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items7.map((item, index) => (
@@ -453,27 +460,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[3], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -484,7 +480,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items8">
+              <Droppable droppableId={droppableIDs[4]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -494,8 +490,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items8.map((item, index) => (
@@ -503,27 +499,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[4], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -534,7 +519,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items9">
+              <Droppable droppableId={droppableIDs[5]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -544,8 +529,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items9.map((item, index) => (
@@ -553,27 +538,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[5], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -582,13 +556,11 @@ export default function Puzzle() {
                 )}
               </Droppable>
             </EachAnswer>
-          </div>
+          </AnswerRow>
 
-          <div
-            style={{ display: "flex", flexDirection: "row", width: "500px" }}
-          >
+          <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId="items10">
+              <Droppable droppableId={droppableIDs[6]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -598,8 +570,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items10.map((item, index) => (
@@ -607,27 +579,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[6], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -638,7 +599,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items11">
+              <Droppable droppableId={droppableIDs[7]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -648,8 +609,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items11.map((item, index) => (
@@ -657,27 +618,16 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[7], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -688,7 +638,7 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId="items12">
+              <Droppable droppableId={droppableIDs[8]}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -698,8 +648,8 @@ export default function Puzzle() {
                         ? "blue"
                         : "grey",
                       padding: 4,
-                      width: 250,
-                      height: 60,
+                      width: "80px",
+                      // height: 60,
                     }}
                   >
                     {state.items12.map((item, index) => (
@@ -707,27 +657,17 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={isRightAnswer(droppableIDs[8], item.id)}
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <img
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            style={{
-                              userSelect: "none",
-                              padding: 5,
-                              height: "50px",
-                              margin: "0 0 8px 0",
-                              minHeight: "50px",
-                              backgroundColor: snapshot.isDragging
-                                ? "#263B4A"
-                                : "#456C86",
-                              color: "white",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item.content}
-                          </div>
+                            src={item.imgUrl}
+                            alt={item.name}
+                            // style={{ width: "1px", margin: "0" }}
+                          ></img>
                         )}
                       </Draggable>
                     ))}
@@ -736,7 +676,7 @@ export default function Puzzle() {
                 )}
               </Droppable>
             </EachAnswer>
-          </div>
+          </AnswerRow>
         </AnswerSide>
       </div>
     </DragDropContext>
@@ -754,16 +694,32 @@ const QuizSide = styled(`div`)({
 const AnswerSide = styled(`div`)({
   display: "flex",
   flexDirection: "column",
-  width: "500px",
-  justifyContent: "space-evenly",
+  width: "100px",
+  // justifyContent: "center",
+  alignContent: "center",
   backgroundColor: "pink",
+  // padding: "20px",
+  flex: "2",
+});
+const AnswerRow = styled(`div`)({
+  width: "300px",
+  height: "80px",
+  backgroundColor: "lightCoral",
+
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-evenly",
+  marginBottom: "5px",
   flex: "2",
 });
 
 const EachAnswer = styled(`div`)({
   width: "80px",
   height: "80px",
-  backgroundColor: "lightCoral",
+  // backgroundColor: "lightCoral",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
   marginBottom: "5px",
-  flex: "2",
+  // flex: "2",
 });
