@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "./url";
 
-function SET(lat, lng) {
+function getSample(lat, lng) {
   const data = { lat, lng };
   console.log("내 현재위치는,", lat, lng);
   return async (dispatch) => {

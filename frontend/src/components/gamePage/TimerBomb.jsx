@@ -4,6 +4,7 @@ import styled from "styled-components";
 import bombIdle from "../../assets/timer/bomb_idle.png";
 import bombBoom from "../../assets/timer/bomb_boom.png";
 import bombRed from "../../assets/timer/bomb_red.png";
+import { useDispatch, useSelector } from "react-redux";
 
 // timeLimit 값을 입력받아서 그 초만큼의 타이머를 생성
 // 2초 남으면 타이머의 색상이 노란색으로 바뀜
@@ -11,10 +12,22 @@ import bombRed from "../../assets/timer/bomb_red.png";
 // 0초가 되면 폭탄이 터진 이미지로 교체
 
 const TimerBomb = ({ timeLimit }) => {
-  const [timeLeft, setTimeLeft] = useState(timeLimit * 100);
-  const progress = 100 - timeLeft / timeLimit;
-  const before2sec = ((timeLimit - 2) / timeLimit) * 100;
-  const before1sec = ((timeLimit - 1) / timeLimit) * 100;
+  //참고) this initialization only happens once when the component is mounted
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  // useEffect(() => {
+  //   setTimeLeft(timeLimit * 100);
+  // }, [timeLimit]);
+
+  let progress = 0;
+  let before2sec = 0;
+  let before1sec = 0;
+
+  if (timeLimit > 0) {
+    progress = 100 - timeLeft / timeLimit;
+    before2sec = ((timeLimit - 2) / timeLimit) * 100;
+    before1sec = ((timeLimit - 1) / timeLimit) * 100;
+  }
 
   useEffect(() => {
     let intervalId = null;

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import countbox from "../../assets/countbox.png";
+import { useDispatch } from "react-redux";
+import game from "../../assets/gamePage/game.png";
 
 const imageStyle = {
   position: "relative",
@@ -53,6 +55,17 @@ const CountText = styled.span`
   text-shadow: 0 0 3px black;
 `;
 export default function TissueGame() {
+  //게임이 마운트될 때 state 값에 변경
+  const dispatch = useDispatch();
+  const gameData = {
+    title: "티슈를 뽑아라",
+    timeLimit: 5,
+    bgPath: game,
+  };
+  useEffect(() => {
+    dispatch({ type: "SET_GAME", payload: gameData });
+  }, []);
+
   const [isDragging, setIsDragging] = useState(false);
   const [initialMouseY, setInitialMouseY] = useState(0);
   const [initialImageY, setInitialImageY] = useState(0);
