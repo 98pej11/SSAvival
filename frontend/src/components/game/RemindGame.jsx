@@ -4,23 +4,25 @@ import styled from "styled-components";
 const Game = styled.div`
   position: relative;
   max-width: 960px;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  background-color: #3b3b3b;
   color: #fff;
 `;
 
 const Input = styled.div`
-  margin-bottom: 50px;
+  margin: 10px;
 
   input {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-color: transparent;
     border: 5px solid #fff;
     border-radius: 5px;
     margin: 0px 5px;
-    font-size: 55px;
+    font-size: 40px;
     text-align: center;
     color: #fff;
     font-family: "neodgm";
@@ -39,10 +41,9 @@ const Input = styled.div`
 `;
 
 const Check = styled.div`
-  display: inline-block;
   background-color: #fff;
   color: #000;
-  padding: 15px 30px;
+  padding: 10px 20px;
   box-shadow: 0px -4px 0px 0px rgba(0, 0, 0, 0.32) inset;
   border-radius: 3px;
   font-size: 22px;
@@ -57,7 +58,7 @@ const Check = styled.div`
 
 const Blackboard = styled.div`
   position: relative;
-  margin: 3% auto;
+  margin: 1% auto;
   width: 600px;
   height: 400px;
   overflow: hidden;
@@ -118,6 +119,12 @@ export default function RemindGame() {
   return (
     <div>
       <Blackboard>
+        <PaperList className="paper">
+          <PaperItem>Eat</PaperItem>
+        </PaperList>
+        <PaperList className="paper">
+          <PaperItem>Eat</PaperItem>
+        </PaperList>
         <PaperList className="paper">
           <PaperItem>Eat</PaperItem>
         </PaperList>

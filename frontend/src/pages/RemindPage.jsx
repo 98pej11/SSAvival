@@ -22,7 +22,7 @@ export default function RemindPage() {
   return (
     <Pages>
       <Header props={myProps} />
-
+        
       <div
         style={{
           display: "flex",
