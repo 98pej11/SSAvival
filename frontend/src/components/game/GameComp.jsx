@@ -6,12 +6,17 @@ import TimerBomb from "./TimerBomb";
 
 export default function GameComp(props) {
   const { children } = props;
+
+  // 게임 컴포넌트의 개별 배경이 있는 경우
+  const hasBg = Boolean(children.props.bg);
+
   return (
     <Box
       sx={{
-        display: "inline-block",
+        display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
+
         flexWrap: "wrap",
         border: "none", // 테두리 없애기
         borderRadius: 10,
@@ -22,6 +27,12 @@ export default function GameComp(props) {
         width: "100%",
         height: "72vh",
         overflow: "hidden",
+
+        // 게임 컴포넌트의 개별 배경이 있는 경우(ex_모니터)
+        backgroundImage: hasBg ? `url(${children.props.bg})` : undefined,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
       {/* 타이머 시간을 초로 집어넣으면 됩니다. */}
