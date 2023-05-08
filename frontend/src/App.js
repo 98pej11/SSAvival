@@ -11,6 +11,7 @@ import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
+import DifferencePage from "./pages/DifferencePage";
 
 const Pages = styled.div`
   position: relative;
@@ -31,6 +32,7 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+          <Route path="/difference" element={<DifferencePage />} />
         </Routes>
       </Pages>
     </BrowserRouter>
