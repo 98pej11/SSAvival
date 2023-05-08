@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
@@ -31,6 +33,16 @@ const HoverBox = styled.div`
   height: 50%;
 `;
 export default function MainComp1() {
+  const gameMode = useSelector((state) => state.gameMode);
+  const dispatch = useDispatch();
+
+  const handleSinglePlayerClick = () => {
+    dispatch({ type: "SET_GAME_MODE", payload: { mode: "single" } });
+  };
+
+  const handleMultiPlayerClick = () => {
+    dispatch({ type: "SET_GAME_MODE", payload: { mode: "multi" } });
+  };
   return (
     <Comp1>
       <Box
@@ -66,9 +78,12 @@ export default function MainComp1() {
               alignItems: "center",
               fontSize: "1.2rem",
             }}
+            onClick={handleSinglePlayerClick}
           >
-            <div>게임시작</div>
-            <img src={start} alt="" style={{ width: "90%", height: "90%" }} />
+            <div>싱글플레이</div>
+            <Link to="/emoji">
+              <img src={start} alt="" style={{ width: "90%", height: "90%" }} />
+            </Link>
           </Box>
           <Box
             sx={{
@@ -81,9 +96,16 @@ export default function MainComp1() {
               alignItems: "center",
               fontSize: "1.2rem",
             }}
+            onClick={handleMultiPlayerClick}
           >
-            <div>퇴실하기</div>
-            <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
+            <div>멀티플레이</div>
+            <Link to="/emoji">
+              <img
+                src={exit}
+                alt=""
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Link>
           </Box>
         </HoverBox>
       </Box>

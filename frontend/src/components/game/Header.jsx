@@ -1,20 +1,34 @@
 /* eslint-disable no-console */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 // import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import coin from "../../assets/coin.png";
 import time from "../../assets/time.png";
 import title from "../../assets/title.png";
+import menu from "../../assets/menu.png";
 
 const HeaderComp = styled.div`
   font-family: "neodgm", sans-serif;
 `;
 
 function Header(props) {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <HeaderComp>
       <AppBar
@@ -37,31 +51,67 @@ function Header(props) {
             }}
           >
             <Box
-              to="/mainPage"
+              onClick={handleClickOpen}
               sx={{
                 textAlign: "center",
                 color: "black",
               }}
             >
-              <div style={{ fontSize: "1.2rem" }}>점수</div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "1.2rem",
-                  margin: 10,
-                }}
-              >
-                <img src={coin} alt="" style={{ width: "1.2rem" }} />
-                <div style={{ marginLeft: 5 }}>3,202 M</div>
+              <div>
+                <div style={{ fontSize: "1.2rem" }}>점수</div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "1.2rem",
+                    margin: 10,
+                  }}
+                >
+                  <img src={coin} alt="" style={{ width: "1.2rem" }} />
+                  <div style={{ marginLeft: 5 }}>3,202 M</div>
+                </div>
               </div>
             </Box>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogContent>
+                <Box>
+                  <img src={menu} alt="" />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+            <Box
+              sx={{
+                textAlign: "center",
+                color: "black",
+              }}
+            >
+              <div>
+                <div style={{ fontSize: "1.2rem" }}>점수</div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "1.2rem",
+                    margin: 10,
+                  }}
+                >
+                  <img src={coin} alt="" style={{ width: "1.2rem" }} />
+                  <div style={{ marginLeft: 5 }}>3,202 M</div>
+                </div>
+              </div>
+            </Box>
+
             <Box
               sx={{
                 fontSize: "1.6rem",
                 textAlign: "center",
                 position: "relative",
+                flex: 1,
               }}
             >
               <img
@@ -98,6 +148,7 @@ function Header(props) {
                 ~ {props.props.title} ~
               </div>
             </Box>
+
             <Box
               sx={{
                 textAlign: "center",
