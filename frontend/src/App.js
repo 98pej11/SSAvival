@@ -11,6 +11,8 @@ import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
+import VideoHandler from "./components/video/VideoHandler";
+import RemindPage from "./pages/RemindPage";
 
 const Pages = styled.div`
   position: relative;
@@ -31,6 +33,8 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+          <Route path="/remind" element={<RemindPage />} />
+          <Route path="/video" element={<VideoHandler />} />
         </Routes>
       </Pages>
     </BrowserRouter>
