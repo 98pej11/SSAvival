@@ -8,6 +8,7 @@ import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
 import kakao from "../assets/kakao.png";
+
 // import { REST_API_KEY , REDIRECT_URI , LOGOUT_REDIRECT_URI , APP_ADMIN_KEY } from "../components/KakaoLoginData";
 
 const Pages = styled.div`
@@ -24,7 +25,8 @@ const myProps = {
 };
 
 export default function EmojiPage() {
-  const gameMode = useSelector((state) => state.gameMode);
+  const gameMode = useSelector((state) => state.gameReducer.gameMode);
+  console.log(gameMode);
   return (
     <Pages>
       <Header props={myProps} />
