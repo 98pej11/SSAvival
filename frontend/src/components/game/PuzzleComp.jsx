@@ -112,6 +112,23 @@ export default function Puzzle() {
     items12: [],
   });
   console.log(state);
+
+  const [check, setCheck] = useState({
+    items4: false,
+    items5: false,
+    items6: false,
+    items7: false,
+    items8: false,
+    items9: false,
+    items10: false,
+    items11: false,
+    items12: false,
+  });
+
+  // check 값 변경하는 함수
+  const updateCheck = (id) => {
+    setCheck({ ...check, id: true });
+  };
   const [droppableIDs, setDroppableIDs] = useState([
     "items4",
     "items5",
@@ -175,8 +192,6 @@ export default function Puzzle() {
   };
 
   const move = (source, destination, droppableSource, droppableDestination) => {
-    console.log("나움직인다아아아 이건 소스", source);
-    console.log("나움직인드다다다 이건 데스티네이션", destination);
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -189,15 +204,15 @@ export default function Puzzle() {
     return result;
   };
 
-  // 다 맞췄는지 확인용, 바뀔때마다 확인해서 checkFin 모든 원소가 true이면 겜종료해야됨.
-  // const checkFin = [];
-
   const isRightAnswer = (droppableId, id) => {
     console.log("나 id야", id);
     console.log("나 droppableId야", droppableId);
     console.log("난 true게 false게", droppableId == id);
     if (droppableId == id) {
-      // checkFin 변경
+      // 정답
+      updateCheck(droppableId);
+      console.log("체크가 바뀔지아닐지===", check);
+      console.log("얜 트룬지 폴슨지 ", check[droppableIDs[0]]);
       return true;
     }
     return false;
@@ -205,7 +220,16 @@ export default function Puzzle() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div
+        style={{
+          display: "flex",
+          // justifyContent: "space-around",
+          width: "1200px",
+          height: "600px",
+          backgroundColor: "white",
+          // backgroundColor: "",
+        }}
+      >
         <QuizSide>
           {/* <img src={images[1]} /> */}
           <Droppable droppableId="items1">
@@ -216,10 +240,11 @@ export default function Puzzle() {
                 style={{
                   backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
                   padding: 4,
-                  width: "250px",
-                  height: "60px",
+                  width: "100%",
+                  height: "100%",
                   display: "flex",
                   flexDirection: "row",
+                  justifyContent: "center",
                 }}
               >
                 {state.items1.map((item, index) => (
@@ -232,20 +257,7 @@ export default function Puzzle() {
                         src={item.imgUrl}
                         alt={item.name}
                         crossorigin={"anonymous"}
-                        // style={{
-                        //   userSelect: "none",
-                        //   padding: 16,
-                        //   margin: "0 0 8px 0",
-                        //   minHeight: "50px",
-                        //   backgroundColor: snapshot.isDragging
-                        //     ? "#263B4A"
-                        //     : "#456C86",
-                        //   color: "white",
-                        //   ...provided.draggableProps.style,
-                        // }}
-                      >
-                        {/* {item.content} */}
-                      </img>
+                      ></img>
                     )}
                   </Draggable>
                 ))}
@@ -262,10 +274,11 @@ export default function Puzzle() {
                 style={{
                   backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
                   padding: 4,
-                  width: "250px",
-                  height: "60px",
+                  width: "100%",
+                  height: "100%",
                   display: "flex",
                   flexDirection: "row",
+                  justifyContent: "center",
                 }}
               >
                 {state.items2.map((item, index) => (
@@ -294,10 +307,11 @@ export default function Puzzle() {
                 style={{
                   backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
                   padding: 4,
-                  width: "250px",
-                  height: "60px",
+                  width: "100%",
+                  height: "100%",
                   display: "flex",
                   flexDirection: "row",
+                  justifyContent: "center",
                 }}
               >
                 {state.items3.map((item, index) => (
@@ -322,7 +336,12 @@ export default function Puzzle() {
         <AnswerSide>
           <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[0]}>
+              <Droppable
+                droppableId={droppableIDs[0]}
+                isDropDisabled={check[droppableIDs[0]] == true}
+                // isDropDisabled={state.items4.length > 0}
+                // 주석 윗줄 안먹고 무한루프 돎 5/9
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -341,7 +360,10 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
+                        // isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[0]] || droppableIDs[0] !== item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -684,22 +706,25 @@ export default function Puzzle() {
 }
 const QuizSide = styled(`div`)({
   display: "flex",
-  width: "500px",
-  height: "250px",
+  width: "50%",
+  height: "80%",
   flexDirection: "column",
-  justifyContent: "space-evenly",
-  backgroundColor: "skyblue",
-  flex: "2",
+  justifyContent: "center",
+  padding: "10%",
+  // alignContent: "center",
+  // backgroundColor: "skyblue",
+  flex: "1",
 });
 const AnswerSide = styled(`div`)({
   display: "flex",
   flexDirection: "column",
-  width: "100px",
-  // justifyContent: "center",
+  width: "50%",
+  height: "80%",
+  padding: "10%",
   alignContent: "center",
-  backgroundColor: "pink",
+  // backgroundColor: "pink",
   // padding: "20px",
-  flex: "2",
+  flex: "1",
 });
 const AnswerRow = styled(`div`)({
   width: "300px",
