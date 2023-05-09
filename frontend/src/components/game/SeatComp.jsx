@@ -179,7 +179,6 @@ export default function Seating() {
           // justifyContent: "center",
         }}
       >
-        {/* 줄 서 있는 페페들 */}
         <Droppable droppableId="items1">
           {(provided, snapshot) => (
             <WaitingLine
@@ -225,27 +224,7 @@ export default function Seating() {
           )}
         </Droppable>
 
-        {/* <WaitingLine>
-
-        <Draggable>
-          <Wating
-            src={pepe}
-            alt="pepe_finding"
-            style={{
-              width: "80px",
-            }}
-          />
-        </Draggable>
-      </WaitingLine>{" "} */}
-
-        {/* 예제 */}
-        {/* <DragDropContext>
-
-      </DragDropContext> */}
         <AllArea>
-          {/* <Wating src={pepe} alt="pepe_sad"></Wating>
-          <img src={pepe}></img>
-          <div style={{ backgroundImage: `url(${pepe})` }}></div> */}
           <LeftSide>
             {/* 1분단 */}
             <First>
@@ -284,17 +263,6 @@ export default function Seating() {
 
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -335,17 +303,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -389,17 +346,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>

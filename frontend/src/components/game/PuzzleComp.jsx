@@ -338,8 +338,8 @@ export default function Puzzle() {
             <EachAnswer>
               <Droppable
                 droppableId={droppableIDs[0]}
-                isDropDisabled={check[droppableIDs[0]] == true}
-                // isDropDisabled={state.items4.length > 0}
+                // isDropDisabled={check.items4 > 0}
+                isDropDisabled={state.items4.length > 0}
                 // 주석 윗줄 안먹고 무한루프 돎 5/9
               >
                 {(provided, snapshot) => (
@@ -362,7 +362,7 @@ export default function Puzzle() {
                         index={index}
                         // isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
                         isDragDisabled={
-                          check[droppableIDs[0]] || droppableIDs[0] !== item.id
+                          check[droppableIDs[0]] || droppableIDs[0] === item.id
                         }
                       >
                         {(provided, snapshot) => (
@@ -383,7 +383,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[1]}>
+              <Droppable
+                droppableId={droppableIDs[1]}
+                isDropDisabled={state.items5.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -402,7 +405,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[1], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[1]] || droppableIDs[1] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -422,7 +427,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[2]}>
+              <Droppable
+                droppableId={droppableIDs[2]}
+                isDropDisabled={state.items6.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -441,7 +449,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[2], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[2]] || droppableIDs[2] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -463,7 +473,10 @@ export default function Puzzle() {
 
           <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[3]}>
+              <Droppable
+                droppableId={droppableIDs[3]}
+                isDropDisabled={state.items7.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -482,7 +495,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[3], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[3]] || droppableIDs[3] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -502,7 +517,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[4]}>
+              <Droppable
+                droppableId={droppableIDs[4]}
+                isDropDisabled={state.items8.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -521,7 +539,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[4], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[4]] || droppableIDs[4] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -541,7 +561,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[5]}>
+              <Droppable
+                droppableId={droppableIDs[5]}
+                isDropDisabled={state.items9.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -560,7 +583,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[5], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[5]] || droppableIDs[5] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -582,7 +607,10 @@ export default function Puzzle() {
 
           <AnswerRow>
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[6]}>
+              <Droppable
+                droppableId={droppableIDs[6]}
+                isDropDisabled={state.items10.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -601,7 +629,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[6], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[6]] || droppableIDs[6] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -621,7 +651,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[7]}>
+              <Droppable
+                droppableId={droppableIDs[7]}
+                isDropDisabled={state.items11.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -640,7 +673,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[7], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[7]] || droppableIDs[7] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
@@ -660,7 +695,10 @@ export default function Puzzle() {
             </EachAnswer>
 
             <EachAnswer>
-              <Droppable droppableId={droppableIDs[8]}>
+              <Droppable
+                droppableId={droppableIDs[8]}
+                isDropDisabled={state.items12.length > 0}
+              >
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
@@ -679,7 +717,9 @@ export default function Puzzle() {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={isRightAnswer(droppableIDs[8], item.id)}
+                        isDragDisabled={
+                          check[droppableIDs[8]] || droppableIDs[8] === item.id
+                        }
                       >
                         {(provided, snapshot) => (
                           <img
