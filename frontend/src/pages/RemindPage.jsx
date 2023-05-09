@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GameAction } from "../redux/actions/GameAction";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import GameComp from "../components/game/GameComp";
 import GameComp2 from "../components/game/GameComp2";
+import RemindGame from "../components/game/RemindGame";
 import Header from "../components/game/Header";
-import "../index.css";
 import game from "../assets/game.png";
-import GitbashGame from "../components/game/GitbashGame";
-import monitor from "../assets/game_gitbash/monitor.png";
 
 const Pages = styled.div`
   background-image: url(${game});
@@ -18,18 +17,21 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  name: "git",
-  title: "주어진 시간 내에 명령어를 입력하라!",
-  bg: monitor,
-  number: 2,
+  title: "연상되는 단어를 입력해봐!",
+  number: 10,
 };
 
-export default function GitbashPage() {
+function RemindPage() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(GameAction.getRemindAnswer("음식"));
+  }, []);
+
   const gameMode = useSelector((state) => state.gameMode);
+
   return (
     <Pages>
       <Header props={myProps} />
-
       <div
         style={{
           display: "flex",
@@ -40,14 +42,16 @@ export default function GitbashPage() {
       >
         {gameMode === "single" ? (
           <GameComp props={myProps}>
-            <GitbashGame {...myProps} />
+            <RemindGame {...myProps} />
           </GameComp>
         ) : (
           <GameComp2 props={myProps}>
-            <GitbashGame {...myProps} />
+            <RemindGame {...myProps} />
           </GameComp2>
         )}
       </div>
     </Pages>
   );
 }
+
+export default RemindPage;
