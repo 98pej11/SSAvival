@@ -15,7 +15,7 @@ import gitbash_logo from "../../assets/game_gitbash/gitbash_logo.png";
 import game from "../../assets/gamePage/game.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function GitbashGame() {
   //게임이 마운트될 때 state 값에 변경
@@ -28,6 +28,13 @@ export default function GitbashGame() {
   useEffect(() => {
     dispatch({ type: "SET_GAME", payload: gameData });
   }, []);
+
+  //게임이 끝난 후 점수 반영
+  const score = 100;
+  const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  setTimeout(() => {
+    dispatch({ type: "UPDATE_SCORE", payload: score });
+  }, timeLimit * 1000);
 
   // 순서대로 제시할 명령어 리스트
   const [order, setOrder] = useState(0);

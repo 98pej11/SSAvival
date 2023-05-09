@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import elevator from "../../assets/elevator.png";
+import { useDispatch } from "react-redux";
+import game from "../../assets/gamePage/game.png";
 
 const ElevatorImageWrapper = styled.div`
   position: relative;
@@ -43,6 +45,17 @@ const FloorComp = styled.div`
 `;
 
 export default function ElevatorGame() {
+  //게임이 마운트될 때 state 값에 변경
+  const dispatch = useDispatch();
+  const gameData = {
+    title: "엘레베이터를 잡아라",
+    timeLimit: 5,
+    bgPath: game,
+  };
+  useEffect(() => {
+    dispatch({ type: "SET_GAME", payload: gameData });
+  }, []);
+
   const [count, setCount] = useState(0); // count 값 상태로 관리
 
   // ElevatorImage와 CenterBox의 위치가 일치하는지 확인하는 함수

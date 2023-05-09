@@ -8,7 +8,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import coin from "../../assets/gamePage/coin.png";
 import time from "../../assets/gamePage/time.png";
-import titleBox from "../../assets/gamePage/title.png"
+import titleBox from "../../assets/gamePage/title.png";
 import { useSelector } from "react-redux";
 
 const HeaderComp = styled.div`
@@ -16,10 +16,12 @@ const HeaderComp = styled.div`
 `;
 
 function Header(props) {
-  const round = useSelector(state => state.gameReducer.round)
-  const title = useSelector(state => state.gameReducer.title)
-  const totalScore = useSelector(state => state.gameReducer.totalScore)
-  const totalTimeLimit = useSelector(state => state.gameReducer.totalTimeLimit)
+  const round = useSelector((state) => state.gameReducer.round);
+  const title = useSelector((state) => state.gameReducer.title);
+  const totalScore = useSelector((state) => state.gameReducer.totalScore);
+  const totalTimeLimit = useSelector(
+    (state) => state.gameReducer.totalTimeLimit
+  );
 
   return (
     <HeaderComp>

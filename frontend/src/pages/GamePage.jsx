@@ -9,6 +9,7 @@ import { store } from "../redux/store";
 import { useSelector } from "react-redux";
 import TimerBomb from "../components/gamePage/TimerBomb";
 import TissueGame from "../components/games/TissueGame";
+import ElevatorGame from "../components/games/ElevatorGame";
 
 const container = {
   display: "flex",
@@ -35,17 +36,15 @@ const gameContainer = {
 };
 
 export default function GamePage() {
+  const [index, setIndex] = React.useState(0);
+
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
     <TypoGame key="TypoGame" />,
     <TissueGame key="TissueGame" />,
+    <ElevatorGame key="ElevatorGame" />,
   ];
-
-  // 마운트할 게임 컴포넌트의 인덱스 및 이미 보여준 게임 컴포넌트 인덱스 visited 리스트에 저장
-  const [index, setIndex] = React.useState(0);
-  const [visited, setVisited] = React.useState([0]);
-  console.log("index랑 visited 로그,", index, visited);
 
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
   const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
@@ -53,14 +52,8 @@ export default function GamePage() {
 
   // 렌더링 후 timeLimit 값이 바뀔 때마다 timeLimit 초만큼 기다린 후 index 값 변경
   if (timeLimit) {
-    let newIndex = Math.floor(Math.random() * gameComps.length);
-    while (visited.includes(newIndex)) {
-      newIndex = Math.floor(Math.random() * gameComps.length);
-    }
-
     setTimeout(() => {
-      setIndex(newIndex);
-      setVisited([...visited, newIndex]);
+      setIndex(index + 1);
     }, timeLimit * 1000);
   }
 
