@@ -2,17 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import ElevatorPage from "./pages/ElevatorPage";
-import TissuePage from "./pages/TissuePage";
+import StartPage from "./pages/StartPage";
 import MainPage from "./pages/MainPage";
-import LockerPage from "./pages/LockerPage";
-import AttendancePage from "./pages/AttendancePage";
 import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
-import TypoPage from "./pages/TypoPage";
-import GitbashPage from "./pages/GitbashPage";
-import VideoHandler from "./components/video/VideoHandler";
-import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
 
 const Pages = styled.div`
@@ -25,6 +18,7 @@ function App() {
       <Pages>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/start" element={<StartPage />} />
           <Route path="/callback/kakao" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
