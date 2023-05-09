@@ -1,6 +1,10 @@
-from flask import Flask, jsonify, request
+from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET, AWS_S3_BUCKET_URL
+from flask import Flask, jsonify, request, redirect
 from flask_restful import Api, Resource
 from flask_cors import CORS
+from io import BytesIO
+from PIL import Image
+import boto3
 
 #   코드 출처 : https://github.com/GalaxyOverMe/SpotTheDifference_Generator
 #   원본 코드에서 사용한 라이브러리
@@ -9,11 +13,15 @@ import cv2
 import numpy as np
 import random
 import os
-import json
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+
+s3 = boto3.client('s3',
+                  aws_access_key_id=AWS_ACCESS_KEY_ID,
+                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                  region_name=AWS_REGION)
 
 ####     **   객체 탐지   **
 
@@ -204,7 +212,9 @@ class LoadShuffledImages(Resource):
     #   in: None
     #   out: 셔플된 이미지 경로 모음 배열
     def get(self):
-        folder_path = os.path.join(".", "backend_flask", "images")
+        BackendFlaskPath = os.path.join(".", "backend_flask")
+        ImgFolder = "images"
+        folder_path = os.path.join(BackendFlaskPath, ImgFolder)
         ImageExt = ['png', 'jpg', 'jpeg', 'bmp']
         images = []
         for img in os.listdir(folder_path):
@@ -216,7 +226,7 @@ class LoadShuffledImages(Resource):
 
         random.shuffle(images)
         response = {
-            'imgNameArray' : images
+            'imgName' : images[0]
         }
 
         return jsonify(response)
@@ -259,18 +269,23 @@ class GetNextQuiz(Resource):
         # 이미지를 가로로 병합하기
         img = np.hstack([src,dst,ref])
 
-        # (영준) 생성된 이미지를 PNG로 저장
-        quizImgFolder = "quizImg"
+        # (영준) 생성된 이미지를 AWS S3에 업로드
         quizImgName = "quizImg.png"
+        quizImgFolder = "quizImg"
         quizImgPath = os.path.join(BackendFlaskPath, quizImgFolder, quizImgName)
 
         wxBitmap, width, height = create_wx_bitmap(img)
-        quizImage = wxBitmap.ConvertToImage()
-        quizImage.SaveFile(quizImgPath, BITMAP_TYPE_PNG)
+        quizImg = wxBitmap.ConvertToImage()
+        quizImg.SaveFile(quizImgPath, BITMAP_TYPE_PNG)
+
+        s3.upload_file(quizImgPath, AWS_S3_BUCKET, quizImgName)
+        s3_file_path = f"{quizImgFolder}/{quizImgName}"
+
+        quizImgUrl = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{s3_file_path}"
 
         # (영준) 추가 필요 : 이미지 제외 나머지 데이터도 로컬에 저장해 두기, 추후 불러올 필요도 있음
         response = {
-            'quizImgName' : quizImgName,
+            'quizImgUrl' : quizImgUrl,
             'width' : width,
             'height' : height,
             'pts' : pts_c,

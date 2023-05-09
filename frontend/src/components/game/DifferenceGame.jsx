@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { Box } from "@mui/material";
 import DifferenceTest from "../../assets/game_difference/DifferenceGameTest.jpg";
@@ -23,6 +24,20 @@ const DifferenceGame = () => {
     [593, 356, 0],
     [768, 157, 0],
   ]); // python 코드는 왼쪽 좌표가 기준이었던 것 같으므로, 주의! 수정 필요할 수 있음
+
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    async function fetchImageData() {
+      const response = await axios.get(
+        "http://127.0.0.1:5000/game/difference/load-shuffled-images"
+      );
+      const { imgNameArray } = response.data;
+      const imageUrl = `./backend_flask/${imgNameArray[0]}`;
+      console.log(imgNameArray[0]);
+      setImageUrl(imageUrl);
+    }
+    fetchImageData();
+  }, []);
 
   const handleBoxClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -97,7 +112,14 @@ const DifferenceGame = () => {
         </ClickBox>
       </Container>
       <Container>
-        <LifeInfoBox>{`${systemMessage} / 남은 라이프 ${lifeInfo}개`}</LifeInfoBox>
+        {/* <LifeInfoBox>{`${systemMessage} / 남은 라이프 ${lifeInfo}개`}</LifeInfoBox> */}
+        <div>
+          {imageUrl ? (
+            <img src={imageUrl} alt="difference game" />
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
       </Container>
     </>
   );
