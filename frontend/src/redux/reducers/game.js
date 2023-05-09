@@ -8,6 +8,8 @@ const initialState = {
   totalScore: 0,
   totalTimeLimit: 120,
   nextComp: false,
+  count: 0,
+  gameMode: "single",
 };
 function gameReducer(state = initialState, action = {}) {
   const { type, payload } = action;
@@ -31,8 +33,13 @@ function gameReducer(state = initialState, action = {}) {
       return { ...state, totalScore: state.totalScore + payload };
     case "TIME_OVER":
       return { ...state, nextComp: !state.nextComp };
+    case "INCREMENT_COUNT":
+      return { ...state, count: payload.count + 1 };
+    case "SET_GAME_MODE":
+      return { ...state, gameMode: payload.gameMode };
     default:
       return { ...state };
   }
 }
+
 export default gameReducer;

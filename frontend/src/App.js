@@ -28,8 +28,8 @@ function App() {
           <Route path="/callback/kakao" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
-
-          {/* <Route path="/emoji" element={<EmojiPage />} />
+          <Route path="/emoji" element={<EmojiPage />} />
+          {/* 
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />

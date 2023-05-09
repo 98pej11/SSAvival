@@ -29,6 +29,7 @@ export default function Emoji() {
       <Box
         sx={{
           margin: "0 auto",
+          width: "80%",
           height: "100%",
           border: 1,
           borderColor: "gray",
