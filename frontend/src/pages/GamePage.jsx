@@ -5,7 +5,8 @@ import Box from "@mui/material/node/Box";
 import GitbashGame from "../components/game/GitbashGame";
 import TypoGame from "../components/game/TypoGame";
 import { store } from "../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setTimerStart } from "../redux/actions/TimerAction";
 import TimerBomb from "../components/game/TimerBomb";
 import TissueGame from "../components/game/TissueGame";
 import ElevatorGame from "../components/game/ElevatorGame";
@@ -43,6 +44,29 @@ const gameContainer = {
 };
 export default function GamePage() {
   const [index, setIndex] = useState(0);
+  const dispatch = useDispatch();
+  const timerBombActive = useSelector(
+    (state) => state.gameReducer.timerBombActive
+  );
+  useEffect(() => {
+    dispatch(setTimerStart());
+  }, [dispatch]);
+
+  // 렌더링 후 timerBombActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 setTimerstart() 실행
+  useEffect(() => {
+    let timeoutId = null;
+
+    if (!timerBombActive && index < 7) {
+      timeoutId = setTimeout(() => {
+        setIndex(index + 1);
+        dispatch(setTimerStart());
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [dispatch, index, timerBombActive]);
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
@@ -57,16 +81,16 @@ export default function GamePage() {
   ];
 
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
-  const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
   const bgPath = useSelector((state) => state.gameReducer.bgPath);
 
   // 렌더링 후 timeLimit 값이 바뀔 때마다 timeLimit 초만큼 기다린 후 index 값 변경
-  if (timeLimit) {
-    setTimeout(() => {
-      setIndex(index + 1);
-    }, timeLimit * 1000);
-  }
-  console.log(timeLimit);
+  // if (timeLimit) {
+  //   setTimeout(() => {
+  //     setIndex(index + 1);
+  //   }, timeLimit * 1000);
+  // }
+  // console.log(timeLimit);
 
   return (
     <Box
@@ -81,7 +105,7 @@ export default function GamePage() {
       <Header />
       <Box sx={container}>
         <Box sx={gameContainer}>
-          <TimerBomb timeLimit={10} />
+          <TimerBomb />
           {gameComps[index]}
         </Box>
       </Box>
