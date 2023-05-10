@@ -136,7 +136,7 @@ function Header(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-                ~ {title}~
+                ~ {title} ~
               </div>
             </Box>
 

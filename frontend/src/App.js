@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import StartPage from "./pages/StartPage";
 import MainPage from "./pages/MainPage";
 import EmojiPage from "./pages/EmojiPage";
+import ElevatorPage from "./pages/ElevatorPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import GamePage from "./pages/GamePage";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/emoji" element={<EmojiPage />} />
+          <Route path="/elevator" element={<ElevatorPage />} />
           {/* 
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
