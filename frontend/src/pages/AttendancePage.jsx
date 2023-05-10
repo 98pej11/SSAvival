@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import Header from "../components/game/Header";
 import AttendanceGame from "../components/game/AttendanceGame";
 import game from "../assets/game.png";
@@ -9,8 +11,8 @@ const Pages = styled.div`
   position: relative;
   background-image: url(${game});
   background-size: cover;
-  // width: "100vh";
-  // height: "100vh";
+  width: 100%;
+  height: 100%;
 `;
 
 const myProps = {
@@ -18,7 +20,8 @@ const myProps = {
   number: 4,
 };
 
-export default function LockerPage() {
+export default function AttendancePage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -29,9 +32,15 @@ export default function LockerPage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <AttendanceGame {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp props={myProps}>
+            <AttendanceGame {...myProps} />
+          </GameComp>
+        ) : (
+          <GameComp2 props={myProps}>
+            <AttendanceGame {...myProps} />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

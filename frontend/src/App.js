@@ -11,8 +11,11 @@ import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
-
+import DifferencePage from "./pages/DifferencePage";
+import VideoHandler from "./components/video/VideoHandler";
+import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
+
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import TestPage from "./pages/TestPage";
@@ -27,9 +30,14 @@ function App() {
       <Pages>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          {/* <Route path="/user/kakao/check" element={<KakaoLogin />} />
+          <Route path="/game" element={<GamePage />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/emoji" element={<EmojiPage />} /> */}
+          <Route path="/game" element={<GamePage />} />
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/callback/kakao" element={<KakaoLogin />} />
+          <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
@@ -40,6 +48,9 @@ function App() {
           <Route path="/seat" element={<SeatPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/test" element={<TestPage />} />
+          <Route path="/difference" element={<DifferencePage />} />
+          <Route path="/remind" element={<RemindPage />} />
+          <Route path="/video" element={<VideoHandler />} />
         </Routes>
       </Pages>
     </BrowserRouter>

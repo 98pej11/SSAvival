@@ -744,6 +744,7 @@ export default function Puzzle() {
     </DragDropContext>
   );
 }
+
 const QuizSide = styled(`div`)({
   display: "flex",
   width: "50%",
@@ -769,7 +770,7 @@ const AnswerSide = styled(`div`)({
 const AnswerRow = styled(`div`)({
   width: "300px",
   height: "80px",
-  backgroundColor: "lightCoral",
+  // backgroundColor: "lightCoral",
 
   display: "flex",
   flexDirection: "row",

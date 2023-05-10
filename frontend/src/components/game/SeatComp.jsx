@@ -4,23 +4,28 @@ import { useSpring, animated, Any } from "react-spring";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 import pepe_sad from "../../assets/pepe_sad.png";
 import pepe_finding from "../../assets/pepe_finding.svg";
-// import Badge from "@mui/material/Badge";
-// import { useDrag } from "react-use-gesture";
-// import Box from "@mui/material/Box";
 
-// import Button from "@mui/material/Button";
-
-// import online from "../../assets/online.png";
-
-// import Draggable from "react-draggable";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// import { useDrag } from "react-use-gesture";
 
 export default function Seating() {
   // 카드 위치 좌표
   // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
   const cnt = 0;
+  // const [seats, setSeats] = useState({
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat2:[{seat2:false, seat2:""}],
+  //   seat3:[{seat3:false, seat3:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+  //   seat1:[{seat1:false, seat1:"닉넴"}],
+
+  // });
+
   const [seats, setSeats] = useState([]);
   const selectIndex = (selectingNumber) => {
     let temp = Array.from({ length: 15 }, (v, i) => i);
@@ -59,14 +64,14 @@ export default function Seating() {
     items1: [
       {
         id: "item-1",
-        content: "pepe",
-        imageUrl: pepe_finding,
+        content: "",
+        imageUrl: "exploding-head.svg",
       },
-      { id: "item-2", content: "Item 2", imageUrl: pepe_sad },
-      { id: "item-3", content: "Item 3", imageUrl: pepe_finding },
-      { id: "item-4", content: "Item 4", imageUrl: pepe_sad },
-      { id: "item-5", content: "Item 5", imageUrl: pepe_finding },
-      { id: "item-6", content: "Item 6", imageUrl: pepe_sad },
+      { id: "item-2", content: "", imageUrl: "drooling-face.svg" },
+      { id: "item-3", content: "", imageUrl: "face-screaming-in-fear.svg" },
+      { id: "item-4", content: "", imageUrl: "pleading-face.svg" },
+      { id: "item-5", content: "", imageUrl: "disguised-face.svg" },
+      { id: "item-6", content: "", imageUrl: "loudly-crying-face.svg" },
     ],
     items2: [],
     items3: [],
@@ -85,6 +90,9 @@ export default function Seating() {
     items16: [],
   });
 
+  // 성공 메세지 플래그
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -92,7 +100,9 @@ export default function Seating() {
     if (!destination) {
       return;
     }
-
+    if (result.destination && result.destination.droppableId === "items2") {
+      console.log("여기드러오나...................");
+    }
     // 같은 droppable 내에서 요소를 이동하는 경우
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
@@ -119,9 +129,16 @@ export default function Seating() {
         [source.droppableId]: result[source.droppableId],
         [destination.droppableId]: result[destination.droppableId],
       });
+      setShowSuccess(true);
     }
   };
-
+  useEffect(() => {
+    if (showSuccess) {
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 500);
+    }
+  });
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -143,10 +160,6 @@ export default function Seating() {
     return result;
   };
 
-  // const [pepe, setPepe] = useState({
-  //   userPepe: [],
-  // });
-
   useEffect(() => {
     let temp = new Array(15).fill(false);
     setRandomIndexArray(selectIndex(6));
@@ -155,17 +168,13 @@ export default function Seating() {
   useEffect(() => {
     let temp = new Array(15).fill(false);
     var step;
+    temp[0] = true;
     for (step = 0; step < 6; step++) {
       var idx = randomIndexArray[step];
       temp[idx] = true;
     }
     setSeats([...temp, ...seats]);
   }, [randomIndexArray]);
-
-  // const onDragEnd = () => {
-  //   console.log("나 움직였다아아아ㅏ");
-  // };
-  // console.log("나 바뀐 seats이야....", seats);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -176,6 +185,7 @@ export default function Seating() {
           height: "600px",
           backgroundColor: "white",
           display: "flex",
+          backgroundImage: `url(${"floor.png"})`,
           // justifyContent: "center",
         }}
       >
@@ -231,19 +241,14 @@ export default function Seating() {
               <FirstSet>
                 <FirstSetset style={{ marginBottom: "5px" }}>
                   {seats[0] ? (
-                    <Droppable droppableId="items2">
+                    <Droppable
+                      droppableId="items2"
+                      isDropDisabled={state.items2.length > 0}
+                    >
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          style={
-                            {
-                              // backgroundColor: snapshot.isDraggingOver
-                              //   ? "purple"
-                              //   : "yellow",
-                              // backgroundColor: "pink",
-                            }
-                          }
                         >
                           {state.items2.map((item, index) => (
                             <Draggable
@@ -257,11 +262,12 @@ export default function Seating() {
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
                                   style={{
-                                    // backgroundColor: snapshot.isDragging
-                                    //   ? "pink"
-                                    //   : "green",
-
-                                    backgroundImage: `url(${item.imageUrl})`,
+                                    backgroundColor: snapshot.isDragging
+                                      ? "pink"
+                                      : "green",
+                                    width: "50px",
+                                    height: "50px",
+                                    backgroundImage: `url(${"flushed-face.svg"})`,
                                   }}
                                 >
                                   {item.content}
@@ -270,7 +276,7 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
@@ -280,13 +286,17 @@ export default function Seating() {
                   {seats[1] ? (
                     <Droppable droppableId="items3">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellow",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items3.map((item, index) => (
@@ -310,26 +320,34 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img src="flushed-face.svg" style={{ width: "50px" }} />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
                 </FirstSetset>
 
-                <NormalTable>테이블1</NormalTable>
+                <NormalTable></NormalTable>
                 <FirstSetset style={{ marginTop: "5px" }}>
                   {seats[2] ? (
                     <Droppable droppableId="items4">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items4.map((item, index) => (
@@ -353,23 +371,34 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img
+                          src="astonished-face.svg"
+                          style={{ width: "50px" }}
+                        />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
 
                   {seats[3] ? (
                     <Droppable droppableId="items5">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items5.map((item, index) => (
@@ -386,17 +415,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -404,11 +422,18 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img
+                          src="cowboy-hat-face.svg"
+                          style={{ width: "50px" }}
+                        />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
                 </FirstSetset>
               </FirstSet>
@@ -418,13 +443,17 @@ export default function Seating() {
                   {seats[4] ? (
                     <Droppable droppableId="items6">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items6.map((item, index) => (
@@ -441,17 +470,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -459,23 +477,35 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      {" "}
+                      <EmptyPerson>
+                        <img
+                          src="smirking-face.svg"
+                          style={{ width: "50px" }}
+                        />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
 
                   {seats[5] ? (
                     <Droppable droppableId="items7">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items7.map((item, index) => (
@@ -492,17 +522,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -510,25 +529,36 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img
+                          src="grinning-squinting-face.svg"
+                          style={{ width: "50px" }}
+                        />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
                 </FirstSetset>
-                <NormalTable>테이블1</NormalTable>
+                <NormalTable></NormalTable>
                 <FirstSetset style={{ marginTop: "5px" }}>
                   {seats[6] ? (
                     <Droppable droppableId="items8">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items8.map((item, index) => (
@@ -545,17 +575,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -563,23 +582,34 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img
+                          src="smirking-face.svg"
+                          style={{ width: "50px" }}
+                        />{" "}
+                      </EmptyPerson>
+                    </Chair>
                   )}
 
                   {seats[7] ? (
                     <Droppable droppableId="items9">
                       {(provided, snapshot) => (
-                        <div
+                        <Empty
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            backgroundColor: snapshot.isDraggingOver
-                              ? "purple"
-                              : "yellpw",
+                            width: "50px",
+                            height: "30px",
+                            border: "2px solid black",
+                            borderRadius: "30%",
+                            backgroundColor: "gray",
+                            width: "50px",
+                            height: "50px",
                           }}
                         >
                           {state.items9.map((item, index) => (
@@ -596,17 +626,6 @@ export default function Seating() {
                                   style={{
                                     backgroundImage: `url(${item.imageUrl})`,
                                   }}
-                                  // style={{
-                                  //   userSelect: "none",
-                                  //   padding: 16,
-                                  //   margin: "0 0 8px 0",
-                                  //   minHeight: "50px",
-                                  //   backgroundColor: snapshot.isDragging
-                                  //     ? "#263B4A"
-                                  //     : "#456C86",
-                                  //   color: "white",
-                                  //   ...provided.draggableProps.style,
-                                  // }}
                                 >
                                   {item.content}
                                 </Chair>
@@ -614,11 +633,18 @@ export default function Seating() {
                             </Draggable>
                           ))}
                           {provided.placeholder}
-                        </div>
+                        </Empty>
                       )}
                     </Droppable>
                   ) : (
-                    <Chair>의자</Chair>
+                    <Chair>
+                      <EmptyPerson>
+                        <img
+                          src="smiling-face-with-smiling-eyes.svg"
+                          style={{ width: "50px" }}
+                        />
+                      </EmptyPerson>
+                    </Chair>
                   )}
                 </FirstSetset>
               </FirstSet>
@@ -629,13 +655,18 @@ export default function Seating() {
                 {seats[8] ? (
                   <Droppable droppableId="items10">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          marginBottom: "40px",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items10.map((item, index) => (
@@ -652,17 +683,6 @@ export default function Seating() {
                                 style={{
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -670,26 +690,34 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
-                  <Chair>의자</Chair>
+                  <Chair>
+                    <EmptyPerson>
+                      <img src="flushed-face.svg" style={{ width: "50px" }} />{" "}
+                    </EmptyPerson>
+                  </Chair>
                 )}
-                <MiniTable>테이블3</MiniTable>
+                <MiniTable></MiniTable>
               </SecondSet>
 
               <SecondSet>
                 {seats[9] ? (
                   <Droppable droppableId="items11">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items11.map((item, index) => (
@@ -706,17 +734,6 @@ export default function Seating() {
                                 style={{
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -724,11 +741,18 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
-                  <Chair>의자</Chair>
+                  <Chair>
+                    <EmptyPerson>
+                      <img
+                        src="cowboy-hat-face.svg"
+                        style={{ width: "50px" }}
+                      />{" "}
+                    </EmptyPerson>
+                  </Chair>
                 )}
                 <MiniTable>테이블3</MiniTable>
               </SecondSet>
@@ -737,13 +761,17 @@ export default function Seating() {
                 {seats[10] ? (
                   <Droppable droppableId="items12">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items12.map((item, index) => (
@@ -760,17 +788,6 @@ export default function Seating() {
                                 style={{
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -778,7 +795,7 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
@@ -791,13 +808,17 @@ export default function Seating() {
                 {seats[11] ? (
                   <Droppable droppableId="items13">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items13.map((item, index) => (
@@ -814,17 +835,6 @@ export default function Seating() {
                                 style={{
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -832,7 +842,7 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
@@ -842,7 +852,7 @@ export default function Seating() {
               </SecondSet>
             </Second>
           </LeftSide>
-
+          <div>{showSuccess && <Success>성공!!!</Success>}</div>
           <RightSide>
             {/* 3분단 */}
             <Third>
@@ -877,13 +887,17 @@ export default function Seating() {
                 {seats[12] ? (
                   <Droppable droppableId="items14">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items14.map((item, index) => (
@@ -918,7 +932,7 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
@@ -927,13 +941,17 @@ export default function Seating() {
                 {seats[13] ? (
                   <Droppable droppableId="items15">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items15.map((item, index) => (
@@ -952,17 +970,6 @@ export default function Seating() {
                                   height: "50px",
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -970,7 +977,7 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
@@ -979,13 +986,17 @@ export default function Seating() {
                 {seats[14] ? (
                   <Droppable droppableId="items16">
                     {(provided, snapshot) => (
-                      <div
+                      <Empty
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          backgroundColor: snapshot.isDraggingOver
-                            ? "purple"
-                            : "yellpw",
+                          width: "50px",
+                          height: "30px",
+                          border: "2px solid black",
+                          borderRadius: "30%",
+                          backgroundColor: "gray",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         {state.items16.map((item, index) => (
@@ -1002,17 +1013,6 @@ export default function Seating() {
                                 style={{
                                   backgroundImage: `url(${item.imageUrl})`,
                                 }}
-                                // style={{
-                                //   userSelect: "none",
-                                //   padding: 16,
-                                //   margin: "0 0 8px 0",
-                                //   minHeight: "50px",
-                                //   backgroundColor: snapshot.isDragging
-                                //     ? "#263B4A"
-                                //     : "#456C86",
-                                //   color: "white",
-                                //   ...provided.draggableProps.style,
-                                // }}
                               >
                                 {item.content}
                               </Chair>
@@ -1020,7 +1020,7 @@ export default function Seating() {
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Empty>
                     )}
                   </Droppable>
                 ) : (
@@ -1055,7 +1055,7 @@ const WaitingLine = styled(`div`)({
   //   animation: "none",
   display: "flex",
   flexDirection: "row",
-  width: "1000px",
+  // width: "100px",
   justifyContent: "space-around",
   //   paddingRight: "40%",
   // backgroundColor: "blue",
@@ -1064,12 +1064,15 @@ const WaitingLine = styled(`div`)({
 });
 
 const Waiting = styled(`div`)({
-  animation: "motion 0.3s linear 0s infinite alternate",
   marginTop: "0",
   marginBottom: "10px",
   position: "relative",
   userSelect: "none",
+  width: "60px",
+  height: "60px",
+  marginRight: "15px",
   // pointerEvents: "none",
+  animation: "motion 0.3s linear 0s infinite alternate",
   "@keyframes motion": {
     "0%": { marginTop: "0px" },
     "100%": { marginTop: "10px" },
@@ -1164,17 +1167,6 @@ const ThirdSet = styled(`div`)({
   flexDirection: "column",
   justifyContent: "center",
   alignContent: "center",
-  // backgroundColor: "skyblue",
-  // margin: "3px 0 0 30px",
-  // webKitTransform: "rotate(-45deg)",
-  // MozTransformOrigin: "rotate(-45deg)",
-  // msTransform: "rotate",
-  // OTransform: "rotate(-45deg)",
-  // transform: "rotate(-45deg)",
-  // WebkitTransformOrigin: "0 100%",
-  // MozTransformOrigin: "0 100%",
-  // msTransformOrigin: "0 100%",
-  // transformOrigin: "0 100%",
 });
 
 const ThirdSetSet = styled(`div`)({
@@ -1197,6 +1189,7 @@ const Chair = styled(`div`)({
   border: "2px solid black",
   borderRadius: "30%",
   backgroundColor: "gray",
+  // backgroundImage: `url(${"flushed-face.svg"})`,
 });
 
 const NormalTable = styled(`div`)({
@@ -1215,7 +1208,8 @@ const MiniTable = styled(`div`)({
   width: "100px",
   height: "80px",
   // marginTop: "100px",
-  bottom: "0",
+  // bottom: "10",
+  marginBottom: "20px",
 });
 
 const DiaTable = styled(`div`)({
@@ -1248,4 +1242,34 @@ const LongTable = styled(`div`)({
   marginRight: "68px",
   //   marginTop: "100px",
   bottom: "0",
+});
+
+const Empty = styled(`div`)({
+  width: "50px",
+  height: "30px",
+  // backgroundColor: "pink",
+  borderRadius: "20%",
+  animation: "light 1s ease-in-out infinite",
+  "@keyframes light": {
+    "0%": { boxShadow: "0 0 10px 0px rgba(255, 0, 0, 0.5)" },
+    "50%": { boxShadow: "0 0 20px 5px rgba(255, 0, 0, 0.2)" },
+    "100%": { boxShadow: "0 0 10px 0px rgba(255, 0, 0, 0.5)" },
+  },
+});
+
+const EmptyPerson = styled(`div`)({
+  width: "60px",
+  height: "60px",
+  animation: "motion 0.3s linear 0s infinite alternate",
+  "@keyframes motion": {
+    "0%": { marginTop: "0px" },
+    "100%": { marginTop: "10px" },
+  },
+});
+
+const Success = styled(`div`)({
+  width: "300px",
+  position: "absolute",
+  fontSize: "100pt",
+  color: "red",
 });

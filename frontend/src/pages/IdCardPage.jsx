@@ -17,7 +17,7 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  title: "ID카드를 태그해서 밥을 받아보자",
+  title: "우리 팀 6명의 카드를 모두 태그하자!",
   number: 4,
 };
 
