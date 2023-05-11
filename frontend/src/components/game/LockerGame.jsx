@@ -17,7 +17,7 @@ const LockerGame = () => {
   const [correctPassword, setCorrectPassword] = useState("");
   const [shuffledKeypad, setShuffledKeypad] = useState([]);
 
-  const minigameClear = useSelector((state) => state.gameReducer.miniGameClear);
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
   const dispatch = useDispatch();
   // const gameData = {
   //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",

@@ -17,7 +17,7 @@ const AttendanceGame = () => {
     top: 162,
     left: 420,
   });
-  const minigameClear = useSelector((state) => state.gameReducer.miniGameClear);
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
 
   const dispatch = useDispatch();
   // const gameData = {
