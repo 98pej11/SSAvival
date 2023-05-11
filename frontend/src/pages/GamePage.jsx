@@ -65,23 +65,23 @@ const Comp = {
 };
 
 export default function GamePage() {
-  const [index, setIndex] = useState(0);
   const gameMode = useSelector((state) => state.gameMode);
   const dispatch = useDispatch();
-  const timerBombActive = useSelector(
-    (state) => state.gameReducer.timerBombActive
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
   );
+  const round = useSelector((state) => state.gameReducer.round);
+  const gameTitleData = useSelector((state) => state.gameReducer.gameTitleData);
   useEffect(() => {
     dispatch({ type: "SET_MINIGAME_START" });
   }, [dispatch]);
 
-  // 렌더링 후 timerBombActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 setTimerstart() 실행
+  // 렌더링 후 minigameActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 setTimerstart() 실행
   useEffect(() => {
     let timeoutId = null;
 
-    if (!timerBombActive && index < 7) {
+    if (!minigameActive && round < gameTitleData.length) {
       timeoutId = setTimeout(() => {
-        setIndex(index + 1);
         dispatch({ type: "SET_MINIGAME_START" });
       }, 3000);
     }
@@ -89,7 +89,7 @@ export default function GamePage() {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [dispatch, index, timerBombActive]);
+  }, [dispatch, gameTitleData, round, minigameActive]);
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
@@ -129,18 +129,18 @@ export default function GamePage() {
       <Box sx={container}>
         {gameMode === "single" ? (
           <Box sx={gameContainer}>
-            <TimerBomb timeLimit={10} />
-            {gameComps[index]}
+            <TimerBomb />
+            {gameComps[round - 1]}
           </Box>
         ) : (
           <Box sx={Comp}>
             <Box sx={gameContainer2}>
-              <TimerBomb timeLimit={10} />
-              {gameComps[index]}
+              <TimerBomb />
+              {gameComps[round - 1]}
             </Box>
             <Box sx={gameContainer2}>
-              <TimerBomb timeLimit={10} />
-              {gameComps[index]}
+              <TimerBomb />
+              {gameComps[round - 1]}
             </Box>
           </Box>
         )}

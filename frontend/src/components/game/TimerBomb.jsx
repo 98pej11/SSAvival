@@ -19,6 +19,7 @@ const TimerBomb = () => {
   const timerBombActive = useSelector(
     (state) => state.gameReducer.timerBombActive
   );
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
 
   const startTimeRef = useRef(Date.now());
 
@@ -53,10 +54,12 @@ const TimerBomb = () => {
 
     if (timerBombActive) {
       animationFrameId = requestAnimationFrame(updateTimer);
+    } else if (minigameClear) {
+      dispatch({ type: "UPDATE_SCORE", payload: timeLeft });
     }
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [dispatch, timerBombActive, timerBombLimit, timeLeft]);
+  }, [dispatch, minigameClear, timerBombActive, timerBombLimit, timeLeft]);
 
   return (
     <BarContainer>

@@ -33,11 +33,11 @@ export default function GitbashGame() {
   // }, []);
 
   //게임이 끝난 후 점수 반영
-  const score = 100;
-  const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
-  setTimeout(() => {
-    dispatch({ type: "UPDATE_SCORE", payload: score });
-  }, timeLimit * 1000);
+  // const score = 100;
+  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  // setTimeout(() => {
+  //   dispatch({ type: "UPDATE_SCORE", payload: score });
+  // }, timeLimit * 1000);
 
   // 순서대로 제시할 명령어 리스트
   const commandList = [
