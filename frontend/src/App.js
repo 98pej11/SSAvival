@@ -13,6 +13,7 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
+import ImagePlayer from "./components/game/ImagePlayer";
 
 const Pages = styled.div`
   position: relative;
@@ -44,8 +45,7 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/difference" element={<DifferencePage />} />
           <Route path="/remind" element={<RemindPage />} />
-          <Route path="/video" element={<VideoHandler />} />
-          */}
+           */}
         </Routes>
       </Pages>
     </BrowserRouter>
