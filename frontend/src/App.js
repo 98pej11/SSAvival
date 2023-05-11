@@ -44,6 +44,7 @@ function App() {
           <Route path="/difference" element={<DifferencePage />} />
           <Route path="/remind" element={<RemindPage />} />
           <Route path="/video" element={<VideoHandler />} />
+          */}
         </Routes>
       </Pages>
     </BrowserRouter>
