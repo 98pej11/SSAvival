@@ -35,6 +35,9 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+
+          <Route path="/video" element={<VideoHandler />} />
+          <Route path="/image" element={<ImagePlayer />} />
           {/* 
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/main" element={<MainPage />} />
