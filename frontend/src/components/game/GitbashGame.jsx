@@ -22,14 +22,14 @@ import game from "../../assets/game.png";
 export default function GitbashGame() {
   //게임이 마운트될 때 state 값에 변경
   const dispatch = useDispatch();
-  const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
-    bgPath: game,
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: game,
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   //게임이 끝난 후 점수 반영
   const score = 100;

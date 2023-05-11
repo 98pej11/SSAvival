@@ -5,11 +5,11 @@ import buttonLeave from "../../assets/game_attendance/button_leave.png";
 import buttonLeaveHover from "../../assets/game_attendance/button_leave_hover.png";
 import bannerAttendance from "../../assets/game_attendance/banner_attendance.png";
 import bannerClear from "../../assets/game_attendance/banner_clear.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AttendanceGame = () => {
   const buttonRunCount = 10;
-  const [minigameClear, setMinigameClear] = useState(false);
+  // const [minigameClear, setMinigameClear] = useState(false);
   const [buttonHover, setButtonHover] = useState(false);
   const [moveCount, setMoveCount] = useState(0);
 
@@ -17,16 +17,17 @@ const AttendanceGame = () => {
     top: 162,
     left: 420,
   });
+  const minigameClear = useSelector((state) => state.gameReducer.miniGameClear);
 
   const dispatch = useDispatch();
-  const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   const handleMouseEnter = () => {
     setButtonHover(true);
@@ -41,10 +42,10 @@ const AttendanceGame = () => {
         let movedTop = position.top;
         let movedLeft = position.left;
         while (
-          movedTop > position.top - 120 &&
-          movedTop < position.top + 120 &&
-          movedLeft > position.left - 120 &&
-          movedLeft < position.left + 120
+          movedTop > position.top - 130 &&
+          movedTop < position.top + 130 &&
+          movedLeft > position.left - 130 &&
+          movedLeft < position.left + 130
         ) {
           movedTop = Math.random() * 300;
           movedLeft = Math.random() * 500;
@@ -64,7 +65,7 @@ const AttendanceGame = () => {
 
   const handleClick = () => {
     if (moveCount === buttonRunCount) {
-      setMinigameClear(true);
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
     }
   };
 
@@ -109,8 +110,8 @@ const ButtonContainer = styled.div`
 `;
 
 const LeaveButtonImg = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   position: absolute;
   border: 5px solid red;
   cursor: pointer;

@@ -69,14 +69,14 @@ export default function GamePage() {
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
+    <LockerGame key="LockerGame" />,
+    <AttendanceGame key="AttendanceGame" />,
     <GitbashGame key="GitbashGame" />,
     <TypoGame key="TypoGame" />,
     <TissueGame key="TissueGame" />,
     <RemindGame key="RemindGame" />,
     <ElevatorGame key="ElevatorGame" />,
     <EmojiComp key="EmojiComp" />,
-    <LockerGame key="LockerGame" />,
-    <AttendanceGame key="AttendanceGame" />,
   ];
 
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
