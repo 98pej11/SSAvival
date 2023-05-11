@@ -1,3 +1,5 @@
+import { SET_TIMER_EXPIRED, SET_TIMER_START } from "../actions/TimerAction";
+
 const initialState = {
   remindAnswer: "",
   remindWordList: [],
@@ -9,7 +11,11 @@ const initialState = {
   totalTimeLimit: 120,
   nextComp: false,
   count: 0,
+  timerBombLimit: 0,
+  timerBombActive: false,
   gameMode: "single",
+  selectedEmojiIndex: null,
+  emojiResult: "false",
 };
 function gameReducer(state = initialState, action = {}) {
   const { type, payload } = action;
@@ -29,6 +35,7 @@ function gameReducer(state = initialState, action = {}) {
         bgPath: payload.bgPath,
         round: state.round + 1,
       };
+
     case "UPDATE_SCORE":
       return { ...state, totalScore: state.totalScore + payload };
     case "TIME_OVER":
@@ -37,6 +44,22 @@ function gameReducer(state = initialState, action = {}) {
       return { ...state, count: payload.count + 1 };
     case "SET_GAME_MODE":
       return { ...state, gameMode: payload.gameMode };
+    case SET_TIMER_START:
+      return { ...state, timerBombActive: true, timerBombLimit: 10 };
+    case SET_TIMER_EXPIRED:
+      return { ...state, timerBombActive: false, timerBombLimit: 0 };
+    case "SET_EMOJI_INDEX":
+      console.log(payload);
+      return {
+        ...state,
+        selectedEmojiIndex: payload,
+      };
+    case "SET_EMOJI_RESULT":
+      console.log(payload);
+      return {
+        ...state,
+        emojiResult: payload,
+      };
     default:
       return { ...state };
   }
