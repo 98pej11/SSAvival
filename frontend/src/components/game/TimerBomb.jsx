@@ -5,7 +5,6 @@ import bombIdle from "../../assets/timer/bomb_idle.png";
 import bombBoom from "../../assets/timer/bomb_boom.png";
 import bombRed from "../../assets/timer/bomb_red.png";
 import { useDispatch, useSelector } from "react-redux";
-import { setTimerExpired } from "../../redux/actions/TimerAction";
 
 const TimerBomb = () => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -45,7 +44,7 @@ const TimerBomb = () => {
       setProgress(newProgress.toFixed(2));
 
       if (newTimeLeft === 0) {
-        dispatch(setTimerExpired(true));
+        dispatch({ type: "SET_TIME_OVER" });
         return;
       }
 

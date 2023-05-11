@@ -6,7 +6,6 @@ import GitbashGame from "../components/game/GitbashGame";
 import TypoGame from "../components/game/TypoGame";
 import { store } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setTimerStart } from "../redux/actions/TimerAction";
 import TimerBomb from "../components/game/TimerBomb";
 import TissueGame from "../components/game/TissueGame";
 import ElevatorGame from "../components/game/ElevatorGame";
@@ -49,7 +48,7 @@ export default function GamePage() {
     (state) => state.gameReducer.timerBombActive
   );
   useEffect(() => {
-    dispatch(setTimerStart());
+    dispatch({ type: "SET_MINIGAME_START" });
   }, [dispatch]);
 
   // 렌더링 후 timerBombActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 setTimerstart() 실행
@@ -59,7 +58,7 @@ export default function GamePage() {
     if (!timerBombActive && index < 7) {
       timeoutId = setTimeout(() => {
         setIndex(index + 1);
-        dispatch(setTimerStart());
+        dispatch({ type: "SET_MINIGAME_START" });
       }, 3000);
     }
 
