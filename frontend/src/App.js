@@ -6,6 +6,7 @@ import StartPage from "./pages/StartPage";
 import MainPage from "./pages/MainPage";
 import EmojiPage from "./pages/EmojiPage";
 import ElevatorPage from "./pages/ElevatorPage";
+import TissuePage from "./pages/TissuePage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
@@ -31,6 +32,7 @@ function App() {
           <Route path="/main" element={<MainPage />} />
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
+          <Route path="/tissue" element={<TissuePage />} />
           {/* 
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/main" element={<MainPage />} />
