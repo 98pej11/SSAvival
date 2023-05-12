@@ -114,6 +114,7 @@ export default function GamePage() {
   //   }, timeLimit * 1000);
   // }
   // console.log(timeLimit);
+  // console.log(timeLimit);
 
   return (
     <Box
