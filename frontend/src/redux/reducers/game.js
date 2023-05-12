@@ -16,7 +16,7 @@ const initialState = {
   ],
   gameBgPathData: ["", "", monitor, desk, "", "", "", "", "", "", ""],
   remindAnswer: "",
-  remindWordList: ["치즈", "토핑", "소스", "도우", "올리브"],
+  remindWordList: ["치즈", "올리브", "소스", "도우", "올리브"],
   round: 0,
   title: null,
   pageBg: null,
