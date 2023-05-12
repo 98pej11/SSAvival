@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchQuizImage } from "../../redux/actions/DifferenceGameAction";
 import WrongMarker from "../../assets/game_difference/Wrong.png";
 import CorrectMarker from "../../assets/game_difference/Correct.png";
 import FoundMarker from "../../assets/game_difference/Found.png";
@@ -17,28 +18,18 @@ const DifferenceGame = () => {
   const minigameActive = useSelector(
     (state) => state.gameReducer.minigameActive
   );
-  const [pointsCenter, setPointsCenter] = useState([[0, 0, 0]]);
-  const [quizImgSize, setQuizImgSize] = useState({ width: 600, height: 400 });
-  const [quizImgUrl, setQuizImgUrl] = useState({ left: "", right: "" });
+  const pointsCenter = useSelector((state) => state.gameReducer.pointsCenter);
+  const quizImgSize = useSelector((state) => state.gameReducer.quizImgSize);
+  const quizImgUrl = useSelector((state) => state.gameReducer.quizImgUrl);
   useEffect(() => {
-    async function fetchQuizImage() {
-      const response = await fetch(
-        "http://127.0.0.1:5000/game/difference/get-next-quiz"
-      );
-      const data = await response.json();
-      setPointsCenter(data.pts);
-      setQuizImgSize({ width: data.width, height: data.height });
-      setQuizImgUrl({ left: data.quizImgLeftUrl, right: data.quizImgRightUrl });
-    }
-    fetchQuizImage();
-  }, []);
+    dispatch(fetchQuizImage());
+  }, [dispatch]);
 
   const handleBoxClick = (e, side) => {
     // 더블클릭이 될 경우 클릭 이벤트의 target 요소가 div가 아닌 img로 바뀌는데, 이 경우에는 입력을 무시하도록 함
-    if (e.target.tagName === "IMG" || minigameClear) {
+    if (e.target.tagName === "IMG" || !minigameActive) {
       return;
     }
-
     const rect = e.target.getBoundingClientRect();
 
     let flag = false;
@@ -61,15 +52,14 @@ const DifferenceGame = () => {
     if (flag) {
       setClickedWrong({ x: -1, y: -1, side: "" }); // 정답을 찾은 경우 : 오답 마커 숨김
       if (correctInfo + 1 >= clearCount) {
-        if (minigameActive) {
-          dispatch({ type: "SET_MINIGAME_CLEAR" });
-        }
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
       }
       setCorrectInfo((prev) => prev + 1);
     } else {
       setClickedWrong({ x, y, side: side }); // 오답인 경우 : 오답 마커 표시
     }
-    setPointsCenter(newPoints); // setState() 함수를 사용하지 않고 직접 수정하면, 마찬가지로 리 렌더링이 안 됨!
+    dispatch({ type: "UPDATE_POINTS_CENTER", payload: newPoints });
+    // setPointsCenter(newPoints); // setState() 함수를 사용하지 않고 직접 수정하면, 마찬가지로 리 렌더링이 안 됨!
   };
 
   return (

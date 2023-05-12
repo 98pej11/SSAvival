@@ -45,12 +45,10 @@ function App() {
           <Route path="/video" element={<VideoHandler />} />
           {/* <Route path="/image" element={<ImagePlayer />} /> */}
 
-          {/* 
-          <Route path="/locker" element={<LockerPage />} />
-          <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/difference" element={<DifferencePage />} />
-          <Route path="/remind" element={<RemindPage />} />
-          */}
+          {/* <Route path="/locker" element={<LockerPage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/remind" element={<RemindPage />} /> */}
         </Routes>
       </Pages>
     </BrowserRouter>
