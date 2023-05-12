@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import WrongMarker from "../../assets/game_difference/Wrong.png";
 import CorrectMarker from "../../assets/game_difference/Correct.png";
 import FoundMarker from "../../assets/game_difference/Found.png";
 import NotFoundMarker from "../../assets/game_difference/NotFound.png";
 
 const DifferenceGame = () => {
-  const maxDistance = 30 * 30; // 정답으로 인정할 최대 거리 간격, 가로세로 30px\
+  const dispatch = useDispatch();
+  const maxDistance = 30 * 30; // 정답으로 인정할 최대 거리 간격, 가로세로 30px
   const clearCount = 3;
   const [clickedWrong, setClickedWrong] = useState({ x: -1, y: -1, side: "" });
   const [correctInfo, setCorrectInfo] = useState(0);
-  const [minigameClear, setMinigameClear] = useState(false);
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
   const [pointsCenter, setPointsCenter] = useState([[0, 0, 0]]);
   const [quizImgSize, setQuizImgSize] = useState({ width: 600, height: 400 });
   const [quizImgUrl, setQuizImgUrl] = useState({ left: "", right: "" });
@@ -56,7 +61,9 @@ const DifferenceGame = () => {
     if (flag) {
       setClickedWrong({ x: -1, y: -1, side: "" }); // 정답을 찾은 경우 : 오답 마커 숨김
       if (correctInfo + 1 >= clearCount) {
-        setMinigameClear(true);
+        if (minigameActive) {
+          dispatch({ type: "SET_MINIGAME_CLEAR" });
+        }
       }
       setCorrectInfo((prev) => prev + 1);
     } else {
