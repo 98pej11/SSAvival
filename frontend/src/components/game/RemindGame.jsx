@@ -121,6 +121,18 @@ export default function RemindGame() {
     console.log(wordList);
     let currentIndex = 0;
     setCurrentWords([]); // Clear the currentWords state initially
+    const intervalId = setInterval(() => {
+      console.log(currentIndex);
+      if (currentIndex < wordList.length) {
+        setCurrentWords((currentWords) => [
+          ...currentWords,
+          wordList[currentIndex],
+        ]);
+        currentIndex += 1;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 1500);
 
     if (wordList.length > 0) {
       setCurrentWords((currentWords) => [...currentWords, wordList[0]]); // Add the first word immediately
