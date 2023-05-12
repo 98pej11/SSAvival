@@ -153,9 +153,9 @@ export default function GamePage() {
   let blobs = [];
   const [blobArray, setBlobArray] = useState([]);
 
-  useEffect(() => {
-    saveBlobs(blobArray);
-  }, [flag]);
+  // useEffect(() => {
+  //   saveBlobs(blobArray);
+  // }, [flag]);
 
   const onCapture = () => {
     console.log("onCapture");
