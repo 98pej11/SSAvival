@@ -161,7 +161,7 @@ export default function GameComp(props) {
       }}
     >
       <TimerBomb timeLimit={10} />
-      <canvas
+      {/* <canvas
         id="canvas"
         style={{
           position: "absolute",
@@ -170,7 +170,7 @@ export default function GameComp(props) {
           height: "500px",
           backgroundColor: "green",
         }}
-      />
+      /> */}
       {children}
       {/* <button onClick={startRecording}>녹화 시작</button>
       <button onClick={stopRecording}>녹화 종료</button> */}
