@@ -29,6 +29,7 @@ function App() {
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
+
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
           {/* 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/difference" element={<DifferencePage />} />
           <Route path="/remind" element={<RemindPage />} />
           <Route path="/video" element={<VideoHandler />} />
+          <Route path="/image" element={<ImagePlayer />} />
           */}
         </Routes>
       </Pages>

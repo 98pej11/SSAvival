@@ -1,6 +1,5 @@
 import monitor from "../../assets/game_gitbash/monitor.png";
 import desk from "../../assets/game_typo/desk.png";
-// import { SET_TIMER_EXPIRED, SET_TIMER_START } from "../actions/TimerAction";
 const initialState = {
   gameTitleData: [
     "사물함을 열어서 책을 꺼내자",
@@ -17,7 +16,8 @@ const initialState = {
   remindWordList: [],
   round: 0,
   title: null,
-  bgPath: null,
+  pageBg: null,
+  gameContainerBg: null,
   totalScore: 0,
   nextComp: false,
   count: 0,
@@ -48,7 +48,8 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         title: state.gameTitleData[state.round],
-        bgPath: state.gameBgPathData[state.round],
+        pageBg: state.gameBgPathData[state.round],
+        // gameContainerBgg : state.???
         round: state.round + 1,
         timerBombActive: true,
         timerBombLimit: 10,
@@ -76,8 +77,6 @@ function gameReducer(state = initialState, action = {}) {
         ...state,
         totalScore: state.totalScore + Math.ceil(payload / 20),
       };
-    // case SET_TIMER_EXPIRED:
-    //   return { ...state, timerBombActive: false, timerBombLimit: 0 };
     case "SET_EMOJI_INDEX":
       console.log(payload);
       return {
