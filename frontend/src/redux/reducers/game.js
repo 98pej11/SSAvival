@@ -73,9 +73,10 @@ function gameReducer(state = initialState, action = {}) {
         minigameActive: false,
       };
     case "UPDATE_SCORE":
+      console.log(payload);
       return {
         ...state,
-        totalScore: state.totalScore + Math.ceil(payload / 20),
+        totalScore: state.totalScore + Math.ceil(payload / 10),
       };
     case "SET_EMOJI_INDEX":
       console.log(payload);
