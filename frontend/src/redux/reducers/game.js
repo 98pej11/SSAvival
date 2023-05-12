@@ -2,7 +2,7 @@ import { SET_TIMER_EXPIRED, SET_TIMER_START } from "../actions/TimerAction";
 
 const initialState = {
   remindAnswer: "",
-  remindWordList: [],
+  remindWordList: ["치즈", "토핑", "소스", "도우", "올리브"],
   round: 0,
   title: null,
   timeLimit: 0,
