@@ -15,8 +15,11 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
-import ImagePlayer from "./components/game/ImagePlayer";
 
+import IdCardPage from "./pages/IdCardPage";
+import SeatPage from "./pages/SeatPage";
+import TestPage from "./pages/TestPage";
+import PuzzlePage from "./pages/PuzzlePage";
 const Pages = styled.div`
   position: relative;
 `;
@@ -38,16 +41,11 @@ function App() {
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
           <Route path="/video" element={<VideoHandler />} />
-          <Route path="/image" element={<ImagePlayer />} />
+          {/* <Route path="/image" element={<ImagePlayer />} /> */}
           <Route path="/remind" element={<RemindPage />} />
           {/* 
-          <Route path="/emoji" element={<EmojiPage />} />
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/user/kakao/check" element={<KakaoLogin />} />
-          <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
-          <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/difference" element={<DifferencePage />} />
       
            */}
