@@ -8,6 +8,7 @@ const initialState = {
   timeLimit: 0,
   pageBg: null,
   gameContainerBg: null,
+  score:0,
   totalScore: 0,
   totalTimeLimit: 120,
   nextComp: false,

@@ -14,6 +14,7 @@ import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
 import ImagePlayer from "./components/game/ImagePlayer";
+import Interval from "./components/game/Interval";
 
 const Pages = styled.div`
   position: relative;
@@ -35,6 +36,7 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+          <Route path="/interval" element={<Interval />} />
 
           <Route path="/video" element={<VideoHandler />} />
           <Route path="/image" element={<ImagePlayer />} />

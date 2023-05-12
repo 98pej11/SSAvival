@@ -17,6 +17,7 @@ import AttendanceGame from "../components/game/AttendanceGame";
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
 import ImagePlayer from "../components/game/ImagePlayer";
+import Interval from "../components/game/Interval";
 
 const container = {
   display: "flex",
