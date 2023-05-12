@@ -53,7 +53,7 @@ export default function LoginPage() {
     navigationElements += `<button className="NavigationBubble index-${index}" onclick='setActive(${index})' />`;
   });
   if (characterElement !== null) {
-    characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
+    // characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
   }
 
   // document
@@ -64,7 +64,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (elementRef.current) {
-      elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
+      // elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
     }
   }, []);
 
@@ -154,8 +154,6 @@ export default function LoginPage() {
       this.size = Math.random() * 12;
       this.time = Math.random() * 8;
 
-      // const background = document.getElementById("main");
-      // background.appendChild(starDiv);
       const starDiv = document.createElement("div");
       starDiv.className = "star";
 
@@ -167,6 +165,8 @@ export default function LoginPage() {
       starDiv.style.backgroundColor = "white";
       starDiv.style.filter = "blur(5px)";
       starDiv.style.animation = `blink ${this.time}s steps(5) infinite`;
+      const background = document.getElementById("main");
+      background.appendChild(starDiv);
     }
   }
 
@@ -195,6 +195,7 @@ export default function LoginPage() {
           alignItems: "center",
           // marginTop: "10%",
         }}
+        id="main"
       >
         <div className="Container" ref={mainRef}>
           <img

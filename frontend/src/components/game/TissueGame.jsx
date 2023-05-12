@@ -4,7 +4,7 @@ import countbox from "../../assets/countbox.png";
 import { useDispatch } from "react-redux";
 
 const imageStyle = {
-  position: "relative",
+  // position: "relative",
   // left: "36%",
   // width: "100%",
   height: "auto",
@@ -13,7 +13,7 @@ const imageStyle = {
 
 const image1Style = {
   // top: "310px",
-  width: "100px",
+  width: "300px",
   position: "relative",
   zIndex: 99,
   // alignSelf: "center",
@@ -23,15 +23,15 @@ const image2Style = {
   zIndex: 100,
   // top: "150px",
   // left: "36% ",
-  width: "100px",
+  width: "300px",
   position: "relative",
   // alignSelf: "center",
 };
 
 const image3Style = {
   position: "relative",
-  // top: "520px",
-  width: "100px",
+  // top: "300px",
+  width: "300px",
   zIndex: 99,
 };
 
@@ -157,11 +157,13 @@ export default function TissueGame() {
       )}
 
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={
+          {
+            // display: "flex",
+            // justifyContent: "center",
+            // alignItems: "center",
+          }
+        }
       >
         <img
           src="고양이_휴지곽_뒷면.png"
