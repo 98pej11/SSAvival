@@ -2,7 +2,6 @@ import monitor from "../../assets/game_gitbash/monitor.png";
 import desk from "../../assets/game_typo/desk.png";
 const initialState = {
   gameTitleData: [
-    "틀린그림찾기 테스트",
     "사물함을 열어서 책을 꺼내자",
     "어떻게든 퇴실버튼을 누르자",
     "제한 시간 내 주어진 명령어를 모두 입력하라",
@@ -14,8 +13,9 @@ const initialState = {
     "윤주꺼 1",
     "윤주꺼 2",
     "윤주꺼 3",
+    "틀린그림찾기 테스트",
   ],
-  gameBgPathData: ["", "", "", monitor, desk, "", "", "", "", "", "", ""],
+  gameBgPathData: ["", "", monitor, desk, "", "", "", "", "", "", "", ""],
   remindAnswer: "",
   remindWordList: ["빵", "패티", "양배추", "치즈", "토마토"],
   round: 0,
