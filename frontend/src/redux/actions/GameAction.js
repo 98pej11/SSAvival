@@ -48,7 +48,21 @@ function gameDone(inputs) {
   };
 }
 
+function gameStart(userId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${baseUrl}/game/start/${userId}`);
+      console.log("게임 스따뚜");
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export const GameAction = {
   getRemindAnswer,
   gameDone,
+  gameStart,
 };

@@ -5,6 +5,7 @@ import com.oguogu.m59s.entity.GameImage;
 import com.oguogu.m59s.entity.MiniGame;
 import com.oguogu.m59s.entity.MiniGameDetail;
 import com.oguogu.m59s.model.dto.*;
+import com.oguogu.m59s.model.dto.GameDto;
 import com.oguogu.m59s.repository.GameImageRepository;
 import com.oguogu.m59s.repository.GameRepository;
 import com.oguogu.m59s.repository.MiniGameDetailRepository;
@@ -52,7 +53,6 @@ public class GameServiceImpl implements GameService{
         }
         System.out.println("bbbbbbbbbbbb");
         List<GameDto> gameDtoList = new ArrayList<>();
-        //정렬안됐음 정렬 sort로 안될둣 훅훅
         gameList.sort(null);
         for (Game game : gameList) {
             GameDto dto = game.toDto();
@@ -60,7 +60,17 @@ public class GameServiceImpl implements GameService{
         }
         return gameDtoList;
     }
+    @Override
+    public List<GameImageDto> listGameImage(long miniGameId) {
+        List<GameImage> gameImageList = gameImageRepository.findAllByMiniGameId(miniGameId);
+        List<GameImageDto> gameImageDtoList = new ArrayList<>();
+        for(GameImage gameImage : gameImageList){
+            GameImageDto gameImageDto = gameImage.toDto();
+            gameImageDtoList.add(gameImageDto);
+        }
 
+        return gameImageDtoList;
+    }
     @Override
     public long findGameLastIndex() {
         List<Game> list = gameRepository.findAll();
@@ -80,5 +90,15 @@ public class GameServiceImpl implements GameService{
     @Override
     public void saveMiniGame(MiniGameDto miniGameDto) {
         miniGameRepository.save(miniGameDto.toEntity());
+    }
+
+    @Override
+    public void saveGame(GameDto gameDto) {
+        gameRepository.save(gameDto.toEntitiy());
+    }
+
+    @Override
+    public void updateGame(GameDto gameDto) {
+        gameRepository.save(gameDto.toEntitiy());
     }
 }

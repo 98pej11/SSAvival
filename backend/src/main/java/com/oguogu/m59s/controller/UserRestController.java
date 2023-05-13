@@ -34,6 +34,15 @@ public class UserRestController {
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/main/find/{email}")
+    public ResponseEntity<Map<String, Object>> userDetailByEmail (@PathVariable String email){
+        Map<String, Object> resultMap = new HashMap<>();
+        UserDto userDto = userService.findUserByEmail(email);
+        resultMap.put("result",SUCCESS);
+        resultMap.put("user",userDto);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/main/ranking")
     public ResponseEntity<Map<String, Object>> userList(){
         List<UserDto> userDtoList = userService.listUser();
@@ -42,4 +51,5 @@ public class UserRestController {
         resultMap.put("userList",userDtoList);
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
+
 }

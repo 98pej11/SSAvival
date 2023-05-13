@@ -4,6 +4,7 @@ import com.oguogu.m59s.entity.GameImage;
 import lombok.*;
 
 import javax.persistence.Column;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -16,6 +17,7 @@ public class GameImageDto {
     private long gameImageId;
     private int round;
     private String imageUrl;
+    private Date createdTime;
     private long miniGameId;
 
     public GameImage toEntity() {
@@ -23,6 +25,7 @@ public class GameImageDto {
                 .gameImageId(gameImageId)
                 .round(round)
                 .imageUrl(imageUrl)
+                .createdTime(createdTime)
                 .miniGameId(miniGameId)
                 .build();
         return gameImage;
