@@ -6,7 +6,11 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Seating() {
   const dispatch = useDispatch();
+
+  // 정답 개수 카운트
   const [count, setCount] = useState(0);
+  // 성공 메세지 플래그
+  const [showSuccess, setShowSuccess] = useState(false);
   const [seats, setSeats] = useState([]);
 
   // 미니게임 클리어 여부
@@ -74,9 +78,6 @@ export default function Seating() {
     items24: [],
   });
 
-  // 성공 메세지 플래그
-  const [showSuccess, setShowSuccess] = useState(false);
-
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -116,6 +117,7 @@ export default function Seating() {
       setCount(count + 1);
     }
   };
+  // 성공 표시 함수
   useEffect(() => {
     if (showSuccess) {
       setTimeout(() => {
@@ -166,7 +168,7 @@ export default function Seating() {
         style={{
           userSelect: "none",
           width: "100%",
-          height: "600px",
+          height: "100%",
           backgroundColor: "white",
           display: "flex",
           backgroundImage: `url(${"floor.png"})`,
