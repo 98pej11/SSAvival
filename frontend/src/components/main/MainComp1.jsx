@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
 import happy_pepe2 from "../../assets/happy_pepe2.png";
+import { GameAction } from "../../redux/actions/GameAction";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
@@ -50,6 +51,16 @@ export default function MainComp1() {
 
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
+    dispatch(GameAction.getRemindAnswer("음식"));
+    dispatch(GameAction.gameStart(localStorage.getItem("userId")))
+    .then((res) => {
+      console.log("여기야아");
+      console.log("여기야아");
+      console.log("여기야아");
+      console.log("여기야아");
+      console.log(res);
+      localStorage.setItem("gameId", res.data.gameId);
+    });
     navigate("/game"); // /game 경로로 이동
   };
 
