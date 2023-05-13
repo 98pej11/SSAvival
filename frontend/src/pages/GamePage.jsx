@@ -133,7 +133,6 @@ export default function GamePage() {
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
-    <DifferenceGame key="DifferenceGame" />,
     <LockerGame key="LockerGame" />,
     <AttendanceGame key="AttendanceGame" />,
     <GitbashGame key="GitbashGame" />,
@@ -144,6 +143,7 @@ export default function GamePage() {
     <Puzzle key="Puzzle" />,
     <Seating key="Seating" />,
     <IdCard key="Idcard" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
