@@ -181,9 +181,6 @@ export default function Puzzle() {
     items7: false,
     items8: false,
     items9: false,
-    // items10: false,
-    // items11: false,
-    // items12: false,
   });
 
   // check 값 변경하는 함수
