@@ -25,7 +25,8 @@ const WholeBox = styled.div`
 const InputBox = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px;
+  margin-top: 20px;
+  padding: 12px;
   border: 1px solid #bcb6ff;
   border-radius: ${(props) =>
     props.isHaveInputValue ? activeBorderRadius : inactiveBorderRadius};
@@ -42,10 +43,11 @@ const Input = styled.input`
   margin: 0;
   padding: 0;
   background-color: transparent;
+  font-family: "neodgm";
   color: black;
   border: none;
   outline: none;
-  color: #6c509f;
+  color: black;
   font-size: 14px;
 `;
 

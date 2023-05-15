@@ -12,8 +12,9 @@ import SearchBar from "./SearchBar";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
 import happy_pepe2 from "../../assets/happy_pepe2.png";
+import find from "../../assets/find.png";
 import { GameAction } from "../../redux/actions/GameAction";
-import Ranking from "./Ranking";
+import Ranking2 from "./Ranking2";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
@@ -55,6 +56,14 @@ const HoverBox = styled.div`
     transform: scale(1.2);
   }
 `;
+
+const RankingContainer = styled.div`
+  fontfamily: "neodgm";
+  width: 380px;
+  height: 300px;
+  margin: 10px auto;
+`;
+
 export default function MainComp1() {
   const gameMode = useSelector((state) => state.gameMode);
   const dispatch = useDispatch();
@@ -167,9 +176,16 @@ export default function MainComp1() {
             <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
           </Box>
           <Dialog open={open} onClose={handleClose}>
-            <DialogContent style={{ width: "500px" }}>
+            <DialogContent
+              style={{
+                width: "480px",
+                height: "auto",
+                backgroundImage: `url(${find})`, // Add your image path here
+                backgroundSize: "cover",
+              }}
+            >
               <SearchBar />
-              <Box sx={{ width: "100%" }}>
+              <Box>
                 <Tabs
                   value={value}
                   onChange={handleChange}
@@ -188,41 +204,37 @@ export default function MainComp1() {
               <SwipeableViews index={value} onChangeIndex={handleChange}>
                 <div role="tabpanel" hidden={value !== 0} id="tabpanel-0">
                   {value === 0 && (
-                    <div>
-                      <Ranking />
-                    </div>
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 1} id="tabpanel-1">
                   {value === 1 && (
-                    <div>
-                      {" "}
-                      <Ranking />
-                    </div>
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 2} id="tabpanel-2">
                   {value === 2 && (
-                    <div>
-                      {" "}
-                      <Ranking />
-                    </div>
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 3} id="tabpanel-3">
                   {value === 3 && (
-                    <div>
-                      {" "}
-                      <Ranking />
-                    </div>
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 4} id="tabpanel-4">
                   {value === 4 && (
-                    <div>
-                      {" "}
-                      <Ranking />
-                    </div>
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
                   )}
                 </div>
               </SwipeableViews>
