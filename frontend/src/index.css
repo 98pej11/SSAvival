@@ -1,26 +1,29 @@
 
 @font-face {
   font-family: 'neodgm';
-  src: url('/public/neodgm.ttf') format('truetype');
+  src: url('/public/fonts/neodgm.ttf') format('truetype');
 }
 
 .my-font {
   font-family: 'neodgm', sans-serif;
 }
 
-/* cursor for typo game */
-.typo {
-  position: relative;
-  cursor: url('/public/pencilCursor.png') 0 100, auto;
-}
-
 /* font for typo game */
 @font-face {
   font-family: 'ChosunSm';
-  src: url('/public/ChosunSm.TTF') format('woff');
+  src: url('/public/fonts/ChosunSm.TTF') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+
+/* font for score */
+@font-face {
+ font-family: 'ddalgi';
+ src: url('/public/fonts/ddalgi.ttf') format('woff');
+ font-weight: normal;
+ font-style: normal;
+}
+
 
 /* bounce effect */
 @keyframes bounce {
@@ -46,9 +49,34 @@
     opacity: 0;
   }
 }
-
 .blink {
   animation: blink-effect 1s step-end infinite;
+}
+
+/* flowing effect */
+@keyframes flowing {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 80%, 0);
+  }
+}
+.flow {
+  animation: flowing 1s ease-out infinite;
+}
+
+/* vibration effect */
+@keyframes vibration {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
+  }
+}
+.vibration {
+  animation: vibration 0.2s infinite;
 }
 
 /* git game 드래그 방지 */
@@ -57,4 +85,10 @@
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
- }
+}
+
+/* cursor for typo game */
+.typo {
+  position: relative;
+  cursor: url('/public/pencilCursor.png') 0 100, auto;
+}

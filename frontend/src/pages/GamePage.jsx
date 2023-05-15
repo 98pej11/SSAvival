@@ -16,12 +16,13 @@ import AttendanceGame from "../components/game/AttendanceGame";
 import Puzzle from "../components/game/PuzzleComp";
 import Seating from "../components/game/SeatComp";
 import IdCard from "../components/game/IdCardComp";
+import Interval from "../components/game/Interval";
+import classroom from "../assets/backgrounds/classroom.png";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
-import ImagePlayer from "../components/game/ImagePlayer";
-import Interval from "../components/game/Interval";
-import ImagePlayer from "../components/game/ImagePlayer";
+// import ImagePlayer from "../components/game/ImagePlayer";
+import confetti from "canvas-confetti";
 
 const container = {
   display: "flex",
@@ -29,33 +30,33 @@ const container = {
   marginTop: "1%",
   height: "100vh",
 };
-const gameContainer = {
+
+// const gameContainer = {
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "flex-start",
+//   flexWrap: "wrap",
+//   border: "none", // 테두리 없애기
+//   borderRadius: 10,
+//   boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+//   backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
+//   padding: 3,
+//   maxWidth: "70%", // 최대 너비 값 설정
+//   width: "100%",
+//   height: "72vh",
+//   overflow: "hidden",
+// };
+
+const gameContainer2 = {
   display: "flex",
   justifyContent: "center",
   alignItems: "flex-start",
   flexWrap: "wrap",
   border: "none", // 테두리 없애기
   borderRadius: 10,
-  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-  backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
-  padding: 3,
-  maxWidth: "70%", // 최대 너비 값 설정
-  width: "100%",
-  height: "72vh",
-  overflow: "hidden",
-};
-
-const gameContainer2 = {
-  display: "flex",
-  alignItems: "flex-start",
-  flexWrap: "wrap",
-  border: "none", // 테두리 없애기
-  borderRadius: 10,
-  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
   padding: 3,
   maxWidth: "40%", // 최대 너비 값 설정
   width: "100%",
-  height: "72vh",
   overflow: "hidden",
   marginRight: 10, //
 };
@@ -67,28 +68,48 @@ const Comp = {
 };
 
 export default function GamePage() {
-  const [inputs, setInputs] = useState({});
-  const gameMode = useSelector((state) => state.gameReducer.gameMode);
-  const pageBg = useSelector((state) => state.gameReducer.pageBg);
-  const gameContainerBg = useSelector(
-    (state) => state.gameReducer.gameContainerBg
-  );
-
   const dispatch = useDispatch();
+  const [inputs, setInputs] = useState({});
+
+  // 갈아끼울 게임 컴포넌트 리스트
+  const gameComps = [
+    <GitbashGame key="GitbashGame" />,
+    <LockerGame key="LockerGame" />,
+    <EmojiComp key="EmojiComp" />,
+    <TissueGame key="TissueGame" />,
+    <IdCard key="Idcard" />,
+    <Seating key="Seating" />,
+    <Puzzle key="Puzzle" />,
+    <TypoGame key="TypoGame" />,
+    <RemindGame key="RemindGame" />,
+    <AttendanceGame key="AttendanceGame" />,
+  ];
+
+  // redux에서 게임 정보 가져오기
+  const gameMode = useSelector((state) => state.gameReducer.gameMode);
+  const round = useSelector((state) => state.gameReducer.round);
+  const pageBg = useSelector((state) => state.gameReducer.pageBg);
+  const containerBg = useSelector((state) => state.gameReducer.containerBg);
   const minigameActive = useSelector(
     (state) => state.gameReducer.minigameActive
   );
-  const round = useSelector((state) => state.gameReducer.round);
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
   const gameTitleData = useSelector((state) => state.gameReducer.gameTitleData);
+  const interval = useSelector((state) => state.gameReducer.interval);
+  console.log("interval", interval);
+
+  // 게임 페이지 마운트되면 "SET_MINIGAME_START" dispatch 보내기
   useEffect(() => {
-    dispatch({ type: "SET_MINIGAME_START" });
+    dispatch({
+      type: "SET_MINIGAME_START",
+    });
   }, [dispatch]);
 
-  // 렌더링 후 minigameActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 SET MINIGAME START 실행
+  // 렌더링 후 minigameActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 "SET_MINIGAME_START" dispatch 보내기
   useEffect(() => {
     let timeoutId = null;
 
-    if (!minigameActive && round < gameTitleData.length) {
+    if (!minigameActive && round < gameComps.length) {
       timeoutId = setTimeout(() => {
         dispatch({ type: "SET_MINIGAME_START" });
       }, 3000);
@@ -131,21 +152,6 @@ export default function GamePage() {
   // }, [flag]);
 
   const canvasRef = useRef(null);
-
-  // 갈아끼울 게임 컴포넌트 리스트
-  const gameComps = [
-    <LockerGame key="LockerGame" />,
-    <AttendanceGame key="AttendanceGame" />,
-    <GitbashGame key="GitbashGame" />,
-    <TypoGame key="TypoGame" />,
-    <TissueGame key="TissueGame" />,
-    <RemindGame key="RemindGame" />,
-    <ElevatorGame key="ElevatorGame" />,
-    <EmojiComp key="EmojiComp" />,
-    <Puzzle key="Puzzle" />,
-    <Seating key="Seating" />,
-    <IdCard key="Idcard" />,
-  ];
 
   let blobArray = [];
 
@@ -228,33 +234,90 @@ export default function GamePage() {
     };
     dispatch(GameAction.gameDone(formData));
   };
+
+  // 정답을 맞추면 꽃가루 효과
+  function firework() {
+    var duration = 15 * 100;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 25, spread: 360, ticks: 100, zIndex: 0 }; //  startVelocity: 범위, spread: 방향, ticks: 갯수
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function () {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        })
+      );
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        })
+      );
+    }, 250);
+  }
+
+  useEffect(() => {
+    if (minigameClear) {
+      firework();
+    }
+  }, [minigameClear]);
+
   return (
     <Box
       style={{
-        backgroundImage: `url(${pageBg})`,
+        backgroundImage: interval ? `url(${classroom})` : `url(${pageBg})`,
         backgroundSize: "cover",
         position: "relative",
         width: "100%",
         height: "auto",
       }}
     >
+      {/* {interval ? <canvas position="absolute" ref={confettiRef} /> : ""} */}
       <Header />
       <Box sx={container}>
         {gameMode === "single" ? (
           <Box
             sx={{
-              ...gameContainer,
-              backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
-              backgroundImage: `url(${gameContainerBg})`,
+              ...gameContainer2,
+              boxShadow:
+                pageBg === "class_desk" || "laptop"
+                  ? "none"
+                  : "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+              backgroundColor:
+                pageBg === "class_desk" || "laptop"
+                  ? "none"
+                  : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
+
+              height: interval ? "80vh" : "80vh",
+              backgroundImage: interval ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           >
-            <TimerBomb />
-            <Box ref={canvasRef} id="gameContainer">
-              {gameComps[round - 1]}
-            </Box>
+            {interval ? (
+              <Interval />
+            ) : (
+              <Box>
+                <TimerBomb />
+                <Box ref={canvasRef} id="gameContainer">
+                  {gameComps[round - 1]}
+                </Box>
+              </Box>
+            )}
           </Box>
         ) : (
           <Box sx={Comp}>
@@ -265,14 +328,22 @@ export default function GamePage() {
             <Box
               sx={{
                 ...gameContainer2,
-                backgroundImage: `url(${gameContainerBg})`,
+                backgroundImage: interval ? "" : `url(${containerBg})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
               }}
             >
-              <TimerBomb />
-              {gameComps[round - 1]}
+              {interval ? (
+                <Interval />
+              ) : (
+                <Box>
+                  <TimerBomb />
+                  <Box ref={canvasRef} id="gameContainer">
+                    {gameComps[round - 1]}
+                  </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         )}

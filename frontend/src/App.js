@@ -14,7 +14,7 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
-import ImagePlayer from "./components/game/ImagePlayer";
+// import ImagePlayer from "./components/game/ImagePlayer";
 import Interval from "./components/game/Interval";
 
 import IdCardPage from "./pages/IdCardPage";
@@ -48,9 +48,9 @@ function App() {
           <Route path="/id-card" element={<IdCardPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/video" element={<VideoHandler />} />
-          {/* <Route path="/image" element={<ImagePlayer />} /> */}
 
           {/* 
+          <Route path="/image" element={<ImagePlayer />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/difference" element={<DifferencePage />} />
