@@ -20,6 +20,7 @@ import DifferenceGame from "../components/game/DifferenceGame";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
+import { Score } from "@mui/icons-material";
 // import ImagePlayer from "../components/game/ImagePlayer";
 
 const container = {
@@ -72,6 +73,25 @@ export default function GamePage() {
   const gameContainerBg = useSelector(
     (state) => state.gameReducer.gameContainerBg
   );
+  const [finalData, setFinalData] = useState({
+    gameId: "",
+    totalScore: "",
+    gameDate: "", //현재 시간
+    userId: "",
+  });
+
+  const onClickFinal = () => {
+    setFinalData({
+      gameId: localStorage.getItem("gameId"),
+      totalScore: totalScore,
+      gameDate: Date.now(), //현재 시간
+      userId: localStorage.getItem("userId"),
+    });
+  };
+  useEffect(() => {
+    console.log("setGameDone");
+    dispatch(GameAction.setGameDone(finalData));
+  }, [finalData]);
 
   const dispatch = useDispatch();
   const minigameActive = useSelector(
@@ -105,22 +125,30 @@ export default function GamePage() {
   }, [inputs]);
 
   // const [formDataArray, setFormDataArray] = useState([]);
-  // const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(false);
 
-  // useEffect(() => {
-  //   if (gameMode === "single") {
-  //     let count = 0;
-  //     let interval = setInterval(() => {
-  //       onCapture();
-  //       count++;
-  //       //20장 캡쳐완료 시
-  //       if (count % 20 === 0) {
-  //         clearInterval(interval);
-  //         setTimeout(() => {}, 3000); //3초 대기
-  //       }
-  //     }, 500);
-  //   }
-  // }, [index]);
+  useEffect(() => {
+    console.log("ROUND ", round);
+
+    if (round != 0) {
+      if (gameMode === "single") {
+        let count = 0;
+        let interval = setInterval(() => {
+          if (!minigameClear) {
+            onCapture();
+            count++;
+          }
+          //20장 캡쳐완료 시
+          if (minigameClear || count % 20 === 0) {
+            console.log("CLLLLLLLLLLLLLLLLLLL");
+            clearInterval(interval);
+            setTimeout(() => {}, 3000); //3초 대기
+            return;
+          }
+        }, 500);
+      }
+    }
+  }, [round]);
 
   // useEffect(() => {
   //   if (flag) {
@@ -149,93 +177,93 @@ export default function GamePage() {
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
   // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
   const bgPath = useSelector((state) => state.gameReducer.bgPath);
+  const score = useSelector((state) => state.gameReducer.totalScore);
 
   let blobs = [];
+
   const [blobArray, setBlobArray] = useState([]);
+  const [totalScore, setTotalScore] = useState(0);
 
   // useEffect(() => {
   //   saveBlobs(blobArray);
   // }, [flag]);
 
+  useEffect(() => {
+    setTotalScore(totalScore + score);
+    console.log("TotalScore ", totalScore);
+  }, [score]);
+
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+  console.log("MINIGAMECLEAR", minigameClear);
+
   const onCapture = () => {
-    console.log("onCapture");
     html2canvas(document.getElementById("gameContainer")).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
-        // console.log(blob);
         blobs.push(blob);
-        // setBlobArray((prevBlobArray) => [...prevBlobArray, blob]);
-        //게임 끝나는 조건 추가해야함
-        if (blobArray.length === 20) {
+        console.log("onCapture", blobs.length, blob);
+        //이미지 20장 찍거나 게임 클리어했을 경우
+        if (blobs.length === 20 || minigameClear) {
+          console.log("EEEEEEEEEEEEEEEND");
           //점수, 시간, 아이디 저장
-          setInputs({
-            miniGameDetailId: round + 1,
-            clearTime: "",
-            score: 0,
-            gameId: 0, //게임 시작 api에서 받아서 가져올 부분
-          });
           setBlobArray(blobs);
+          setInputs({
+            miniGameDetailId: round,
+            clearTime: "",
+            score: score,
+            gameId: localStorage.getItem("gameId"), //게임 시작 api에서 받아서 가져올 부분
+            createdTime: new Date()
+              .toISOString()
+              .slice(0, 19)
+              .replace("T", " "),
+          });
+          setFlag(true);
+          // setBlobArray(blobs);
+          // saveBlobs(blobs)
         }
       }, "image/png");
     });
   };
 
-  const saveBlobs = (blobs) => {
+  useEffect(() => {
+    if (inputs.length != 0 && flag) {
+      console.log("SAVE");
+      console.log("BLOB ARRAY", blobArray);
+
+      saveBlobs();
+    }
+  }, [inputs, flag]);
+
+  const saveBlobs = () => {
     console.log("save blobs");
     const formData = new FormData();
-    console.log(blobs.length);
-
-    for (let i = 0; i < blobs.length; i++) {
-      formData.append("gameImages", blobs[i], `image${i}.png`);
+    console.log(blobArray);
+    for (let i = 0; i < blobArray.length; i++) {
+      formData.append("gameImages", blobArray[i], `image${i}.png`);
     }
 
     //inputs를 blob형태로 변경
-    const json = JSON.stringify(round);
+    const json = JSON.stringify(inputs);
     const blob = new Blob([json], { type: "application/json" });
     formData.append("miniGame", blob);
-    let blobArray = [];
 
-    const onCapture = () => {
-      console.log("onCapture");
-      html2canvas(document.getElementById("gameContainer")).then((canvas) => {
-        // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
-        canvas.toBlob((blob) => {
-          console.log(blob);
-          blobArray.push(blob);
-          console.log("blobArray 길이 1", blobArray.length);
-          //게임 끝나는 조건 추가해야함
-          if (blobArray.length === 20) {
-            //점수, 시간, 아이디 저장
-            console.log("blobArray 길이 2", blobArray.length);
-            setInputs({
-              miniGameDetailId: round + 1,
-              clearTime: "",
-              score: 0,
-              gameId: 0, //게임 시작 api에서 받아서 가져올 부분
-            });
-            saveBlobs(blobArray);
-          }
-        }, "image/png");
-      });
-    };
-
-    const saveBlobs = (blobs) => {
-      console.log("save blobs");
-      const formData = new FormData();
-      console.log(blobs.length);
-      for (let i = 0; i < blobs.length; i++) {
-        formData.append("gameImages", blobs[i], `image${i}.png`);
-      }
-
-      //inputs를 blob형태로 변경
-      const json = JSON.stringify(inputs);
-      const blob = new Blob([json], { type: "application/json" });
-      formData.append("miniGame", blob);
-
-      dispatch(GameAction.gameDone(formData));
-    };
     dispatch(GameAction.gameDone(formData));
   };
+
+  const images = useSelector((state) => state.gameReducer.gameRecord);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 500);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [images]);
+
   return (
     <Box
       style={{
@@ -267,8 +295,7 @@ export default function GamePage() {
         ) : (
           <Box sx={Comp}>
             <Box sx={gameContainer2}>
-              <TimerBomb />
-              {gameComps[round - 1]}
+              <img src={images[currentIndex].imageUrl} alt="Slider" />
             </Box>
             <Box
               sx={{
@@ -285,6 +312,8 @@ export default function GamePage() {
           </Box>
         )}
       </Box>
+      {/* 게임 정답 시 계산 */}
+      <button onClick={onClickFinal}>종료</button>
       {/* {gameMode === "single" ? (
         <Box
           sx={{
