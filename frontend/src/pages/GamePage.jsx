@@ -301,7 +301,7 @@ export default function GamePage() {
                   ? "none"
                   : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
 
-              height: interval ? "80vh" : "80vh",
+              height: interval ? "80vh" : "80vh", //원래 값 72vh인데 80으로 수정
               backgroundImage: interval ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
