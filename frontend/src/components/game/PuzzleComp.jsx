@@ -1,15 +1,26 @@
 import React, { useCallback, useEffect } from "react";
 import { useState, useMemo } from "react";
 import { useSpring, animated, Any } from "react-spring";
+import { useSelector, useDispatch } from "react-redux";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Puzzle() {
+  const dispatch = useDispatch();
+
   // 이미지
   const [images, setImages] = useState([]);
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
   // 성공 메세지 플래그
   const [showSuccess, setShowSuccess] = useState(false);
   // 성공 표시 함수
@@ -20,6 +31,20 @@ export default function Puzzle() {
       }, 500);
     }
   });
+
+  useEffect(() => {
+    if (count === 6) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
+
   // 퍼즐판
   useEffect(() => {
     const fetchImages = async () => {

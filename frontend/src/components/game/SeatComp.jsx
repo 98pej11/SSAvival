@@ -21,6 +21,19 @@ export default function Seating() {
     (state) => state.gameReducer.minigameActive
   );
 
+  useEffect(() => {
+    if (count === 6) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
+
   const selectIndex = (selectingNumber) => {
     let temp = Array.from({ length: 15 }, (v, i) => i);
 

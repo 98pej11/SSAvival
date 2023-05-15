@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSelector, useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import scoring from "../../assets/game_typo/scoring.gif";
@@ -16,17 +16,37 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 // import { useDrag } from "react-use-gesture";
 
 export default function IdCard() {
+  const dispatch = useDispatch();
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
   // 성공 메세지 플래그
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+  useEffect(() => {
+    if (count === 6) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
   const [state, setState] = useState({
     items1: [
-      { id: "item1", imageUrl: idCard },
-      { id: "item2", imageUrl: "idCard2.svg" },
-      { id: "item3", imageUrl: idCard },
-      { id: "item4", imageUrl: "idCard2.svg" },
+      { id: "item1", imageUrl: "card1.png" },
+      { id: "item2", imageUrl: "card2.png" },
+      { id: "item3", imageUrl: "card3.png" },
+      { id: "item4", imageUrl: "card4.png" },
       // { id: "item5", imageUrl: idCard },
       // { id: "item6", imageUrl: "idCard2.svg" },
     ],
@@ -145,11 +165,13 @@ export default function IdCard() {
               position: "relative",
               width: "200px",
               marginTop: "30%",
+              marginLeft: "5%",
               fontFamily: "neodgm",
               // backgroundColor: "red",
             }}
           >
-            카드 태그해주세요~~
+            드래그 해서<br></br>
+            카드를 태그해주세요~~
           </div>
         </Bubble>
 
