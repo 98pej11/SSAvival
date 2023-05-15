@@ -27,8 +27,8 @@ export default function IdCard() {
       { id: "item2", imageUrl: "idCard2.svg" },
       { id: "item3", imageUrl: idCard },
       { id: "item4", imageUrl: "idCard2.svg" },
-      { id: "item5", imageUrl: idCard },
-      { id: "item6", imageUrl: "idCard2.svg" },
+      // { id: "item5", imageUrl: idCard },
+      // { id: "item6", imageUrl: "idCard2.svg" },
     ],
     items2: [],
   });
@@ -117,7 +117,7 @@ export default function IdCard() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPos((pos) => pos + 10);
-    }, 100);
+    }, 50);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -145,10 +145,11 @@ export default function IdCard() {
               position: "relative",
               width: "200px",
               marginTop: "30%",
+              fontFamily: "neodgm",
               // backgroundColor: "red",
             }}
           >
-            카드 태그해주세요~~(애니메이션넣을예쩡)
+            카드 태그해주세요~~
           </div>
         </Bubble>
 
@@ -158,43 +159,38 @@ export default function IdCard() {
               {...provided.droppableProps}
               ref={provided.innerRef}
               style={{
-                // backgroundColor: "pink",
                 width: "90%",
                 height: "100%",
-                // transform: `translateX(${pos}px)`,
+                transform: `translateX(${pos}px)`,
               }}
-              // style={{ transform: `translateX(${pos}px)` }}
             >
               {state.items1.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided) => {
+                <Draggable
+                  key={item.id}
+                  draggableId={item.id}
+                  index={index}
+                  // shouldAnimateDraggable={true}
+                >
+                  {(provided, snapshot) => {
+                    const { style, ...rest } = provided.draggableProps;
                     const imageStyle = {
                       backgroundImage: `url(${item.imageUrl})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       userSelect: "none",
-                      // padding: 16,
+
                       margin: "0 0 8px 0",
-                      // width: "30%",
-                      // height: "20%",
+
                       ...provided.draggableProps.style,
+
+                      // transform: `${provided.draggableProps.style.transform} translateX(${pos}px)`,
                     };
                     return (
                       <Card
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={
-                          imageStyle
-
-                          // ...provided.draggableProps.style,
-                          // position: "relative",
-                          // backgroundSize: "contain",
-                          // backgroundRepeat: "no-repeat",
-                          // width: "330px",
-                          // height: "100px",
-                          // backgroundImage: `url(${idCard})`,
-                        }
+                        style={imageStyle}
                       >
                         {/* <img src={item.imageUrl} alt="item" /> */}
                       </Card>
@@ -206,7 +202,7 @@ export default function IdCard() {
             </Cards>
           )}
         </Droppable>
-        <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
+        <div>{showSuccess && <Success>성공!!! {count}/4 </Success>}</div>
         {isScoring && (
           <img
             src={scoring}
@@ -273,8 +269,10 @@ const Cards = styled(`div`)({
   width: "100%",
   // top: 0,
   marginTop: "20%",
-  justifyContent: "space-around",
+  // justifyContent: "space-around",
   zIndex: "10",
+  marginRight: "500px",
+  right: 350,
 });
 
 const Card = styled(`div`)({
@@ -283,7 +281,7 @@ const Card = styled(`div`)({
   userSelect: "none",
   width: "250px",
   height: "210px",
-  marginRight: "15px",
+  marginRight: "30px",
 });
 
 const Reader = styled(`div`)({
@@ -301,10 +299,13 @@ const Reader = styled(`div`)({
 const Success = styled(`div`)({
   width: "600px",
   position: "absolute",
-  fontSize: "100pt",
+  fontSize: "60pt",
   color: "red",
+  zIndex: "20",
+  fontFamily: "neodgm",
+  // fontSize: 1.7rem;
+  // color: black;
 });
-
 const Bubble = styled(`div`)({
   display: "flex",
   flexDirection: "row",
@@ -312,4 +313,9 @@ const Bubble = styled(`div`)({
   width: "200px",
   height: "200px",
   marginLeft: "35%",
+  animation: "motion 0.3s linear 0s infinite alternate",
+  "@keyframes motion": {
+    "0%": { marginTop: "0px" },
+    "100%": { marginTop: "10px" },
+  },
 });
