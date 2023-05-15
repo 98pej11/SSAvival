@@ -316,7 +316,7 @@ export default function Puzzle() {
                   style={{
                     // backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
                     padding: 4,
-                    width: "100%",
+                    // width: "100%",
                     height: "100%",
                     display: "flex",
                     flexDirection: "row",
@@ -337,6 +337,7 @@ export default function Puzzle() {
                           src={item.imgUrl}
                           alt={item.name}
                           crossorigin={"anonymous"}
+                          // style={{ width: "60px", height: "60px" }}
                         ></img>
                       )}
                     </Draggable>
@@ -523,7 +524,7 @@ export default function Puzzle() {
 const QuizSide = styled(`div`)({
   display: "flex",
   width: "50%",
-  height: "45%",
+  height: "35%",
   flexDirection: "column",
   justifyContent: "center",
   padding: "10%",
