@@ -1,23 +1,28 @@
 @font-face {
-<<<<<<< HEAD
   font-family: 'neodgm';
   src: url('/public/fonts/neodgm.ttf') format('truetype');
-=======
-  font-family: "neodgm";
-  src: url("/public/neodgm.ttf") format("truetype");
->>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
+}
+
+/* font for typo game */
+@font-face {
+  font-family: "ChosunSm";
+  src: url("/public/fonts/ChosunSm.TTF") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* font for Interval component(score) */
+@font-face {
+ font-family: 'ddalgi';
+ src: url('/public/fonts/ddalgi.ttf') format('woff');
+ font-weight: normal;
+ font-style: normal;
 }
 
 .my-font {
   font-family: "neodgm", sans-serif;
 }
 
-<<<<<<< HEAD
-/* font for typo game */
-@font-face {
-  font-family: 'ChosunSm';
-  src: url('/public/fonts/ChosunSm.TTF') format('woff');
-=======
 /* cursor for typo game */
 .typo {
   position: relative;
@@ -29,24 +34,6 @@
   position: relative;
   cursor: url("/public/flipCursor.png") 0 100, auto;
 }
-
-/* font for typo game */
-@font-face {
-  font-family: "ChosunSm";
-  src: url("/public/ChosunSm.TTF") format("woff");
->>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* font for score */
-@font-face {
- font-family: 'ddalgi';
- src: url('/public/fonts/ddalgi.ttf') format('woff');
- font-weight: normal;
- font-style: normal;
-}
-
 
 /* bounce effect */
 @keyframes bounce {
@@ -112,10 +99,4 @@
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
-}
-
-/* cursor for typo game */
-.typo {
-  position: relative;
-  cursor: url('/public/pencilCursor.png') 0 100, auto;
 }

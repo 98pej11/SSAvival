@@ -16,12 +16,9 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
-<<<<<<< HEAD
 // import ImagePlayer from "./components/game/ImagePlayer";
 import Interval from "./components/game/Interval";
 
-=======
->>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import PuzzlePage from "./pages/PuzzlePage";
@@ -46,7 +43,6 @@ function App() {
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
-<<<<<<< HEAD
           <Route path="/interval" element={<IntervalPage />} />
 
           <Route path="/seat" element={<SeatPage />} />
@@ -56,11 +52,9 @@ function App() {
 
           {/* 
           <Route path="/image" element={<ImagePlayer />} />
-=======
           <Route path="/video" element={<VideoHandler />} />
           {/* <Route path="/image" element={<ImagePlayer />} /> */}
           <Route path="/difference" element={<DifferencePage />} />
->>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/remind" element={<RemindPage />} />

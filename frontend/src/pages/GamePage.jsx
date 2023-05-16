@@ -76,16 +76,14 @@ export default function GamePage() {
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
-    <EmojiComp key="EmojiComp" />,
+    <TypoGame key="TypoGame" />,
+    <RemindGame key="RemindGame" />,
     <TissueGame key="TissueGame" />,
+    <EmojiComp key="EmojiComp" />,
     <IdCard key="Idcard" />,
     <Seating key="Seating" />,
     <Puzzle key="Puzzle" />,
-    <TypoGame key="TypoGame" />,
-    <RemindGame key="RemindGame" />,
     <AttendanceGame key="AttendanceGame" />,
-    <Seating key="Seating" />,
-    <IdCard key="Idcard" />,
     <DifferenceGame key="DifferenceGame" />,
   ];
 
