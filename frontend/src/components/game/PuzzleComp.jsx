@@ -3,8 +3,9 @@ import { useState, useMemo } from "react";
 import { useSpring, animated, Any } from "react-spring";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
-
+import scoring from "../../assets/game_typo/scoring.gif";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function Puzzle() {
   const dispatch = useDispatch();
@@ -101,10 +102,10 @@ export default function Puzzle() {
         // fill the image
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 2; j++) {
-            const x = (j * img.width) / 2;
-            const y = (i * img.height) / 3;
-            const width = img.width / 2;
-            const height = img.height / 2;
+            const x = Math.floor((j * img.width) / 2);
+            const y = Math.floor((i * img.height) / 3);
+            const width = Math.floor(img.width / 2);
+            const height = Math.floor(img.height / 3);
             const data = ctx.getImageData(x, y, width, height);
 
             const canvas2 = document.createElement("canvas");
@@ -117,7 +118,7 @@ export default function Puzzle() {
           }
         }
         resolve(newImages);
-        console.log("cut이미지 끝나고", newImages);
+        console.log("After cut image", newImages);
       };
     });
   };
@@ -296,15 +297,24 @@ export default function Puzzle() {
     return result;
   };
 
+  // 채점 효과(with scoring.gif)
+  const [isScoring, setIsScoring] = useState(false);
+  if (isScoring) {
+    setTimeout(() => {
+      setIsScoring(false);
+    }, 800);
+  }
   const isRightAnswer = (id) => {
     console.log("함수에 들어오긴하니????");
     console.log("정답이다!!!!!!!!!!!!!");
     // 정답 표시해줌
-    setShowSuccess(true);
+    setIsScoring(true);
+    // setShowSuccess(true);
     // 카운트 up (종료조건)
     setCount(count + 1);
     // 상태값 true로 변경
     updateCheck(id);
+
     return true;
   };
 
@@ -354,7 +364,7 @@ export default function Puzzle() {
                           style={{
                             width: "60px",
                             height: "60px",
-                            backgroundColor: "red",
+                            // backgroundColor: "red",
                             overflow: "",
                           }}
                         >
@@ -381,11 +391,23 @@ export default function Puzzle() {
             </Droppable>
           ))}
         </QuizSide>
-        <div>{showSuccess && <Success>성공!!! </Success>}</div>
+        {/* <div>{showSuccess && <Success>성공!!! </Success>}</div> */}
         <img
           src="sign.svg"
           style={{ width: "5%", position: "absolute", top: 100 }}
         />
+        {isScoring && (
+          <img
+            src={scoring}
+            alt="scoring.gif"
+            style={{
+              position: "absolute",
+              width: "50%",
+              height: "100%",
+              zIndex: "10",
+            }}
+          />
+        )}
         <AnswerSide>
           <AnswerRow>
             {[3, 4].map((idx) => (

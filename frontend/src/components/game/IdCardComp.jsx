@@ -2,8 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
-import Badge from "@mui/material/Badge";
-import scoring from "../../assets/game_typo/scoring.gif";
+
 // import Box from "@mui/material/Box";
 
 // import Button from "@mui/material/Button";
@@ -30,7 +29,7 @@ export default function IdCard() {
     (state) => state.gameReducer.minigameActive
   );
   useEffect(() => {
-    if (count === 6) {
+    if (count === 4) {
       handleSuccess();
     }
   }, [count]);
@@ -137,7 +136,7 @@ export default function IdCard() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPos((pos) => pos + 10);
-    }, 50);
+    }, 150);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -155,6 +154,7 @@ export default function IdCard() {
           display: "flex",
           position: "relative",
           backgroundImage: `url(${back})`,
+          margin: "0 auto",
         }}
       >
         <Bubble>
@@ -174,7 +174,8 @@ export default function IdCard() {
             }}
           >
             드래그 해서<br></br>
-            카드를 태그해주세요~~
+            모든 카드를<br></br>
+            태그해주세요~~
           </div>
         </Bubble>
         <Droppable droppableId="items1">
@@ -182,13 +183,11 @@ export default function IdCard() {
             <Cards
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={
-                {
-                  // width: "90%",
-                  // height: "100%",
-                  // transform: `translateX(${pos}px)`,
-                }
-              }
+              style={{
+                // width: "90%",
+                // height: "100%",
+                transform: `translateX(${pos}px)`,
+              }}
             >
               {state.items1.map((item, index) => (
                 <Draggable
@@ -204,8 +203,7 @@ export default function IdCard() {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       userSelect: "none",
-
-                      margin: "0 0 8px 0",
+                      margin: "0 0 8px 20px",
 
                       ...provided.draggableProps.style,
 
@@ -229,13 +227,13 @@ export default function IdCard() {
           )}
         </Droppable>
         <div>{showSuccess && <Success>성공!!! {count}/4 </Success>}</div>
-        {isScoring && (
+        {/* {isScoring && (
           <img
             src={scoring}
             alt="scoring.gif"
             style={{ position: "absolute", width: "50%", height: "50%" }}
           />
-        )}
+        )} */}
         <Droppable droppableId="items2">
           {(provided, snapshot) => (
             <Reader
@@ -278,13 +276,6 @@ export default function IdCard() {
         </Droppable>
       </div>
     </DragDropContext>
-
-    // <div><img
-    // src={idCard}
-    // alt="moving"
-    // // className="move"
-    // style={{ transform: `translateX(${pos}px)`, width: "200px" }}
-    // /></div>>
   );
 }
 
@@ -292,23 +283,23 @@ const Cards = styled(`div`)({
   position: "absolute",
   display: "flex",
   flexDirection: "row",
-  width: "60%",
+  width: "500px",
   height: "100px",
   // top: 0,
   marginTop: "55%",
-  justifyContent: "space-around",
+  // justifyContent: "space-around",
   zIndex: "10",
   // marginRight: "500px",
-  // right: 350,
-  backgroundColor: "red",
+  right: 250,
+  // backgroundColor: "red",
 });
 
 const Card = styled(`div`)({
   position: "relative",
   userSelect: "none",
-  width: "100px",
-  height: "100px",
-  // marginRight: "30px",
+  width: "90px",
+  height: "80px",
+  marginRight: "30%",
 });
 
 const Reader = styled(`div`)({
@@ -322,16 +313,17 @@ const Reader = styled(`div`)({
   // marginTop: "30%",
   // justifyContent: "space-around",
 });
-
+// 성공 팝업
 const Success = styled(`div`)({
-  width: "600px",
+  width: "500px",
   position: "absolute",
-  fontSize: "60pt",
+  fontSize: "40pt",
   color: "red",
   zIndex: "20",
   fontFamily: "neodgm",
-  // fontSize: 1.7rem;
-  // color: black;
+  marginTop: "30%",
+  right: 0,
+  paddingLeft: "8%",
 });
 const Bubble = styled(`div`)({
   display: "flex",
@@ -341,10 +333,11 @@ const Bubble = styled(`div`)({
   // backgroundColor: "red",
   width: "200px",
   height: "100px",
+  marginTop: "30px",
   marginLeft: "35%",
   animation: "motion 0.3s linear 0s infinite alternate",
   "@keyframes motion": {
-    "0%": { marginTop: "0px" },
-    "100%": { marginTop: "10px" },
+    "0%": { marginTop: "10px" },
+    "100%": { marginTop: "30px" },
   },
 });

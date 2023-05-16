@@ -31,9 +31,9 @@ export default function IdCardPage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp2>
+          <GameComp>
             <IdCardComp />
-          </GameComp2>
+          </GameComp>
         ) : (
           <GameComp2>
             <IdCardComp />
