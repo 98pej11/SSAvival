@@ -19,6 +19,9 @@ import GamePage from "./pages/GamePage";
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import PuzzlePage from "./pages/PuzzlePage";
+import Gameover from "./components/game/GameOver";
+import IPGame from "./pages/IPGamePage";
+
 const Pages = styled.div`
   position: relative;
 `;
@@ -48,6 +51,8 @@ function App() {
           <Route path="/seat" element={<SeatPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/id-card" element={<IdCardPage />} />
+          <Route path="/gameover" element={<Gameover />} />
+          <Route path="/ipgame" element={<IPGame />} />
         </Routes>
       </Pages>
     </BrowserRouter>
