@@ -147,8 +147,10 @@ export default function IdCard() {
       <div
         style={{
           userSelect: "none",
-          width: "100%",
-          height: "100%",
+          width: "500px",
+          height: "400px",
+          // width: "100%",
+          // hegiht: "auto",
           backgroundColor: "white",
           display: "flex",
           position: "relative",
@@ -163,28 +165,30 @@ export default function IdCard() {
           <div
             style={{
               position: "relative",
-              width: "200px",
-              marginTop: "30%",
-              marginLeft: "5%",
+              // width: "200px",
+              marginTop: "15%",
+              // marginLeft: "5%",
               fontFamily: "neodgm",
-              // backgroundColor: "red",
+              fontSize: "9pt",
+              // backgroundColor: "pink",
             }}
           >
             드래그 해서<br></br>
             카드를 태그해주세요~~
           </div>
         </Bubble>
-
         <Droppable droppableId="items1">
           {(provided) => (
             <Cards
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={{
-                width: "90%",
-                height: "100%",
-                transform: `translateX(${pos}px)`,
-              }}
+              style={
+                {
+                  // width: "90%",
+                  // height: "100%",
+                  // transform: `translateX(${pos}px)`,
+                }
+              }
             >
               {state.items1.map((item, index) => (
                 <Draggable
@@ -288,22 +292,23 @@ const Cards = styled(`div`)({
   position: "absolute",
   display: "flex",
   flexDirection: "row",
-  width: "100%",
+  width: "60%",
+  height: "100px",
   // top: 0,
-  marginTop: "20%",
-  // justifyContent: "space-around",
+  marginTop: "55%",
+  justifyContent: "space-around",
   zIndex: "10",
-  marginRight: "500px",
-  right: 350,
+  // marginRight: "500px",
+  // right: 350,
+  backgroundColor: "red",
 });
 
 const Card = styled(`div`)({
-  marginBottom: "10%",
   position: "relative",
   userSelect: "none",
-  width: "250px",
-  height: "210px",
-  marginRight: "30px",
+  width: "100px",
+  height: "100px",
+  // marginRight: "30px",
 });
 
 const Reader = styled(`div`)({
@@ -311,7 +316,7 @@ const Reader = styled(`div`)({
   // display: "flex",
   // flexDirection: "row",
   width: "300px",
-  marginTop: "5%",
+  marginTop: "15%",
   marginLeft: "20%",
   // top: 0,
   // marginTop: "30%",
@@ -332,8 +337,10 @@ const Bubble = styled(`div`)({
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
+  alignContent: "center",
+  // backgroundColor: "red",
   width: "200px",
-  height: "200px",
+  height: "100px",
   marginLeft: "35%",
   animation: "motion 0.3s linear 0s infinite alternate",
   "@keyframes motion": {

@@ -106,6 +106,7 @@ export default function Puzzle() {
             const width = img.width / 2;
             const height = img.height / 2;
             const data = ctx.getImageData(x, y, width, height);
+
             const canvas2 = document.createElement("canvas");
             canvas2.width = width;
             canvas2.height = height;
@@ -306,31 +307,24 @@ export default function Puzzle() {
     updateCheck(id);
     return true;
   };
-  // const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  // const drawFn = (e) => {
-  //   const rect = canvasRef.current.getBoundingClientRect();
-  //   const scaleX = canvasRef.current.width / rect.width;
-  //   const scaleY = canvasRef.current.height / rect.height;
-  //   const x = (e.clientX - rect.left) * scaleX;
-  //   const y = (e.clientY - rect.top) * scaleY;
-  //   setMousePos({ x, y });
-  // };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
         className="puzzle"
+        width="100%"
+        height="100%"
         style={{
           display: "flex",
           justifyContent: "center",
+          alignContent: "center",
           width: "100%",
-          height: "100%",
+          height: "auto",
           backgroundColor: "white",
           position: "relative",
         }}
       >
-        <img src="flip.svg" style={{ position: "absolute", width: "80%" }} />
+        <img src="flip.svg" style={{ position: "absolute", width: "400px" }} />
         <QuizSide>
           {droppableIDs.slice(0, 3).map((droppableID, index) => (
             <Droppable key={droppableID} droppableId={droppableID}>
@@ -340,12 +334,13 @@ export default function Puzzle() {
                   ref={provided.innerRef}
                   style={{
                     // backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                    padding: 4,
-                    // width: "100%",
-                    height: "100%",
+                    // padding: 4,
+                    width: "90%",
+                    height: "auto",
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "center",
+                    // backgroundColor: "cornflowerblue",
                   }}
                 >
                   {state[droppableID].map((item, index) => (
@@ -355,15 +350,28 @@ export default function Puzzle() {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <img
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                          src={item.imgUrl}
-                          alt={item.name}
-                          crossorigin={"anonymous"}
-                          // style={{ width: "60px", height: "60px" }}
-                        ></img>
+                        <div
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            backgroundColor: "red",
+                            overflow: "",
+                          }}
+                        >
+                          <img
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                            src={item.imgUrl}
+                            alt={item.name}
+                            crossorigin={"anonymous"}
+                            style={{
+                              ...provided.draggableProps.style,
+                              width: "60px",
+                              height: "60px",
+                            }}
+                          ></img>
+                        </div>
                       )}
                     </Draggable>
                   ))}
@@ -376,7 +384,7 @@ export default function Puzzle() {
         <div>{showSuccess && <Success>성공!!! </Success>}</div>
         <img
           src="sign.svg"
-          style={{ width: "100px", position: "absolute", top: 130 }}
+          style={{ width: "5%", position: "absolute", top: 100 }}
         />
         <AnswerSide>
           <AnswerRow>
@@ -392,11 +400,11 @@ export default function Puzzle() {
                       ref={provided.innerRef}
                       style={{
                         backgroundColor: snapshot.isDraggingOver
-                          ? "blue"
+                          ? "skyblue"
                           : "grey",
                         // padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => (
@@ -418,7 +426,8 @@ export default function Puzzle() {
                               alt={item.name}
                               style={{
                                 ...provided.draggableProps.style,
-                                width: "80px",
+                                width: "60px",
+                                height: "60px",
                               }}
                             ></img>
                           )}
@@ -448,8 +457,8 @@ export default function Puzzle() {
                           ? "blue"
                           : "grey",
                         padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => {
@@ -472,7 +481,8 @@ export default function Puzzle() {
                                 alt={item.name}
                                 style={{
                                   ...provided.draggableProps.style,
-                                  width: "80px",
+                                  width: "60px",
+                                  height: "60px",
                                 }}
                               ></img>
                             )}
@@ -503,8 +513,8 @@ export default function Puzzle() {
                           ? "blue"
                           : "grey",
                         padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => (
@@ -527,7 +537,8 @@ export default function Puzzle() {
                               alt={item.name}
                               style={{
                                 ...provided.draggableProps.style,
-                                width: "80px",
+                                width: "60px",
+                                height: "60px",
                               }}
                             ></img>
                           )}
@@ -548,46 +559,46 @@ export default function Puzzle() {
 
 const QuizSide = styled(`div`)({
   display: "flex",
-  width: "50%",
-  height: "35%",
+  width: "15%",
+  height: "auto",
   flexDirection: "column",
   justifyContent: "center",
-  padding: "10%",
-  marginTop: "7%",
-  // marginLeft: "%",
+  // padding: "10%",
+  marginTop: "20px",
+  marginLeft: "10px",
   position: "relative",
   // alignContent: "center",
   // backgroundColor: "skyblue",
-  flex: "1",
-  left: 0,
+  // flex: "1",
+  // left: 0,
 });
 const AnswerSide = styled(`div`)({
   display: "flex",
   flexDirection: "column",
-  width: "45%",
-  height: "45%",
+  width: "15%",
+  height: "auto",
   // padding: "10%",
   alignContent: "center",
   position: "relative",
-  marginTop: "7%",
-  // marginLeft: "5%",
-  flex: "1",
+  marginTop: "20px",
+  marginLeft: "60px",
+  // flex: "1",
   // backgroundColor: "blue",
 });
 const AnswerRow = styled(`div`)({
   width: "100%",
-  height: "80px",
+  height: "33%",
   // backgroundColor: "lightCoral",
 
   display: "flex",
   flexDirection: "row",
   // justifyContent: "space-evenly",
-  marginBottom: "5px",
+  // marginBottom: "5px",
 });
 
 const EachAnswer = styled(`div`)({
-  width: "80px",
-  // height: "80px",
+  width: "60px",
+  height: "60px",
   // backgroundColor: "lightCoral",
   display: "flex",
   flexDirection: "row",
