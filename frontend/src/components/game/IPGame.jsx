@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import {
   RadioGroup,
   FormControlLabel,
@@ -8,21 +9,32 @@ import {
   Box,
 } from "@mui/material";
 
+const Comp = styled.div`
+  display: flex;
+  gap: 10;
+`;
+
 function IPgame() {
   const [answer, setAnswer] = useState({
     ipAddress: "123.123.123.123",
     subnetMask: "123.123.123.123",
     gateway: "123.123.123.123",
-    defaultDns: "123.123.123.123",
-    subDns: "123.123.123.123",
   });
   const [inputs, setInputs] = useState({
     ipAddress: "",
     subnetMask: "",
     gateway: "",
-    defaultDns: "",
-    subDns: "",
   });
+
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
+  const dispatch = useDispatch();
 
   const onChangeHandler = (event, index) => {
     event.preventDefault();
@@ -43,6 +55,10 @@ function IPgame() {
   const submit = () => {
     if (JSON.stringify(inputs) === JSON.stringify(answer)) {
       alert("PASS");
+      if (minigameActive) {
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
+        console.log("게임결과: " + minigameClear);
+      }
     } else {
       alert("FAIL");
     }
@@ -72,147 +88,209 @@ function IPgame() {
   };
 
   return (
-    <Wrapper>
-      <Header>
-        <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
-        <HeaderRight>X</HeaderRight>
-      </Header>
-      <Body>
-        <Tab>일반</Tab>
-        <Content>
-          <ContentTop>
-            네트워크가 IP 자동 설정기능을 지원하면 IP 설정이 자동으로 할당되도록
-            할 수 있습니다.
-          </ContentTop>
-          <ContentMain>
-            <StyledRadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="non-auto"
-              name="radio-buttons-group"
-            >
-              <StyledFormControlLabel
-                value="auto"
-                control={<Radio />}
-                label="자동으로 IP 주소 받기(O)"
-                disabled
-              />
+    <Comp>
+      {/* 정답 예시 */}
+      <Wrapper>
+        <Header>
+          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
+          <HeaderRight>X</HeaderRight>
+        </Header>
+        <Body>
+          <Tab>일반</Tab>
+          <Content>
+            <ContentTop>
+              네트워크가 IP 자동 설정기능을 지원하면 IP 설정이 자동으로
+              할당되도록 할 수 있습니다.
+            </ContentTop>
+            <ContentMain>
+              <StyledRadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="non-auto"
+                name="radio-buttons-group"
+              >
+                <StyledFormControlLabel
+                  value="auto"
+                  control={<Radio />}
+                  label="자동으로 IP 주소 받기(O)"
+                  disabled
+                />
 
-              <fieldset>
-                <legend>
-                  <StyledFormControlLabel
-                    value="non-auto"
-                    control={<Radio />}
-                    label="다음 IP 주소 사용(S)"
-                  />
-                </legend>
-                <InputForm>
-                  <div>IP 주소(I):</div>
-                  <input
-                    type="text"
-                    minLength="7"
-                    maxLength="15"
-                    pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                    value={inputs.ipAddress}
-                    name="ipAddress"
-                    tabIndex="1"
-                    onChange={(e) => onChangeHandler(e, 1)}
-                    onKeyDown={(e) => handleKeyPress(e, 1)}
-                  />
-                </InputForm>
-                <InputForm>
-                  <div>서브넷 마스크(U):</div>
-                  <input
-                    type="text"
-                    minLength="7"
-                    maxLength="15"
-                    pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                    value={inputs.subnetMask}
-                    name="subnetMask"
-                    tabIndex="2"
-                    onChange={(e) => onChangeHandler(e, 2)}
-                    onKeyDown={(e) => handleKeyPress(e, 2)}
-                  ></input>
-                </InputForm>
-                <InputForm>
-                  <div>기본 게이트웨이(D):</div>
-                  <input
-                    type="text"
-                    minLength="7"
-                    maxLength="15"
-                    pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                    value={inputs.gateway}
-                    name="gateway"
-                    tabIndex="3"
-                    onChange={(e) => onChangeHandler(e, 3)}
-                    onKeyDown={(e) => handleKeyPress(e, 3)}
-                  ></input>
-                </InputForm>
-              </fieldset>
-            </StyledRadioGroup>
-            {/* <StyledRadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="non-auto"
-              name="radio-buttons-group"
-            >
-              <fieldset>
-                <legend>
-                  <StyledFormControlLabel
-                    value="non-auto"
-                    control={<Radio />}
-                    label="다음 DNS 서버 주소 사용(E)"
-                  />
-                </legend>
-                <InputForm>
-                  <div>기본 설정 DNS 서버(P):</div>
-                  <input
-                    type="text"
-                    minLength="7"
-                    maxLength="15"
-                    pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                    value={inputs.defaultDns}
-                    tabIndex="4"
-                    name="defaultDns"
-                    onChange={(e) => onChangeHandler(e, 4)}
-                    onKeyDown={(e) => handleKeyPress(e, 4)}
-                  ></input>
-                </InputForm>
-                <InputForm>
-                  <div>보조 DNS 서버(A):</div>
-                  <input
-                    type="text"
-                    minLength="7"
-                    maxLength="15"
-                    pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                    value={inputs.subDns}
-                    tabIndex="5"
-                    name="subDns"
-                    onChange={(e) => onChangeHandler(e, 5)}
-                    onKeyDown={(e) => handleKeyPress(e, 5)}
-                  ></input>
-                </InputForm>
-              </fieldset>
-            </StyledRadioGroup> */}
-          </ContentMain>
-          <Footer>
-            <Button
-              tabIndex="6"
-              onClick={submit}
-              onKeyPress={(e) => handleKeyPress(e, 6)}
-            >
-              확인
-            </Button>
-            <Button onClick={cancel}>취소</Button>
-          </Footer>
-        </Content>
-      </Body>
-    </Wrapper>
+                <fieldset>
+                  <legend>
+                    <StyledFormControlLabel
+                      value="non-auto"
+                      control={<Radio />}
+                      label="다음 IP 주소 사용(S)"
+                    />
+                  </legend>
+                  <InputForm>
+                    <div>IP 주소(I):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.ipAddress}
+                      name="ipAddress"
+                      tabIndex="1"
+                      onChange={(e) => onChangeHandler(e, 1)}
+                      onKeyDown={(e) => handleKeyPress(e, 1)}
+                      readOnly
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>서브넷 마스크(U):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.subnetMask}
+                      name="subnetMask"
+                      tabIndex="2"
+                      onChange={(e) => onChangeHandler(e, 2)}
+                      onKeyDown={(e) => handleKeyPress(e, 2)}
+                      readOnly
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>기본 게이트웨이(D):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.gateway}
+                      name="gateway"
+                      tabIndex="3"
+                      onChange={(e) => onChangeHandler(e, 3)}
+                      onKeyDown={(e) => handleKeyPress(e, 3)}
+                      readOnly
+                    />
+                  </InputForm>
+                </fieldset>
+              </StyledRadioGroup>
+            </ContentMain>
+            <Footer>
+              <Button
+                tabIndex="6"
+                onClick={submit}
+                onKeyPress={(e) => handleKeyPress(e, 6)}
+              >
+                확인
+              </Button>
+              <Button onClick={cancel}>취소</Button>
+            </Footer>
+          </Content>
+        </Body>
+      </Wrapper>
+
+      {/* 실제 게임 진행 입력란*/}
+      <Wrapper style={{ backgroundColor: "#FFDE69" }}>
+        <Header>
+          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
+          <HeaderRight>X</HeaderRight>
+        </Header>
+        <Body>
+          <Tab>일반</Tab>
+          <Content>
+            <ContentTop>
+              네트워크가 IP 자동 설정기능을 지원하면 IP 설정이 자동으로
+              할당되도록 할 수 있습니다.
+            </ContentTop>
+            <ContentMain>
+              <StyledRadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="non-auto"
+                name="radio-buttons-group"
+              >
+                <StyledFormControlLabel
+                  value="auto"
+                  control={<Radio />}
+                  label="자동으로 IP 주소 받기(O)"
+                  disabled
+                />
+
+                <fieldset>
+                  <legend>
+                    <StyledFormControlLabel
+                      value="non-auto"
+                      control={<Radio />}
+                      label="다음 IP 주소 사용(S)"
+                    />
+                  </legend>
+                  <InputForm>
+                    <div>IP 주소(I):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.ipAddress}
+                      name="ipAddress"
+                      tabIndex="1"
+                      onChange={(e) => onChangeHandler(e, 1)}
+                      onKeyDown={(e) => handleKeyPress(e, 1)}
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>서브넷 마스크(U):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.subnetMask}
+                      name="subnetMask"
+                      tabIndex="2"
+                      onChange={(e) => onChangeHandler(e, 2)}
+                      onKeyDown={(e) => handleKeyPress(e, 2)}
+                    ></input>
+                  </InputForm>
+                  <InputForm>
+                    <div>기본 게이트웨이(D):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.gateway}
+                      name="gateway"
+                      tabIndex="3"
+                      onChange={(e) => onChangeHandler(e, 3)}
+                      onKeyDown={(e) => handleKeyPress(e, 3)}
+                    ></input>
+                  </InputForm>
+                </fieldset>
+              </StyledRadioGroup>
+            </ContentMain>
+            <Footer>
+              <Button
+                tabIndex="6"
+                onClick={submit}
+                onKeyPress={(e) => handleKeyPress(e, 6)}
+              >
+                확인
+              </Button>
+              <Button onClick={cancel}>취소</Button>
+            </Footer>
+          </Content>
+        </Body>
+      </Wrapper>
+    </Comp>
   );
 }
 
+const Input = styled.input`
+  border: 1px solid;
+  background-color: #f5f5f5;
+`;
+
 const Wrapper = styled.div`
-  width: 70%;
+  font-family: gmarket;
+  width: 45%;
   height: 55vh;
-  background-color: lightgrey;
+  background-color: #b7b7b7;
   font-size: 14px;
   margin: 0 auto;
 `;
@@ -222,6 +300,7 @@ const Header = styled.div`
   width: 100%;
   height: auto;
   background-color: white;
+  border: 1px solid lightgray;
 `;
 const HeaderTitle = styled.div`
   margin: 5px auto 5px 8px;
