@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
@@ -14,12 +15,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MiniGame {
+public class MiniGame implements Comparable<MiniGame>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long miniGameId;
 
-    @Column(nullable = false , length = 20)
+    @Column(length = 20)
     private String clearTime;
     @Column(nullable = false)
     private int score;
@@ -37,5 +38,9 @@ public class MiniGame {
                 .miniGameDetailId(miniGameDetailId)
                 .build();
         return miniGameDto;
+    }
+
+    public int compareTo(@NotNull MiniGame o) {
+        return (int) (o.miniGameId-this.miniGameId);
     }
 }

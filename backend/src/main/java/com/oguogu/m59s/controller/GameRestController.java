@@ -1,13 +1,17 @@
 package com.oguogu.m59s.controller;
 
-import com.oguogu.m59s.model.dto.GameDto;
-import com.oguogu.m59s.model.dto.MiniGameInfoDto;
+import com.oguogu.m59s.entity.MiniGame;
+import com.oguogu.m59s.model.S3FileUploadService;
+import com.oguogu.m59s.model.dto.*;
 import com.oguogu.m59s.model.service.GameService;
+import com.oguogu.m59s.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +23,10 @@ public class GameRestController {
 
     @Autowired
     GameService gameService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    S3FileUploadService s3FileUploadService;
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
@@ -38,7 +46,75 @@ public class GameRestController {
 
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
-//    리스트로 post? ref 없기도 하고 일단 변동 가능성이 높아 보류
-//    @PostMapping("/done")
-//    public ResponseEntity<Map<String, Object>> addMiniGameList
+
+    @PostMapping("/done")
+    public ResponseEntity<Map<String, Object>> gameInfoSave(@RequestPart(value="miniGame") MiniGameDto miniGameDto, @RequestParam(value = "gameImages") List<MultipartFile> multipartFiles) throws Exception{
+//        public ResponseEntity<Map<String, Object>> gameInfoSave(@RequestBody MiniGameDto miniGameDto, @RequestPart(value = "profile",required = false) MultipartFile[] multipartFiles) throws Exception{
+//        long miniGameId = miniGameDto.getMiniGameId();
+        System.out.println("minidto가 잘 들어오는지 보자.");
+        System.out.println(miniGameDto.getMiniGameDetailId());
+        System.out.println(miniGameDto.getGameId());
+        System.out.println(miniGameDto.getMiniGameId());
+
+
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        if(multipartFiles != null) {
+            gameService.saveMiniGame(miniGameDto);
+            resultMap.put("miniGameDto",miniGameDto);
+            long miniGameLastIndex = gameService.findMiniGameLastIndex();
+            for(int i=0;i<multipartFiles.size();i++){
+                GameImageDto gameImageDto = new GameImageDto();
+                gameImageDto.setMiniGameId(miniGameLastIndex);
+                gameImageDto.setImageUrl(s3FileUploadService.upload(multipartFiles.get(i)));
+                gameService.saveGameImage(gameImageDto);
+            }
+//            miniGameDto
+//            int len = multipartFiles.length;
+//            for(int i=0;i<len;i++){
+//                GameImageDto gameImageDto = new GameImageDto();
+//                gameImageDto.setImageUrl(s3FileUploadService.upload(multipartFiles[i]));
+//                gameImageDto.setRound(i+1);
+//                setMiniGameId(miniGameDto.getMiniGameDetailId());
+//            }
+
+        }
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
+
+    @PatchMapping("/final/done")
+    public ResponseEntity<Map<String, Object>> gameFinalInfoSave(@RequestBody GameDto gameDto){
+        gameService.updateGame(gameDto);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/multi/{userId}/{round}")
+    public ResponseEntity<Map<String, Object>> startMiniGame(@PathVariable("userId") long userId , @PathVariable("round") int round){
+        GameDto gameDto = gameService.listGame(userId).get(0);
+        long gameId = gameDto.getGameId();
+        List<MiniGameInfoDto> miniGameInfoDtoList = gameService.listMiniGame(gameId);
+        MiniGameInfoDto miniGameInfoDto = miniGameInfoDtoList.get(round-1);
+        long miniGameId = miniGameInfoDto.getMiniGameId();
+        List<GameImageDto> gameImageDtoList = gameService.listGameImage(miniGameId);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        resultMap.put("gameImages", gameImageDtoList);
+        resultMap.put("miniGame", miniGameInfoDto);
+//        resultMap.put("gameId",gameId);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/start/{userId}")
+    public ResponseEntity<Map<String, Object>> startGame(@PathVariable long userId){
+        GameDto gameDto = new GameDto(0,0,0,0,0,new Date(),userId);
+        gameService.saveGame(gameDto);
+        long gameId = gameService.findGameLastIndex() - 1;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        resultMap.put("gameId",gameId);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
 }

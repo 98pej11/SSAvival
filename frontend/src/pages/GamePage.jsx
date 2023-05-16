@@ -1,28 +1,29 @@
 import React, { useRef, useEffect, useState } from "react";
-import Header from "../components/game/Header";
-import "../index.css";
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/node/Box";
+// game components
+import Header from "../components/game/Header";
 import GitbashGame from "../components/game/GitbashGame";
 import TypoGame from "../components/game/TypoGame";
-import { store } from "../redux/store";
-import { useDispatch, useSelector } from "react-redux";
 import TimerBomb from "../components/game/TimerBomb";
 import TissueGame from "../components/game/TissueGame";
-import ElevatorGame from "../components/game/ElevatorGame";
 import RemindGame from "../components/game/RemindGame";
 import EmojiComp from "../components/game/EmojiComp";
 import LockerGame from "../components/game/LockerGame";
 import AttendanceGame from "../components/game/AttendanceGame";
+import DifferenceGame from "../components/game/DifferenceGame";
 import Puzzle from "../components/game/PuzzleComp";
 import Seating from "../components/game/SeatComp";
 import IdCard from "../components/game/IdCardComp";
 import Interval from "../components/game/Interval";
+
 import classroom from "../assets/backgrounds/classroom.png";
+import confetti from "canvas-confetti";
+import "../index.css";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
 // import ImagePlayer from "../components/game/ImagePlayer";
-import confetti from "canvas-confetti";
 
 const container = {
   display: "flex",
@@ -83,6 +84,9 @@ export default function GamePage() {
     <TypoGame key="TypoGame" />,
     <RemindGame key="RemindGame" />,
     <AttendanceGame key="AttendanceGame" />,
+    <Seating key="Seating" />,
+    <IdCard key="Idcard" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux에서 게임 정보 가져오기
@@ -153,27 +157,35 @@ export default function GamePage() {
 
   const canvasRef = useRef(null);
 
-  let blobArray = [];
+  // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
+  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  const bgPath = useSelector((state) => state.gameReducer.bgPath);
+
+  let blobs = [];
+  const [blobArray, setBlobArray] = useState([]);
+
+  // useEffect(() => {
+  //   saveBlobs(blobArray);
+  // }, [flag]);
 
   const onCapture = () => {
     console.log("onCapture");
     html2canvas(document.getElementById("gameContainer")).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
-        console.log(blob);
-        blobArray.push(blob);
-        console.log("blobArray 길이 1", blobArray.length);
+        // console.log(blob);
+        blobs.push(blob);
+        // setBlobArray((prevBlobArray) => [...prevBlobArray, blob]);
         //게임 끝나는 조건 추가해야함
         if (blobArray.length === 20) {
           //점수, 시간, 아이디 저장
-          console.log("blobArray 길이 2", blobArray.length);
           setInputs({
             miniGameDetailId: round + 1,
             clearTime: "",
             score: 0,
             gameId: 0, //게임 시작 api에서 받아서 가져올 부분
           });
-          saveBlobs(blobArray);
+          setBlobArray(blobs);
         }
       }, "image/png");
     });
@@ -183,6 +195,7 @@ export default function GamePage() {
     console.log("save blobs");
     const formData = new FormData();
     console.log(blobs.length);
+
     for (let i = 0; i < blobs.length; i++) {
       formData.append("gameImages", blobs[i], `image${i}.png`);
     }

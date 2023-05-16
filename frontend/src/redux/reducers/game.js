@@ -11,19 +11,20 @@ const initialState = {
   gameTitleData: [
     "제한 시간 내 주어진 명령어를 모두 입력하라",
     "사물함을 열어서 책을 꺼내자",
+    "틀린 맞춤법을 찾아라!",
+    "연상되는 단어를 입력해봐!",
+    "휴지를 최대한 많이! 뽑아보쟈",
     "상황에 맞는 MM 이모지를 선택해보쟈",
     "휴지를 최대한 많이! 뽑아보쟈",
-    "윤주꺼 1",
-    "윤주꺼 2",
-    "윤주꺼 3",
     "틀린 맞춤법을 찾아라!",
     "연상되는 단어를 입력해봐!",
     "어떻게든 퇴실버튼을 누르자",
+    "틀린그림찾기 테스트",
   ],
-  pageBgs: [class_desk, locker, laptop, consultant, cafeteria, cafeteria, classroom, consultant_desk, classroom, class_desk],
-  containerBgs: [monitor,"","","","","","","","",monitor],
+  pageBgs: [class_desk, locker, laptop, consultant, cafeteria, cafeteria, classroom, consultant_desk, classroom, classroom, class_desk],
+  containerBgs: [monitor,"","","","","","","","", "", monitor],
   remindAnswer: "",
-  remindWordList: [],
+  remindWordList: ["빵", "패티", "양배추", "치즈", "토마토"],
   round: 0,
   title: null,
   pageBg: null,
@@ -40,6 +41,9 @@ const initialState = {
   selectedEmojiIndex: null,
   emojiResult: "false",
   interval:false,
+  pointsCenter: [[0, 0, 0]],
+  quizImgSize: { width: 600, height: 400 },
+  quizImgUrl: { left: "", right: "" },
 };
 
 function gameReducer(state = initialState, action = {}) {
@@ -109,6 +113,18 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         emojiResult: payload,
+      };
+    case "FETCH_QUIZ_IMAGE":
+      return {
+        ...state,
+        pointsCenter: payload.pointsCenter,
+        quizImgSize: payload.quizImgSize,
+        quizImgUrl: payload.quizImgUrl,
+      };
+    case "UPDATE_POINTS_CENTER":
+      return {
+        ...state,
+        pointsCenter: payload,
       };
     default:
       return { ...state };

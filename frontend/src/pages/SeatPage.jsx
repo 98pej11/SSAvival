@@ -2,16 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import SeatComp from "../components/game/SeatComp";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
+import { useSelector } from "react-redux";
 
 const Pages = styled.div`
-  position: relative;
   background-image: url(${game});
-  // background-size: auto;
-  background-size: contain;
-  // background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
   width: 100%;
   height: 100%;
 `;
@@ -22,6 +22,7 @@ const myProps = {
 };
 
 export default function SeatPage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -30,13 +31,19 @@ export default function SeatPage() {
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
+          // width: "100%",
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <SeatComp {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp props={myProps}>
+            <SeatComp {...myProps} />
+          </GameComp>
+        ) : (
+          <GameComp2 props={myProps}>
+            <SeatComp {...myProps} />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

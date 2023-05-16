@@ -10,16 +10,20 @@ import TissuePage from "./pages/TissuePage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
+import LockerPage from "./pages/DifferencePage";
+import AttendancePage from "./pages/AttendancePage";
 import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
+<<<<<<< HEAD
 // import ImagePlayer from "./components/game/ImagePlayer";
 import Interval from "./components/game/Interval";
 
+=======
+>>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
-import TestPage from "./pages/TestPage";
 import PuzzlePage from "./pages/PuzzlePage";
 import IntervalPage from "./pages/InterverPage";
 const Pages = styled.div`
@@ -37,11 +41,12 @@ function App() {
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
-
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
+          <Route path="/tissue" element={<TissuePage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+<<<<<<< HEAD
           <Route path="/interval" element={<IntervalPage />} />
 
           <Route path="/seat" element={<SeatPage />} />
@@ -51,11 +56,17 @@ function App() {
 
           {/* 
           <Route path="/image" element={<ImagePlayer />} />
+=======
+          <Route path="/video" element={<VideoHandler />} />
+          {/* <Route path="/image" element={<ImagePlayer />} /> */}
+          <Route path="/difference" element={<DifferencePage />} />
+>>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
-          <Route path="/difference" element={<DifferencePage />} />
           <Route path="/remind" element={<RemindPage />} />
-          */}
+          <Route path="/seat" element={<SeatPage />} />
+          <Route path="/puzzle" element={<PuzzlePage />} />
+          <Route path="/id-card" element={<IdCardPage />} />
         </Routes>
       </Pages>
     </BrowserRouter>

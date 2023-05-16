@@ -1,17 +1,40 @@
-
 @font-face {
+<<<<<<< HEAD
   font-family: 'neodgm';
   src: url('/public/fonts/neodgm.ttf') format('truetype');
+=======
+  font-family: "neodgm";
+  src: url("/public/neodgm.ttf") format("truetype");
+>>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
 }
 
 .my-font {
-  font-family: 'neodgm', sans-serif;
+  font-family: "neodgm", sans-serif;
 }
 
+<<<<<<< HEAD
 /* font for typo game */
 @font-face {
   font-family: 'ChosunSm';
   src: url('/public/fonts/ChosunSm.TTF') format('woff');
+=======
+/* cursor for typo game */
+.typo {
+  position: relative;
+  cursor: url("/public/pencilCursor.png") 0 100, auto;
+}
+
+/* cursor for puzzle game*/
+.puzzle {
+  position: relative;
+  cursor: url("/public/flipCursor.png") 0 100, auto;
+}
+
+/* font for typo game */
+@font-face {
+  font-family: "ChosunSm";
+  src: url("/public/ChosunSm.TTF") format("woff");
+>>>>>>> 23fc0c60fe3f0b7e6cff7488ffb52c44034ef864
   font-weight: normal;
   font-style: normal;
 }
@@ -27,7 +50,11 @@
 
 /* bounce effect */
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {

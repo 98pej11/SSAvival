@@ -1,25 +1,38 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import Box from "@mui/material/Box";
 import { Link, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import SwipeableViews from "react-swipeable-views";
+import DialogContent from "@mui/material/DialogContent";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import SearchBar from "./SearchBar";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
 import happy_pepe2 from "../../assets/happy_pepe2.png";
+import find from "../../assets/find.png";
+import { GameAction } from "../../redux/actions/GameAction";
+import Ranking2 from "./Ranking2";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
 `;
 
 const Title = styled.div`
-  padding-top: 70px;
+  padding-top: 50px;
   padding-bottom: 30px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   span {
-    font-size: 20px;
+    font-size: 1rem;
   }
 `;
 
@@ -43,6 +56,14 @@ const HoverBox = styled.div`
     transform: scale(1.2);
   }
 `;
+
+const RankingContainer = styled.div`
+  fontfamily: "neodgm";
+  width: 380px;
+  height: 300px;
+  margin: 10px auto;
+`;
+
 export default function MainComp1() {
   const gameMode = useSelector((state) => state.gameMode);
   const dispatch = useDispatch();
@@ -50,12 +71,49 @@ export default function MainComp1() {
 
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
+    dispatch(GameAction.getRemindAnswer("음식"));
+    dispatch(GameAction.gameStart(localStorage.getItem("userId"))).then(
+      (res) => {
+        console.log("여기야아");
+        console.log("여기야아");
+        console.log("여기야아");
+        console.log("여기야아");
+        console.log(res);
+        localStorage.setItem("gameId", res.data.gameId);
+      }
+    );
     navigate("/game"); // /game 경로로 이동
   };
 
   const handleMultiPlayerClick = () => {
-    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
-    navigate("/game"); // /game 경로로 이동
+    setOpen(true);
+
+    // dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    // navigate("/game"); // /game 경로로 이동
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(0);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const TabPanel = ({ value, index, children }) => {
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`tabpanel-${index}`}
+        aria-labelledby={`tab-${index}`}
+      >
+        {value === index && <div>{children}</div>}
+      </div>
+    );
   };
 
   return (
@@ -72,13 +130,13 @@ export default function MainComp1() {
           <img
             src={happy_pepe2}
             alt=""
-            style={{ width: 30, height: 30, marginRight: 5 }}
+            style={{ width: "10%", height: "5%", marginRight: 5 }}
           />
           <span>싸피를 즐기러 가보자!</span>
           <img
             src={happy_pepe2}
             alt=""
-            style={{ width: 30, height: 30, marginLeft: 3 }}
+            style={{ width: "10%", height: "5%", marginRight: 5 }}
           />
         </Title>
         <HoverBox>
@@ -91,7 +149,7 @@ export default function MainComp1() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               cursor: "pointer", // 추가
             }}
             onClick={handleSinglePlayerClick}
@@ -109,7 +167,7 @@ export default function MainComp1() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               cursor: "pointer", // 추가
             }}
             onClick={handleMultiPlayerClick}
@@ -118,6 +176,71 @@ export default function MainComp1() {
 
             <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
           </Box>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogContent
+              style={{
+                width: "480px",
+                height: "auto",
+                backgroundImage: `url(${find})`, // Add your image path here
+                backgroundSize: "cover",
+              }}
+            >
+              <SearchBar />
+              <Box>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  textColor="secondary"
+                  indicatorColor="secondary"
+                  aria-label="secondary tabs example"
+                  centered
+                >
+                  <Tab value={0} label="서울" />
+                  <Tab value={1} label="대전" />
+                  <Tab value={2} label="부울경" />
+                  <Tab value={3} label="광주" />
+                  <Tab value={4} label="구미" />
+                </Tabs>
+              </Box>
+              <SwipeableViews index={value} onChangeIndex={handleChange}>
+                <div role="tabpanel" hidden={value !== 0} id="tabpanel-0">
+                  {value === 0 && (
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
+                  )}
+                </div>
+                <div role="tabpanel" hidden={value !== 1} id="tabpanel-1">
+                  {value === 1 && (
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
+                  )}
+                </div>
+                <div role="tabpanel" hidden={value !== 2} id="tabpanel-2">
+                  {value === 2 && (
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
+                  )}
+                </div>
+                <div role="tabpanel" hidden={value !== 3} id="tabpanel-3">
+                  {value === 3 && (
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
+                  )}
+                </div>
+                <div role="tabpanel" hidden={value !== 4} id="tabpanel-4">
+                  {value === 4 && (
+                    <RankingContainer>
+                      <Ranking2 />
+                    </RankingContainer>
+                  )}
+                </div>
+              </SwipeableViews>
+            </DialogContent>
+          </Dialog>
         </HoverBox>
       </Box>
     </Comp1>
