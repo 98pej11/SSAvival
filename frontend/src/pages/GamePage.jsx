@@ -89,6 +89,7 @@ export default function GamePage() {
       userId: localStorage.getItem("userId"),
     });
   };
+
   useEffect(() => {
     console.log("setGameDone");
     dispatch(GameAction.setGameDone(finalData));
@@ -111,6 +112,12 @@ export default function GamePage() {
     if (!minigameActive && round < gameTitleData.length) {
       timeoutId = setTimeout(() => {
         dispatch({ type: "SET_MINIGAME_START" });
+
+        const data = {
+          userId: localStorage.getItem("userId"),
+          round: round + 1,
+        };
+        dispatch(GameAction.getGameRecord(data));
       }, 3000);
     }
 
@@ -119,16 +126,10 @@ export default function GamePage() {
     };
   }, [dispatch, gameTitleData, round, minigameActive]);
 
-  useEffect(() => {
-    console.log("INPUTSSSSSS", inputs);
-    console.log("blobArray 길이 3", blobArray.length);
-    // saveBlobs(blobArray); // inputs 상태 값이 변경될 때마다 호출됩니다.
-  }, [inputs]);
-
   // const [formDataArray, setFormDataArray] = useState([]);
   const [flag, setFlag] = useState(false);
   const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
-  console.log("MINIGAMECLEARRRRR", minigameClear);
+  // console.log("MINIGAMECLEARRRRR", minigameClear);
 
   useEffect(() => {
     if (round != 0) {
@@ -136,14 +137,16 @@ export default function GamePage() {
         let count = 0;
         let interval = setInterval(() => {
           console.log("minigame clear", minigameClear);
-          if (!minigameClear) {
-            count++;
+          if (minigameActive) {
+            console.log("check 134");
             onCapture(count);
-            console.log("COUNT", count);
+            count++;
+            // console.log("COUNT", count);
           }
           //20장 캡쳐완료 시
-          if (minigameClear || count % 20 === 0) {
-            console.log("CLLLLLLLLLLLLLLLLLLL");
+          // console.log("MINIGame Active", minigameActive);
+          if (!minigameActive) {
+            console.log("Check  145");
             onCapture(count);
             clearInterval(interval);
             setTimeout(() => {}, 3000); //3초 대기
@@ -155,14 +158,7 @@ export default function GamePage() {
         };
       }
     }
-  }, [round, minigameClear]);
-
-  // useEffect(() => {
-  //   if (flag) {
-  //     dispatch(GameAction.gameDone(formDataArray));
-  //     setFlag(false);
-  //   }
-  // }, [flag]);
+  }, [round, minigameClear, minigameActive]);
 
   const canvasRef = useRef(null);
 
@@ -189,10 +185,6 @@ export default function GamePage() {
   const [blobArray, setBlobArray] = useState([]);
   const [totalScore, setTotalScore] = useState(0);
 
-  // useEffect(() => {
-  //   saveBlobs(blobArray);
-  // }, [flag]);
-
   useEffect(() => {
     setTotalScore(totalScore + score);
   }, [score]);
@@ -208,15 +200,14 @@ export default function GamePage() {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
         if (!minigameClear) {
-          console.log("onCapture1", blob);
           setBlobs((prevBlobs) => [...prevBlobs, blob]);
-          console.log("onCapture2", blob);
+          console.log("onCapture", blob.length, blob);
         }
 
         // console.log(blobs)
-        console.log("LeNNNNNNNNNNNNNNNN", count);
+        // console.log("LeNNNNNNNNNNNNNNNN", count);
         //이미지 20장 찍거나 게임 클리어했을 경우
-        if (minigameClear || count === 20) {
+        if (minigameClear || !minigameActive) {
           console.log("EEEEEEEEEEEEEEEND", blobs.length);
           //점수, 시간, 아이디 저장
           setBlobArray(blobs);
@@ -231,22 +222,28 @@ export default function GamePage() {
               .replace("T", " "),
           });
           setFlag(true);
-          // setBlobArray(blobs);
-          // saveBlobs(blobs)
         }
       }, "image/png");
     });
   };
 
+  const [flag2, setFlag2] = useState(0);
+
   useEffect(() => {
-    if (inputs.length != 0 && flag) {
-      console.log("SAVE");
-      console.log("BLOB ARRAY", blobArray);
+    console.log("FLAG out", flag);
+    if (flag) {
+      console.log("FLAG IN", flag);
+      console.log("SAVE BLOB ARRAY", blobArray);
 
       saveBlobs();
+      setFlag2(1 - flag2);
     }
-  }, [inputs, flag]);
-
+  }, [flag]);
+  useEffect(() => {
+    if (flag) {
+      setFlag(false);
+    }
+  }, [flag2]);
   const saveBlobs = () => {
     console.log("save blobs");
     const formData = new FormData();
@@ -261,7 +258,10 @@ export default function GamePage() {
     formData.append("miniGame", blob);
 
     dispatch(GameAction.gameDone(formData));
+    setInputs({});
+    setBlobArray([]);
     setBlobs([]);
+    setFlag(false); // Set flag to false here to prevent multiple executions
   };
 
   const images = useSelector((state) => state.gameReducer.gameRecord);
@@ -269,6 +269,7 @@ export default function GamePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    console.log("IMAGES", images);
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 500);
@@ -309,7 +310,9 @@ export default function GamePage() {
         ) : (
           <Box sx={Comp}>
             <Box sx={gameContainer2}>
-              <img src={images[currentIndex].imageUrl} alt="Slider" />
+              {images && (
+                <img src={images[currentIndex].imageUrl} alt="Slider" />
+              )}
             </Box>
             <Box
               sx={{
@@ -328,42 +331,6 @@ export default function GamePage() {
       </Box>
       {/* 게임 정답 시 계산 */}
       <button onClick={onClickFinal}>종료</button>
-      {/* {gameMode === "single" ? (
-        <Box
-          sx={{
-            ...gameContainer,
-            backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
-            backgroundImage: `url(${gameContainerBg})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
-        >
-          <TimerBomb timeLimit={10} />
-          <Box ref={canvasRef} id="gameContainer">
-            {gameComps[index]}
-          </Box>
-        </Box>
-      ) : (
-        <Box sx={Comp}>
-          <Box sx={gameContainer2}>
-            <ImagePlayer></ImagePlayer>
-          </Box>
-          <Box
-            sx={{
-              ...gameContainer2,
-              backgroundImage: `url(${gameContainerBg})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-            }}
-          >
-            <TimerBomb timeLimit={10} />
-            {gameComps[index]}
-          </Box>
-        </Box>
-      )} */}
     </Box>
-    // </Box>
   );
 }
