@@ -80,12 +80,12 @@ export default function KakaoLogin() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [kakaoNickname, setKakaoNicknamemail] = useState("");
-
+  const [userId, setUserId] =  useState("");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     console.log(selectedOption);
   };
-
+  const [user, setUser] = useState({});
   const handleNicknameChange = (event) => {
     setNickname(event.target.value);
     console.log(nickname);
@@ -97,17 +97,29 @@ export default function KakaoLogin() {
 
   useEffect(() => {
     registCheck();
+    
     console.log(2);
     localStorage.setItem("email", email);
-    getUserId(email);
   }, [email]);
 
+  // useEffect(() => {
+  // }, [userId]);
+
+  useEffect(() => {
+    localStorage.setItem("userId", userId);
+    if(userId) window.location.href = `${kakaoUrl}/main`;
+    
+  }, [userId]);
   const getUserId = async () => {
     await axios
       .get(`${baseUrl}/main/find/${email}`)
       .then((res) => {
         console.log(res);
-        localStorage.setItem("userId", res.data.user.userId);
+        if(res.data.user) {
+          setUserId(res.data.user.userId);
+          
+        }
+        // localStorage.setItem("userId", res.data.user.userId);
       })
       .catch((error) => console.log(error));
   };
@@ -176,7 +188,9 @@ export default function KakaoLogin() {
         if (res.data.exist) {
           // console.log("test1");
           // 잘 작동한다 email을 kakao에서 잘 받아오면 된다.
-          window.location.href = `${kakaoUrl}/main`;
+          // window.location.href = `${kakaoUrl}/main`;
+          getUserId(email);
+          console.log("res.data.exist" + res.data.exist);
           //   window.location.href = `http://localhost:3000/main`;
         } else {
           console.log("test2");
@@ -186,24 +200,27 @@ export default function KakaoLogin() {
   };
 
   const regist = async () => {
-    const user = {
+    const user_temp = {
       nickname: nickname,
       campus: selectedOption,
       mileage: 0,
       email: email,
     };
+    setUser(user_temp);
     console.log(user);
     await axios
-      .post(`${baseUrl}/user/kakao/regist`, JSON.stringify(user), {
+      .post(`${baseUrl}/user/kakao/regist`, JSON.stringify(user_temp), {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
         },
       })
       .then((res) => {
         console.log(res);
+        getUserId(email);
       })
       .catch((error) => console.log(error));
-    window.location.href = `${kakaoUrl}/main`;
+    // window.location.href = `${kakaoUrl}/main`;
+    // window.location.href = `http://localhost:3000/main`;
   };
 
   return (
