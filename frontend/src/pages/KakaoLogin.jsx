@@ -104,7 +104,7 @@ export default function KakaoLogin() {
 
   const getUserId = async () => {
     await axios
-      .get(`http://localhost:8084/api/main/find/${email}`)
+      .get(`${baseUrl}/main/find/${email}`)
       .then((res) => {
         console.log(res);
         localStorage.setItem("userId", res.data.user.userId);

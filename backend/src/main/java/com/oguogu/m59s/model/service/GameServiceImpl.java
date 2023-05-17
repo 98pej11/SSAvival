@@ -34,10 +34,11 @@ public class GameServiceImpl implements GameService{
     @Override
     public List<MiniGameInfoDto> listMiniGame(long gameId) {
         List<MiniGame> miniGames = miniGameRepository.findAllByGameId(gameId);
+        System.out.println("MINIGAME(0) : "+miniGames.get(0));
         List<MiniGameInfoDto> miniGameInfoDtos = new ArrayList<>();
         for (MiniGame miniGame : miniGames) {
             MiniGameDto dto = miniGame.toDto();
-            MiniGameDetailDto miniGameDetailDto = miniGameDetailRepository.findById(dto.getMiniGameDetailId()).get().toDto();
+            MiniGameDetailDto miniGameDetailDto = miniGameDetailRepository.findById(dto.getMiniGameDetail().getMiniGameDetailId()).get().toDto();
             MiniGameInfoDto miniGameInfoDto = new MiniGameInfoDto(dto.getMiniGameId(),dto.getClearTime(),dto.getScore(), miniGameDetailDto);
             miniGameInfoDtos.add(miniGameInfoDto);
         }
