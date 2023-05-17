@@ -53,8 +53,6 @@ const gameContainer2 = {
   flexWrap: "wrap",
   border: "none", // 테두리 없애기
   borderRadius: 10,
-  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-  backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
   padding: 3,
   maxWidth: "40%", // 최대 너비 값 설정
   width: "100%",
@@ -180,88 +178,22 @@ export default function GamePage() {
     <DifferenceGame key="DifferenceGame" />,
   ];
 
-<<<<<<< HEAD
-  // redux에서 게임 정보 가져오기
-  const gameMode = useSelector((state) => state.gameReducer.gameMode);
-  console.log("gamemode", gameMode);
-  const round = useSelector((state) => state.gameReducer.round);
-  const pageBg = useSelector((state) => state.gameReducer.pageBg);
-  const containerBg = useSelector((state) => state.gameReducer.containerBg);
-  const minigameActive = useSelector(
-    (state) => state.gameReducer.minigameActive
-  );
-  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
-  const gameTitleData = useSelector((state) => state.gameReducer.gameTitleData);
-  const interval = useSelector((state) => state.gameReducer.interval);
-  console.log("interval", interval);
-
-  // 게임 페이지 마운트되면 "SET_MINIGAME_START" dispatch 보내기
-  useEffect(() => {
-    dispatch({
-      type: "SET_MINIGAME_START",
-    });
-  }, [dispatch]);
-
-  // 렌더링 후 minigameActive 값이 false가 되면 3초만큼 기다린 후 setIndex를 바꾼 뒤 "SET_MINIGAME_START" dispatch 보내기
-  useEffect(() => {
-    let timeoutId = null;
-
-    if (!minigameActive && round < gameComps.length) {
-      timeoutId = setTimeout(() => {
-        dispatch({ type: "SET_MINIGAME_START" });
-      }, 3000);
-    } else if (!minigameActive && round == gameComps.length) {
-      setTimeout(() => {
-        setGameOver(true); // 마지막 라운드가 끝나면 gameOver 컴포 띄우기
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [dispatch, gameTitleData, round, minigameActive]);
-
-  useEffect(() => {
-    console.log("INPUTSSSSSS", inputs);
-    console.log("blobArray 길이 3", blobArray.length);
-    // saveBlobs(blobArray); // inputs 상태 값이 변경될 때마다 호출됩니다.
-  }, [inputs]);
-
-  // const [formDataArray, setFormDataArray] = useState([]);
-  // const [flag, setFlag] = useState(false);
-
-  // useEffect(() => {
-  //   if (gameMode === "single") {
-  //     let count = 0;
-  //     let interval = setInterval(() => {
-  //       onCapture();
-  //       count++;
-  //       //20장 캡쳐완료 시
-  //       if (count % 20 === 0) {
-  //         clearInterval(interval);
-  //         setTimeout(() => {}, 3000); //3초 대기
-  //       }
-  //     }, 500);
-  //   }
-  // }, [index]);
-
-  // useEffect(() => {
-  //   if (flag) {
-  //     dispatch(GameAction.gameDone(formDataArray));
-  //     setFlag(false);
-  //   }
-  // }, [flag]);
-
-  const canvasRef = useRef(null);
-
-=======
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
   // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
   const bgPath = useSelector((state) => state.gameReducer.bgPath);
-  const score = useSelector((state) => state.gameReducer.score);
-  const totalScore = useSelector((state) => state.gameReducer.totalScore);
+  const score = useSelector((state) => state.gameReducer.totalScore);
 
   const [blobArray, setBlobArray] = useState([]);
+  const [totalScore, setTotalScore] = useState(0);
+
+  useEffect(() => {
+    setTotalScore(totalScore + score);
+  }, [score]);
+
+  useEffect(() => {
+    console.log("TotalScore ", totalScore);
+  }, [totalScore]);
+
   const [blobs, setBlobs] = useState([]);
 
   const onCapture = (count) => {
@@ -320,8 +252,6 @@ export default function GamePage() {
     for (let i = 0; i < blobArray.length; i++) {
       formData.append("gameImages", blobArray[i], `image${i}.png`);
     }
-
-    console.log("INPUTS ", inputs);
 
     //inputs를 blob형태로 변경
     const json = JSON.stringify(inputs);
@@ -401,7 +331,6 @@ export default function GamePage() {
         {gameMode === "single" ? (
           <Box
             sx={{
-<<<<<<< HEAD
               ...gameContainer2,
               boxShadow:
                 pageBg === "class_desk" || "laptop"
@@ -412,20 +341,22 @@ export default function GamePage() {
                   ? "none"
                   : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
 
-              // height: interval ? "80vh" : "80vh", //원래 값 72vh인데 80으로 수정
-              backgroundImage: interval ? "" : `url(${containerBg})`,
-=======
-              ...gameContainer,
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
+              backgroundImage: inter ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           >
-            <TimerBomb />
-            <Box ref={canvasRef} id="gameContainer">
-              {gameComps[round - 1]}
-            </Box>
+            {inter ? (
+              <Interval />
+            ) : (
+              <Box>
+                <TimerBomb />
+                <Box ref={canvasRef} id="gameContainer">
+                  {gameComps[round - 1]}
+                </Box>
+              </Box>
+            )}
           </Box>
         ) : (
           <Box sx={Comp}>
@@ -437,14 +368,22 @@ export default function GamePage() {
             <Box
               sx={{
                 ...gameContainer2,
-                backgroundImage: `url(${gameContainerBg})`,
+                backgroundImage: inter ? "" : `url(${containerBg})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
               }}
             >
-              <TimerBomb />
-              {gameComps[round - 1]}
+              {inter ? (
+                <Interval />
+              ) : (
+                <Box>
+                  <TimerBomb />
+                  <Box ref={canvasRef} id="gameContainer">
+                    {gameComps[round - 1]}
+                  </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         )}

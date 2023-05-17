@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,9 +9,18 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+<<<<<<< HEAD
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+=======
+import { useDispatch } from "react-redux";
+import gameReducer from "../../redux/reducers/game";
+import { GameAction } from "../../redux/actions/GameAction";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { store } from "../../redux/store";
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -41,6 +50,7 @@ const Pag = styled.div`
   justify-content: center;
 `;
 
+<<<<<<< HEAD
 export default function Ranking2(value) {
   const campus = value.value;
   console.log(campus);
@@ -63,14 +73,47 @@ export default function Ranking2(value) {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
     navigate("/start"); // /game 경로로 이동
   };
+=======
+export default function Ranking() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const round = useSelector((state) => state.gameReducer.round);
+  const round = store.getState().gameReducer.round;
+  const startMultiGame = (userId) => {
+    const data = {
+      userId: localStorage.getItem("userId"),
+      round: round + 1,
+    };
+    dispatch(GameAction.getGameRecord(data));
+    console.log(userId);
+    setFlag(true);
+  };
+  const campusRanking = useSelector((state) => state.gameReducer.gameRanking);
+  const gameRecord = useSelector((state) => state.gameReducer.gameRecord);
+  // const gameRecord = store.getState().gameReducer.gameRecord;
+
+  const [flag, setFlag] = useState(false);
+  useEffect(() => {
+    if (flag) {
+      console.log("GAMERECORD");
+      dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+      navigate("/game"); // /game 경로로 이동
+    }
+  }, [gameRecord]);
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
 
   return (
     <Rank>
       <Box sx={{ width: "100%", height: "100px" }}>
         <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
+<<<<<<< HEAD
             {topFive.map((item) => (
               <TableRow key={item.rank}>
+=======
+            {campusRanking.map((item) => (
+              <TableRow key={item.userId}>
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
                 <TableCell
                   sx={{
                     width: "0%",
@@ -80,7 +123,11 @@ export default function Ranking2(value) {
                     fontFamily: "neodgm",
                   }}
                 >
+<<<<<<< HEAD
                   {item.rank}
+=======
+                  {item.userId}
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
                 </TableCell>
                 <TableCell
                   sx={{
@@ -127,6 +174,7 @@ export default function Ranking2(value) {
                     }}
                     variant="contained"
                     endIcon={<ArrowCircleRightIcon />}
+                    onClick={() => startMultiGame(item.userId)}
                   >
                     가상대전
                   </Button>

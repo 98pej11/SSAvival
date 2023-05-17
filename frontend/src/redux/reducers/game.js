@@ -15,7 +15,7 @@ const initialState = {
     "반출했던 컴퓨터 IP를 다시 돌려놓자!",
     "연상되는 단어를 입력해봐!",
     "휴지 5장을 빠르게 쭉- 뽑아보쟈",
-    "상황에 맞는 MM 이모지를 선택해보쟈",
+    "상황에 가장 알맞는 MM 이모지를 선택해보쟈",
     "태그하고 밥먹자",
     "식당 자리 잡기",
     "퍼즐맞추기",
@@ -26,6 +26,7 @@ const initialState = {
     class_desk,
     locker,
     consultant_desk,
+    class_desk,
     classroom,
     consultant,
     class_desk,
@@ -37,7 +38,7 @@ const initialState = {
   ],
   containerBgs: [monitor, "", "", "", "", "", "", "", "", "", monitor],
   remindAnswer: "",
-  remindWordList: ["빵", "패티", "양배추", "치즈", "토마토"],
+  remindWordList: ["햄", "치즈", "빵", "양상추", "케찹"],
   round: 0,
   title: null,
   pageBg: null,
@@ -57,6 +58,8 @@ const initialState = {
   pointsCenter: [[0, 0, 0]],
   quizImgSize: { width: 600, height: 400 },
   quizImgUrl: { left: "", right: "" },
+  gameRecord: [],
+  gameRanking: [],
   firstTypo: [],
   secondTypo: [],
 };
@@ -140,6 +143,17 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         pointsCenter: payload,
+      };
+    case "GET_GAMERECORD":
+      console.log("GAMERRRRR", payload.data.gameImages);
+      return {
+        ...state,
+        gameRecord: payload.data.gameImages,
+      };
+    case "GET_RANKING":
+      return {
+        ...state,
+        gameRanking: payload.data.userList,
       };
     case "SET_FIRST_TYPO":
       return {

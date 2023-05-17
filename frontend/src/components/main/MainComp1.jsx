@@ -15,6 +15,8 @@ import happy_pepe2 from "../../assets/happy_pepe2.png";
 import find from "../../assets/find.png";
 import { GameAction } from "../../redux/actions/GameAction";
 import Ranking2 from "./Ranking2";
+import gameReducer from "../../redux/reducers/game";
+import { fetchQuizImage } from "../../redux/actions/DifferenceGameAction";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
@@ -72,6 +74,7 @@ export default function MainComp1() {
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch(GameAction.getRemindAnswer("음식"));
+<<<<<<< HEAD
     dispatch(GameAction.gameStart(localStorage.getItem("userId"))).then(
       (res) => {
         console.log("여기야아");
@@ -83,6 +86,11 @@ export default function MainComp1() {
       }
     );
     navigate("/start"); // /game 경로로 이동
+=======
+    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    dispatch(fetchQuizImage());
+    navigate("/game"); // /game 경로로 이동
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
   };
 
   const handleMultiPlayerClick = () => {

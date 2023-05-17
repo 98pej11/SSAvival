@@ -14,11 +14,15 @@ import {
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../components/KakaoLoginData";
-
+import { url } from "../redux/actions/url";
 import { title } from "process";
 import LogoutBtn from "../components/main/LogoutBtn";
 import { AccessAction } from "../redux/actions/AccessAction";
+<<<<<<< HEAD
 import { baseUrl } from "../redux/actions/url";
+=======
+import { kakaoUrl } from "../redux/actions/url";
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -29,10 +33,17 @@ const Pages = styled.div`
 `;
 
 export default function LoginPage() {
+  let activeIndex = 0;
+
   const characterRef = useRef(null);
   const character2Ref = useRef(null);
-  let activeIndex = 0;
+  const character3Ref = useRef(null);
+  const character4Ref = useRef(null);
+
   let spritesheetElements = "";
+  let spritesheetElement2 = "";
+  let spritesheetElement3 = "";
+  let spritesheetElement4 = "";
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -58,19 +69,37 @@ export default function LoginPage() {
   useEffect(() => {
     const spritesheets = [
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-HANK-2-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-EMMY-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-SHIRMOND-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-SARA-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-PATTY-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-JESSIE-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-KIM-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-MINDY-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-ZAK-SHEET.png",
+      // "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-BEAR-SHEET.png",
+    ];
+    const spritesheet2 = [
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-EMMY-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-SHIRMOND-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-SARA-SHEET.png",
+    ];
+    const spritesheet3 = [
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-PATTY-SHEET.png",
+    ];
+    const spritesheet4 = [
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-JESSIE-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-KIM-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-MINDY-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-ZAK-SHEET.png",
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-BEAR-SHEET.png",
     ];
 
     spritesheets.forEach((spritesheet, index) => {
       spritesheetElements += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
+    });
+    spritesheet2.forEach((spritesheet, index) => {
+      spritesheetElement2 += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
+    });
+    spritesheet3.forEach((spritesheet, index) => {
+      spritesheetElement3 += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
+    });
+    spritesheet4.forEach((spritesheet, index) => {
+      spritesheetElement4 += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
     });
 
     if (characterRef.current) {
@@ -81,7 +110,22 @@ export default function LoginPage() {
     if (character2Ref.current) {
       character2Ref.current.insertAdjacentHTML(
         "beforeend",
-        spritesheetElements
+        spritesheetElement2
+      );
+      setActive(activeIndex);
+    }
+    if (character3Ref.current) {
+      character3Ref.current.insertAdjacentHTML(
+        "beforeend",
+        spritesheetElement3
+      );
+      setActive(activeIndex);
+    }
+
+    if (character4Ref.current) {
+      character4Ref.current.insertAdjacentHTML(
+        "beforeend",
+        spritesheetElement4
       );
       setActive(activeIndex);
     }
@@ -104,7 +148,11 @@ export default function LoginPage() {
     const access_token = localStorage.getItem("access_token");
     const refresh_token = localStorage.getItem("refresh_token");
     if (access_token || refresh_token) {
+<<<<<<< HEAD
       window.location.href = `${baseUrl}/main`;
+=======
+      window.location.href = `${kakaoUrl}/main`;
+>>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
     } else window.location.href = KAKAO_AUTH_URL;
   };
   class star {
@@ -188,8 +236,24 @@ export default function LoginPage() {
                   class="Character_shadow PixelArtImage"
                 />
               </div>
+              <div class="Character Character--walk-down" ref={character3Ref}>
+                <img
+                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-Shadow.png"
+                  alt=""
+                  class="Character_shadow PixelArtImage"
+                />
+              </div>
+              <div class="Character Character--walk-down" ref={character4Ref}>
+                <img
+                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-Shadow.png"
+                  alt=""
+                  class="Character_shadow PixelArtImage"
+                />
+              </div>
             </div>
-            <div style={{ margin: 30 }}>
+            <div
+              style={{ margin: 30, display: "flex", justifyContent: "center" }}
+            >
               <a href="#" onClick={kakaoLogin}>
                 <img
                   src={kakao}
