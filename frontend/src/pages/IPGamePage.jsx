@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import SeatComp from "../components/game/SeatComp";
+
 import GameComp from "../components/game/GameComp";
-import GameComp2 from "../components/game/GameComp2";
+import GameComp2 from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
 import { useSelector } from "react-redux";
+import IPGame from "../components/game/IPGame";
 
 const Pages = styled.div`
   background-image: url(${game});
@@ -16,7 +17,7 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-export default function SeatPage() {
+export default function IPGamePage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
@@ -32,11 +33,11 @@ export default function SeatPage() {
       >
         {gameMode === "single" ? (
           <GameComp>
-            <SeatComp />
+            <IPGame />
           </GameComp>
         ) : (
           <GameComp2>
-            <SeatComp />
+            <IPGame />
           </GameComp2>
         )}
       </div>

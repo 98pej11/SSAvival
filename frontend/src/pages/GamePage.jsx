@@ -126,29 +126,35 @@ export default function GamePage() {
 
   // const [formDataArray, setFormDataArray] = useState([]);
   const [flag, setFlag] = useState(false);
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+  console.log("MINIGAMECLEARRRRR", minigameClear);
 
   useEffect(() => {
-    console.log("ROUND ", round);
-
     if (round != 0) {
       if (gameMode === "single") {
         let count = 0;
         let interval = setInterval(() => {
+          console.log("minigame clear", minigameClear);
           if (!minigameClear) {
-            onCapture();
             count++;
+            onCapture(count);
+            console.log("COUNT", count);
           }
           //20장 캡쳐완료 시
           if (minigameClear || count % 20 === 0) {
             console.log("CLLLLLLLLLLLLLLLLLLL");
+            onCapture(count);
             clearInterval(interval);
             setTimeout(() => {}, 3000); //3초 대기
-            return;
+            // return;
           }
         }, 500);
+        return () => {
+          clearInterval(interval);
+        };
       }
     }
-  }, [round]);
+  }, [round, minigameClear]);
 
   // useEffect(() => {
   //   if (flag) {
@@ -179,8 +185,6 @@ export default function GamePage() {
   const bgPath = useSelector((state) => state.gameReducer.bgPath);
   const score = useSelector((state) => state.gameReducer.totalScore);
 
-  let blobs = [];
-
   const [blobArray, setBlobArray] = useState([]);
   const [totalScore, setTotalScore] = useState(0);
 
@@ -190,21 +194,29 @@ export default function GamePage() {
 
   useEffect(() => {
     setTotalScore(totalScore + score);
-    console.log("TotalScore ", totalScore);
   }, [score]);
 
-  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
-  console.log("MINIGAMECLEAR", minigameClear);
+  useEffect(() => {
+    console.log("TotalScore ", totalScore);
+  }, [totalScore]);
 
-  const onCapture = () => {
+  const [blobs, setBlobs] = useState([]);
+
+  const onCapture = (count) => {
     html2canvas(document.getElementById("gameContainer")).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
-        blobs.push(blob);
-        console.log("onCapture", blobs.length, blob);
+        if (!minigameClear) {
+          console.log("onCapture1", blob);
+          setBlobs((prevBlobs) => [...prevBlobs, blob]);
+          console.log("onCapture2", blob);
+        }
+
+        // console.log(blobs)
+        console.log("LeNNNNNNNNNNNNNNNN", count);
         //이미지 20장 찍거나 게임 클리어했을 경우
-        if (blobs.length === 20 || minigameClear) {
-          console.log("EEEEEEEEEEEEEEEND");
+        if (minigameClear || count === 20) {
+          console.log("EEEEEEEEEEEEEEEND", blobs.length);
           //점수, 시간, 아이디 저장
           setBlobArray(blobs);
           setInputs({
@@ -248,6 +260,7 @@ export default function GamePage() {
     formData.append("miniGame", blob);
 
     dispatch(GameAction.gameDone(formData));
+    setBlobs([]);
   };
 
   const images = useSelector((state) => state.gameReducer.gameRecord);
