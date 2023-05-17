@@ -14,7 +14,7 @@ import {
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../components/KakaoLoginData";
-
+import { url } from "../redux/actions/url"
 import { title } from "process";
 import LogoutBtn from "../components/main/LogoutBtn";
 import { AccessAction } from "../redux/actions/AccessAction";

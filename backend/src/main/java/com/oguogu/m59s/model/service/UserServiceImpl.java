@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Cacheable(value = "List<UserDto>", cacheManager = "cacheManager")
+//    @Cacheable(value = "List<UserDto>", cacheManager = "cacheManager")
     //랭크 순서대로 리스트 출력
     public List<UserDto> listUser(){
         Sort sort = Sort.by(Sort.Direction.DESC, "mileage");
