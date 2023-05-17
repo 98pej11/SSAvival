@@ -26,8 +26,9 @@ public class MiniGame implements Comparable<MiniGame>{
     private int score;
     @Column(nullable = false)
     private long gameId;
-    @Column(nullable = false)
-    private long miniGameDetailId;
+    @OneToOne
+    @JoinColumn(name = "miniGameDetailId")
+    private MiniGameDetail miniGameDetail;
 
     public MiniGameDto toDto() {
         MiniGameDto miniGameDto = MiniGameDto.builder()
@@ -35,7 +36,7 @@ public class MiniGame implements Comparable<MiniGame>{
                 .clearTime(clearTime)
                 .score(score)
                 .gameId(gameId)
-                .miniGameDetailId(miniGameDetailId)
+                .miniGameDetail(miniGameDetail)
                 .build();
         return miniGameDto;
     }
@@ -47,7 +48,7 @@ public class MiniGame implements Comparable<MiniGame>{
                 ", clearTime='" + clearTime + '\'' +
                 ", score=" + score +
                 ", gameId=" + gameId +
-                ", miniGameDetailId=" + miniGameDetailId +
+                ", miniGameDetailId=" + miniGameDetail +
                 '}';
     }
 
