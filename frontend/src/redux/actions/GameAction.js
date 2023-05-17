@@ -54,6 +54,7 @@ function gameStart(userId) {
       const response = await axios.get(`${baseUrl}/game/start/${userId}`);
       console.log("게임 스따뚜");
       console.log(response);
+      localStorage.setItem("gameId", response.data.gameId);
       return response;
     } catch (error) {
       console.log(error);

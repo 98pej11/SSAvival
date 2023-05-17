@@ -77,7 +77,7 @@ public class GameServiceImpl implements GameService{
     public long findGameLastIndex() {
         List<Game> list = gameRepository.findAll();
         Collections.sort(list);
-        Game game = list.get(0);
+        Game game = list.get(list.size()-1);
         return game.getGameId() + 1;
     }
 
