@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import pepe from "../../assets/pepe.jpg";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LogoutBtn from "./LogoutBtn";
+import { useSelector } from "react-redux";
 
 function MainHeader() {
+  //redux state값 가져오기
+  const nickname = useSelector((state) => state.mainReducer.nickname);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleLogout = () => {
+    LogoutBtn.logout();
+  };
   return (
     <AppBar
       elevation={0}
@@ -35,7 +53,7 @@ function MainHeader() {
               width: "100%",
             }}
           >
-            <img
+            {/* <img
               src={pepe}
               alt=""
               style={{
@@ -43,8 +61,17 @@ function MainHeader() {
                 marginRight: "10px",
                 width: "3%",
               }}
-            />
-            <div style={{ color: "black" }}>김페페님, 환영합니다!</div>
+            /> */}
+            <div
+              style={{
+                color: "black",
+                fontFamily: "gmarket",
+                marginRight: "2%",
+              }}
+            >
+              {nickname}님, 환영합니다!
+            </div>
+            <LogoutBtn />
           </div>
         </Toolbar>
       </Container>

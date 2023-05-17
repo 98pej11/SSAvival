@@ -2,7 +2,12 @@ import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  cancel,
+} from "react-beautiful-dnd";
 
 export default function Seating() {
   const dispatch = useDispatch();
@@ -21,8 +26,32 @@ export default function Seating() {
     (state) => state.gameReducer.minigameActive
   );
 
+  useEffect(() => {
+    if (count === 6) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
+
+  // Cancel the drag when the component is unmounted
+  // useEffect(() => {
+  //   return () => {
+  //     const cleanup = () => {
+  //       cancel(); // Cancel the drag when the component is unmounted
+  //     };
+
+  //     return cleanup;
+  //   };
+  // }, []);
+
   const selectIndex = (selectingNumber) => {
-    let temp = Array.from({ length: 15 }, (v, i) => i);
+    let temp = Array.from({ length: 12 }, (v, i) => i);
 
     let randomIndexArray = [];
     while (randomIndexArray.length <= selectingNumber) {
@@ -147,12 +176,12 @@ export default function Seating() {
   };
 
   useEffect(() => {
-    let temp = new Array(15).fill(false);
+    let temp = new Array(12).fill(false);
     setRandomIndexArray(selectIndex(6));
   }, []);
 
   useEffect(() => {
-    let temp = new Array(15).fill(false);
+    let temp = new Array(12).fill(false);
     var step;
     // temp[0] = true;
     for (step = 0; step < 6; step++) {
@@ -167,12 +196,13 @@ export default function Seating() {
       <div
         style={{
           userSelect: "none",
-          width: "100%",
-          height: "auto",
+          width: "600px",
+          height: "500px",
           backgroundColor: "white",
           display: "flex",
           backgroundImage: `url(${"floor.png"})`,
           // justifyContent: "center",
+          margin: "0 auto",
         }}
       >
         <Droppable droppableId="items1">
@@ -468,6 +498,7 @@ export default function Seating() {
                 </FirstSetset>
               </FirstSet>
             </First>
+            {/*  */}
             <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
             {/* 2분단 */}
             <Second>
@@ -970,10 +1001,14 @@ const EmptyPerson = styled(`div`)({
 const Success = styled(`div`)({
   width: "600px",
   position: "absolute",
-  fontSize: "60pt",
-  color: "red",
+  fontSize: "40pt",
+  color: "black",
   zIndex: "20",
   fontFamily: "neodgm",
+  backgroundColor: "skyblue",
+  top: "40%",
+  // bottom: "15p%",
+  paddingLeft: "10%",
   // fontSize: 1.7rem;
   // color: black;
 });

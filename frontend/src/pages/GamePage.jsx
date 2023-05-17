@@ -56,9 +56,11 @@ const gameContainer2 = {
   flexWrap: "wrap",
   border: "none", // 테두리 없애기
   borderRadius: 10,
+  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
   padding: 3,
   maxWidth: "40%", // 최대 너비 값 설정
   width: "100%",
+  height: "72vh",
   overflow: "hidden",
   marginRight: 10, //
 };
@@ -78,19 +80,20 @@ export default function GamePage() {
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
-    // <TypoGame key="TypoGame" />,
-    // <RemindGame key="RemindGame" />,
-    // <TissueGame key="TissueGame" />,
-    // <EmojiComp key="EmojiComp" />,
-    // <IdCard key="Idcard" />,
-    // <Seating key="Seating" />,
-    // <Puzzle key="Puzzle" />,
-    // <AttendanceGame key="AttendanceGame" />,
-    // <DifferenceGame key="DifferenceGame" />,
+    <TypoGame key="TypoGame" />,
+    <RemindGame key="RemindGame" />,
+    <TissueGame key="TissueGame" />,
+    <EmojiComp key="EmojiComp" />,
+    <IdCard key="Idcard" />,
+    <Seating key="Seating" />,
+    <Puzzle key="Puzzle" />,
+    <AttendanceGame key="AttendanceGame" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux에서 게임 정보 가져오기
   const gameMode = useSelector((state) => state.gameReducer.gameMode);
+  console.log("gamemode", gameMode);
   const round = useSelector((state) => state.gameReducer.round);
   const pageBg = useSelector((state) => state.gameReducer.pageBg);
   const containerBg = useSelector((state) => state.gameReducer.containerBg);
@@ -301,7 +304,6 @@ export default function GamePage() {
         height: "auto",
       }}
     >
-      {/* {interval ? <canvas position="absolute" ref={confettiRef} /> : ""} */}
       <Header />
       <Box sx={container}>
         {gameMode === "single" ? (
@@ -317,7 +319,7 @@ export default function GamePage() {
                   ? "none"
                   : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
 
-              height: interval ? "80vh" : "80vh", //원래 값 72vh인데 80으로 수정
+              // height: interval ? "80vh" : "80vh", //원래 값 72vh인데 80으로 수정
               backgroundImage: interval ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",

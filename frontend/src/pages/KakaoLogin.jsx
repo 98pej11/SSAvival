@@ -50,7 +50,7 @@ export default function KakaoLogin() {
         console.log("gerUserId Res", res);
         localStorage.setItem("userId", res.data.user.userId);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log("안녕 난 에러야", error));
   };
   // kakao에서 access-token 받기
   const getKakaoToken = () => {

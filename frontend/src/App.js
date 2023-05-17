@@ -22,6 +22,9 @@ import Interval from "./components/game/Interval";
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import PuzzlePage from "./pages/PuzzlePage";
+import Gameover from "./components/game/GameOver";
+import IPGame from "./pages/IPGamePage";
+
 import IntervalPage from "./pages/InterverPage";
 const Pages = styled.div`
   position: relative;
@@ -32,15 +35,19 @@ function App() {
     <BrowserRouter>
       <Pages>
         <Routes>
+          {/* 로그인페이지 */}
           <Route path="/" element={<LoginPage />} />
           <Route path="/callback/kakao" element={<KakaoLogin />} />
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
 
+          {/* 메인 및 게임페이지 */}
           <Route path="/main" element={<MainPage />} />
           <Route path="/start" element={<StartPage />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/interval" element={<IntervalPage />} />
+          <Route path="/gameover" element={<Gameover />} />
 
+          {/* gamePages (테스트용) */}
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/tissue" element={<TissuePage />} />
@@ -49,18 +56,13 @@ function App() {
           <Route path="/seat" element={<SeatPage />} />
           <Route path="/id-card" element={<IdCardPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
-          
-          <Route path="/video" element={<VideoHandler />} />
-          <Route path="/difference" element={<DifferencePage />} />
           <Route path="/locker" element={<LockerPage />} />
-          <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/remind" element={<RemindPage />} />
-          <Route path="/seat" element={<SeatPage />} />
-          <Route path="/puzzle" element={<PuzzlePage />} />
-          <Route path="/id-card" element={<IdCardPage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/difference" element={<DifferencePage />} />
+          <Route path="/ipgame" element={<IPGame />} />
 
-          {/* 
-          <Route path="/image" element={<ImagePlayer />} />
+          {/* 녹화용 */}
           <Route path="/video" element={<VideoHandler />} />
           {/* <Route path="/image" element={<ImagePlayer />} /> */}
         </Routes>

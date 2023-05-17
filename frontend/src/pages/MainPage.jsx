@@ -8,6 +8,8 @@ import MainComp4 from "../components/main/MainComp4";
 import { useDispatch } from "react-redux";
 import { AccessAction } from "../redux/actions/AccessAction";
 import { kakaoUrl } from "../redux/actions/url";
+import { MainAction } from "../redux/actions/MainAction";
+import { useSelector } from "react-redux";
 const Header = styled.div`
   margin-left: 20%;
   margin-right: 20%;
@@ -36,6 +38,7 @@ const Comp4 = styled.div`
 function MainPage() {
   const [accessTokenState, setAccessTokenState] = useState(true);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(AccessAction.accessTokenTest())
       .then((res) => {
@@ -70,10 +73,9 @@ function MainPage() {
   }, [accessTokenState]);
 
   // 유저 정보 받아오기
-  // const userId = localStorage.getItem(userId);
-  // console.log(userId);
+  const userId = useSelector((state) => state.mainReducer.userId);
   useEffect(() => {
-    // dispatch();
+    dispatch(MainAction.getUserInfo(userId));
   }, []);
 
   return (
