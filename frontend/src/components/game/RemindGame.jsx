@@ -102,7 +102,7 @@ const BlinkingImage = styled.img`
 export default function RemindGame() {
   const [inputs, setInputs] = useState("");
   // const answer = useSelector((state) => state.gameReducer.remindAnswer);
-  const answer = "햄버거";
+  const answer = "토스트";
   const wordList = useSelector((state) => state.gameReducer.remindWordList);
   // console.log(wordList);
   const [currentWords, setCurrentWords] = useState([]);

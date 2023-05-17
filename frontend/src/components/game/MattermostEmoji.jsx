@@ -5,15 +5,27 @@ import MoodIcon from "@mui/icons-material/Mood";
 import happyloopy from "../../assets/happy_loopy.png";
 import nepp from "../../assets/nepp.png";
 import pepesad from "../../assets/pepe_sad.png";
-import pepe from "../../assets/pepe.jpg";
 import sadshin from "../../assets/sad_shin.png";
 import thanks from "../../assets/thanks.png";
-import yes from "../../assets/yes.png";
-import zzang from "../../assets/zzang.png";
+import happypepe from "../../assets/happypepe.png";
+import ans1 from "../../assets/ans1.png";
+import ans2 from "../../assets/ans2.png";
+import weekend from "../../assets/weekend.png";
 // import Emoji from "./EmojiComp";
 import styled from "styled-components";
 
-const emojis = [happyloopy, nepp, pepesad, pepe, sadshin, thanks, yes, zzang];
+const emojis = [
+  happyloopy,
+  happypepe,
+  nepp,
+  thanks,
+  pepesad,
+  sadshin,
+
+  ans1,
+  ans2,
+  weekend,
+];
 
 const MattermostEmoji = () => {
   const [anchorEl, setAnchorEl] = useState(null);

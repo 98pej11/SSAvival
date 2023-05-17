@@ -11,7 +11,6 @@ import header from "../../assets/header.png";
 import online from "../../assets/online.png";
 import mmtop from "../../assets/mmtop.png";
 import MattermostEmoji from "./MattermostEmoji";
-import { useSelector, useDispatch } from "react-redux";
 
 const EmojiData = [
   {
@@ -22,10 +21,22 @@ const EmojiData = [
     Title: "[라이브 접속 안내]",
     Text: "9시 라이브 방송 [프로젝트 발표 Tip & 6주차 News] 이 곧 시작됩니다. 라이브 방송 댓글참여를 위해 에듀싸피를 통해 접속해주세요!!",
   },
-  { Title: "[]", Text: "f" },
-  { Title: "[설문조사 미실시 안내]", Text: "e" },
-  { Title: "[설문조사 미실시 안내]", Text: "g" },
-  { Title: "[설문조사 미실시 안내]", Text: "d" },
+  {
+    Title: "[식단 및 이용시간 안내]",
+    Text: "이번주 중식 시간은 11:40 ~ 12:40 (1시간) 입니다. 시간 잘 지켜서 엘리베이터 이용해주시기 바랍니다.",
+  },
+  {
+    Title: "[개인메세지]",
+    Text: "교육생님, 노트북 반출신청서에 날짜 오류가 있어서 수정해드렸습니다. 다음부터 조금 더 신경써서 제출 부탁드려요!",
+  },
+  {
+    Title: "[개인메세지]",
+    Text: "교육생님, 어제 올린 퇴실미클릭 소명 처리해드렸습니다. 다음부턴 입실 및 퇴실 클릭 좀 더 신경써주세요!",
+  },
+  {
+    Title: "[SSAFY 방역 지침 안내]",
+    Text: "차주부터 적용되는 SSAFY 방역 지침을 알려드립니다. 마스크 자율 착용 이후에도 개인위생 수칙준수를 당부드립니다.",
+  },
 ];
 
 const RandomEmoji = EmojiData[Math.floor(Math.random() * EmojiData.length)];
