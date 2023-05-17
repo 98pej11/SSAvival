@@ -33,27 +33,24 @@ function App() {
       <Pages>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/start" element={<StartPage />} />
           <Route path="/callback/kakao" element={<KakaoLogin />} />
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
-          <Route path="/game" element={<GamePage />} />
+
           <Route path="/main" element={<MainPage />} />
+          <Route path="/start" element={<StartPage />} />
+          <Route path="/game" element={<GamePage />} />
+          <Route path="/interval" element={<IntervalPage />} />
+
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
-          <Route path="/interval" element={<IntervalPage />} />
-
           <Route path="/seat" element={<SeatPage />} />
           <Route path="/id-card" element={<IdCardPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
+          
           <Route path="/video" element={<VideoHandler />} />
-
-          {/* 
-          <Route path="/image" element={<ImagePlayer />} />
-          <Route path="/video" element={<VideoHandler />} />
-          {/* <Route path="/image" element={<ImagePlayer />} /> */}
           <Route path="/difference" element={<DifferencePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
@@ -61,6 +58,11 @@ function App() {
           <Route path="/seat" element={<SeatPage />} />
           <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/id-card" element={<IdCardPage />} />
+
+          {/* 
+          <Route path="/image" element={<ImagePlayer />} />
+          <Route path="/video" element={<VideoHandler />} />
+          {/* <Route path="/image" element={<ImagePlayer />} /> */}
         </Routes>
       </Pages>
     </BrowserRouter>

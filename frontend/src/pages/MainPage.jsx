@@ -58,7 +58,7 @@ function MainPage() {
         //refresh 토큰이 유효할 때
         if (res.data.tokenState) {
           localStorage.setItem("access_token", res.data.newAccessToken);
-          //refresj 토큰이 없거나 유효하지 않을 때
+          //refresh 토큰이 없거나 유효하지 않을 때
         } else {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
@@ -68,6 +68,14 @@ function MainPage() {
       console.log("췤22");
     }
   }, [accessTokenState]);
+
+  // 유저 정보 받아오기
+  // const userId = localStorage.getItem(userId);
+  // console.log(userId);
+  useEffect(() => {
+    // dispatch();
+  }, []);
+
   return (
     <div style={{ backgroundColor: "#F2F2F2", height: "100vh" }}>
       <Header>
