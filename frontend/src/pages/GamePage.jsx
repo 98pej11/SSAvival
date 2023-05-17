@@ -79,11 +79,13 @@ export default function GamePage() {
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <Seating key="Seating" />,
-    <Puzzle key="Puzzle" />,
+
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
+    <Puzzle key="Puzzle" />,
     <TypoGame key="TypoGame" />,
     <RemindGame key="RemindGame" />,
+
     <TissueGame key="TissueGame" />,
     <EmojiComp key="EmojiComp" />,
     <IdCard key="Idcard" />,

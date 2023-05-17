@@ -59,6 +59,7 @@ const initialState = {
   quizImgUrl: { left: "", right: "" },
   firstTypo: [],
   secondTypo: [],
+  karloImage: "",
 };
 
 function gameReducer(state = initialState, action = {}) {
@@ -135,6 +136,12 @@ function gameReducer(state = initialState, action = {}) {
         pointsCenter: payload.pointsCenter,
         quizImgSize: payload.quizImgSize,
         quizImgUrl: payload.quizImgUrl,
+      };
+    case "GET_KARLO_IMAGE":
+      console.log("GET_KARLO_IMAGE", payload);
+      return {
+        ...state,
+        karloImage: payload,
       };
     case "UPDATE_POINTS_CENTER":
       return {

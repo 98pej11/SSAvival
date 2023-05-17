@@ -1,21 +1,26 @@
-import React, { useCallback, useEffect } from "react";
-import { useState, useMemo } from "react";
-import { useSpring, animated, Any } from "react-spring";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { StyledEngineProvider, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import scoring from "../../assets/game_typo/scoring.gif";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import zIndex from "@mui/material/styles/zIndex";
-
+import { GameAction } from "../../redux/actions/GameAction";
+import { ConstructionOutlined } from "@mui/icons-material";
 export default function Puzzle() {
   const dispatch = useDispatch();
 
+  // Karlo로 만든 이미지 링크 불러오기
+  const imgLink = useSelector((state) => state.gameReducer.karloImage);
+  console.log("-------------", imgLink);
   // 이미지
   const [images, setImages] = useState([]);
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
   // 미니게임 클리어 여부
   const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+  // useEffect(() => {
+  //   dispatch(GameAction.getKarloImage("classroom"));
+  // }, []);
 
   // 미니게임 작동 여부
   const minigameActive = useSelector(
@@ -31,7 +36,7 @@ export default function Puzzle() {
         setShowSuccess(false);
       }, 500);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (count === 6) {
@@ -46,13 +51,17 @@ export default function Puzzle() {
     }
   };
 
+  useEffect(() => {
+    console.log("흠.........", images);
+  }, [images]);
+
   // 퍼즐판
   useEffect(() => {
     const fetchImages = async () => {
       console.log("나 이미지 변경됐어");
 
       // 이미지 6분할
-      const newImages = await CutImages("pompom.png");
+      const newImages = await CutImages(imgLink);
       console.log("함수 끝나고 newImages는", newImages);
       // 이미지 6분할한 것 저장
       setImages(newImages);
@@ -83,7 +92,7 @@ export default function Puzzle() {
     if (images.length === 0) {
       fetchImages();
     }
-  }, []);
+  }, [imgLink]);
 
   // 이미지 6분할 하는 함수
   const CutImages = async (src) => {

@@ -72,6 +72,7 @@ export default function MainComp1() {
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch(GameAction.getRemindAnswer("음식"));
+    dispatch(GameAction.getKarloImage("classroom"));
     dispatch(GameAction.gameStart(localStorage.getItem("userId"))).then(
       (res) => {
         console.log("여기야아");
