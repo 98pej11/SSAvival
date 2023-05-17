@@ -78,6 +78,8 @@ export default function GamePage() {
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
+    <Seating key="Seating" />,
+    <Puzzle key="Puzzle" />,
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
     <TypoGame key="TypoGame" />,
@@ -85,8 +87,7 @@ export default function GamePage() {
     <TissueGame key="TissueGame" />,
     <EmojiComp key="EmojiComp" />,
     <IdCard key="Idcard" />,
-    <Seating key="Seating" />,
-    <Puzzle key="Puzzle" />,
+
     <AttendanceGame key="AttendanceGame" />,
     <DifferenceGame key="DifferenceGame" />,
   ];

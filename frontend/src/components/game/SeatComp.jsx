@@ -6,7 +6,6 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Seating() {
   const dispatch = useDispatch();
-
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
   // 성공 메세지 플래그
@@ -21,8 +20,14 @@ export default function Seating() {
     (state) => state.gameReducer.minigameActive
   );
 
+  const [endOrNot, setEndOrNot] = useState(true);
   useEffect(() => {
-    if (count === 6) {
+    if (!minigameActive) {
+      setEndOrNot(false);
+    }
+  });
+  useEffect(() => {
+    if (count === 3) {
       handleSuccess();
     }
   }, [count]);
@@ -92,44 +97,53 @@ export default function Seating() {
   });
 
   const onDragEnd = (result) => {
-    const { source, destination } = result;
+    try {
+      const { source, destination } = result;
+      console.log("onDrag 함수임!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log("endORNot은요...", endOrNot);
+      if (!endOrNot) {
+        console.log("미니게임 종료. 드래그 앤 드롭 중지.");
+        return;
+      }
 
-    // 드래그앤드롭이 시작된 droppable과 끝난 droppable이 다른 경우
-    if (!destination) {
-      return;
-    }
-    if (result.destination && result.destination.droppableId === "items2") {
-      console.log("여기드러오나...................");
-    }
-    // 같은 droppable 내에서 요소를 이동하는 경우
-    if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        state[source.droppableId],
-        source.index,
-        destination.index
-      );
+      // 드래그앤드롭이 시작된 droppable과 끝난 droppable이 다른 경우
+      if (!destination) {
+        return;
+      }
 
-      setState({
-        ...state,
-        [source.droppableId]: items,
-      });
-    } else {
-      // 다른 droppable로 요소를 이동하는 경우
-      const result = move(
-        state[source.droppableId],
-        state[destination.droppableId],
-        source,
-        destination
-      );
-      setState({
-        ...state,
-        [source.droppableId]: result[source.droppableId],
-        [destination.droppableId]: result[destination.droppableId],
-      });
-      setShowSuccess(true);
-      setCount(count + 1);
+      // 같은 droppable 내에서 요소를 이동하는 경우
+      if (source.droppableId === destination.droppableId) {
+        const items = reorder(
+          state[source.droppableId],
+          source.index,
+          destination.index
+        );
+        setState({
+          ...state,
+          [source.droppableId]: items,
+        });
+      } else {
+        // 다른 droppable로 요소를 이동하는 경우
+
+        const result = move(
+          state[source.droppableId],
+          state[destination.droppableId],
+          source,
+          destination
+        );
+        setState({
+          ...state,
+          [source.droppableId]: result[source.droppableId],
+          [destination.droppableId]: result[destination.droppableId],
+        });
+        setShowSuccess(true);
+        setCount(count + 1);
+      }
+    } catch (error) {
+      console.log("에러ㅏㅇ야아아앙");
     }
   };
+
   // 성공 표시 함수
   useEffect(() => {
     if (showSuccess) {
@@ -138,6 +152,7 @@ export default function Seating() {
       }, 500);
     }
   });
+
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -146,17 +161,23 @@ export default function Seating() {
   };
 
   const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+    try {
+      const sourceClone = Array.from(source);
+      const destClone = Array.from(destination);
+      const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-    destClone.splice(droppableDestination.index, 0, removed);
+      destClone.splice(droppableDestination.index, 0, removed);
 
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
+      const result = {};
+      console.log("move함수임!!!!!!!!!!!!!!!!!!!!!!!");
+      result[droppableSource.droppableId] = sourceClone;
+      result[droppableDestination.droppableId] = destClone;
 
-    return result;
+      return result;
+    } catch (e) {
+      console.log("에러야아앙");
+      return;
+    }
   };
 
   useEffect(() => {
@@ -174,14 +195,36 @@ export default function Seating() {
     }
     setSeats([...temp, ...seats]);
   }, [randomIndexArray]);
+  const [isDragDisabled, setIsDragDisabled] = useState(false);
+  const onDragStart = () => {
+    // minigame이 활성화 중이면 드래그 가능
+    setIsDragDisabled(!minigameActive);
+  };
+
+  // 드래그 중일때 미니게임 끝나는 경우 드래그 중지
+
+  const handleDragUpdate = (update) => {
+    console.log("드래그 업데이트 핸들 함수");
+    console.log("핸들드레그업데이트 함수의 endOrNot은요...", endOrNot);
+    const { destination, draggableId } = update;
+    if (destination === null && !endOrNot) {
+      // 요소를 드래그하다가 드롭하지 않은 경우
+
+      // endOrNot 상태가 false이고, 특정 draggableId가 드래그 중인 경우
+      setEndOrNot(true); // endOrNot 상태를 변경
+      onDragEnd(); // 드래그 중지
+
+      return;
+    }
+  };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragUpdate={handleDragUpdate} onDragEnd={onDragEnd}>
       <div
         style={{
           userSelect: "none",
-          width: "600px",
-          height: "500px",
+          width: "500px",
+          height: "400px",
           backgroundColor: "white",
           display: "flex",
           backgroundImage: `url(${"floor.png"})`,
@@ -189,7 +232,7 @@ export default function Seating() {
           margin: "0 auto",
         }}
       >
-        <Droppable droppableId="items1">
+        <Droppable droppableId={`items${1}`}>
           {(provided, snapshot) => (
             <WaitingLine
               {...provided.droppableProps}
@@ -275,7 +318,8 @@ export default function Seating() {
                               <Draggable
                                 key={item.id}
                                 draggableId={item.id}
-                                index={index}
+                                index={index + 2}
+                                isDragDisabled={!minigameActive}
                               >
                                 {(provided, snapshot) => (
                                   <div
@@ -331,7 +375,8 @@ export default function Seating() {
                               <Draggable
                                 key={item.id}
                                 draggableId={item.id}
-                                index={index}
+                                index={index + 4}
+                                isDragDisabled={!minigameActive}
                               >
                                 {(provided, snapshot) => (
                                   <div
@@ -389,6 +434,7 @@ export default function Seating() {
                                 key={item.id}
                                 draggableId={item.id}
                                 index={index}
+                                isDragDisabled={!minigameActive}
                               >
                                 {(provided, snapshot) => (
                                   <div
@@ -444,6 +490,7 @@ export default function Seating() {
                                 key={item.id}
                                 draggableId={item.id}
                                 index={index}
+                                isDragDisabled={!minigameActive}
                               >
                                 {(provided, snapshot) => (
                                   <div
@@ -499,6 +546,7 @@ export default function Seating() {
                             key={item.id}
                             draggableId={item.id}
                             index={index}
+                            isDragDisabled={!minigameActive}
                           >
                             {(provided, snapshot) => (
                               <div
@@ -547,6 +595,7 @@ export default function Seating() {
                             key={item.id}
                             draggableId={item.id}
                             index={index}
+                            isDragDisabled={minigameActive}
                           >
                             {(provided, snapshot) => (
                               <div
@@ -594,6 +643,7 @@ export default function Seating() {
                             key={item.id}
                             draggableId={item.id}
                             index={index}
+                            isDragDisabled={!minigameActive}
                           >
                             {(provided, snapshot) => (
                               <div
@@ -641,6 +691,7 @@ export default function Seating() {
                             key={item.id}
                             draggableId={item.id}
                             index={index}
+                            isDragDisabled={!minigameActive}
                           >
                             {(provided, snapshot) => (
                               <div
@@ -676,67 +727,6 @@ export default function Seating() {
               </SecondSet>
             </Second>
           </LeftSide>
-
-          <RightSide>
-            {/* 4분단 */}
-            <Fourth>
-              <FourthSet>
-                {seats.slice(12, 16).map((seat, index) =>
-                  seat ? (
-                    <Droppable
-                      key={`droppable-${index + 14}`}
-                      droppableId={`items${index + 14}`}
-                      isDropDisabled={state[`items${index + 14}`].length > 0}
-                    >
-                      {(provided, snapshot) => (
-                        <Empty
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-                          {state[`items${index + 14}`].map((item, index) => (
-                            <Draggable
-                              key={item.id}
-                              draggableId={item.id}
-                              index={index}
-                            >
-                              {(provided, snapshot) => (
-                                <div
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  ref={provided.innerRef}
-                                  style={{
-                                    ...provided.draggableProps.style,
-                                    backgroundSize: "contain",
-                                    backgroundRepeat: "no-repeat",
-                                    width: "50px",
-                                    height: "50px",
-                                    backgroundImage: `url(${"drooling-face.svg"})`,
-                                  }}
-                                >
-                                  {item.content}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </Empty>
-                      )}
-                    </Droppable>
-                  ) : (
-                    <Chair>
-                      <EmptyPerson>
-                        <img
-                          src="drooling-face.svg"
-                          style={{ width: "50px" }}
-                        />{" "}
-                      </EmptyPerson>
-                    </Chair>
-                  )
-                )}
-              </FourthSet>
-              <LongTable></LongTable>
-            </Fourth>
-          </RightSide>
         </AllArea>
       </div>
     </DragDropContext>
@@ -762,13 +752,14 @@ const WaitingLine = styled(`div`)({
   //   animation: "none",
   display: "flex",
   flexDirection: "row",
-  width: "600px",
+  width: "500px",
   height: "10%",
   justifyContent: "space-around",
   //   paddingRight: "40%",
   // backgroundColor: "blue",
   position: "absolute",
   marginBottom: "100px",
+  marginLeft: "25px",
 });
 
 const Waiting = styled(`div`)({
@@ -776,8 +767,8 @@ const Waiting = styled(`div`)({
   marginBottom: "10px",
   position: "relative",
   userSelect: "none",
-  width: "60px",
-  height: "60px",
+  width: "40px",
+  height: "40px",
   // marginRight: "300px",
   // backgroundColor: "red",
   // pointerEvents: "none",
@@ -792,8 +783,8 @@ const AllArea = styled(`div`)({
   display: "flex",
   flexDirection: "row",
   //   position: "absolute",
-  width: "1200px",
-  height: "500px",
+  width: "500px",
+  height: "400px",
   //   marginLeft: "60px",
   marginTop: "100px",
   //   backgroundColor: "red",
@@ -801,14 +792,14 @@ const AllArea = styled(`div`)({
 
 const LeftSide = styled(`div`)({
   display: "flex",
-  width: "600px",
+  width: "500px",
   flexDirection: "column",
   //   backgroundColor: "orange",
 });
 
 const RightSide = styled(`div`)({
   display: "flex",
-  width: "600px",
+  width: "500px",
   //   flex: "0.4",
   flexDirection: "row",
   // backgroundColor: "green",
@@ -818,8 +809,9 @@ const First = styled(`div`)({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-evenly",
-  //   backgroundColor: "skyblue",
+  // backgroundColor: "skyblue",
   flex: "2",
+  // width: "80%",
 });
 const Second = styled(`div`)({
   // backgroundColor: "purple",
@@ -910,19 +902,19 @@ const NormalTable = styled(`div`)({
   border: "2px solid black",
   borderRadius: "10%",
   // marginTop: "100px",
-  width: "250px",
-  height: "120px",
+  width: "180px",
+  height: "80px",
 });
 
 const MiniTable = styled(`div`)({
   backgroundColor: "rgba(230, 230, 230, 1)",
   border: "2px solid black",
   borderRadius: "10%",
-  width: "100px",
-  height: "80px",
+  width: "80px",
+  height: "50px",
   // marginTop: "100px",
   // bottom: "10",
-  marginBottom: "20px",
+  marginBottom: "60px",
 });
 
 const DiaTable = styled(`div`)({
