@@ -74,23 +74,9 @@ export default function MainComp1() {
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch(GameAction.getRemindAnswer("음식"));
-<<<<<<< HEAD
-    dispatch(GameAction.gameStart(localStorage.getItem("userId"))).then(
-      (res) => {
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log(res);
-        localStorage.setItem("gameId", res.data.gameId);
-      }
-    );
-    navigate("/start"); // /game 경로로 이동
-=======
     dispatch(GameAction.gameStart(localStorage.getItem("userId")));
     dispatch(fetchQuizImage());
-    navigate("/game"); // /game 경로로 이동
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
+    navigate("/start"); // /start 경로로 이동
   };
 
   const handleMultiPlayerClick = () => {

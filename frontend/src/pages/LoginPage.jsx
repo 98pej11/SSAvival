@@ -18,11 +18,7 @@ import { url } from "../redux/actions/url";
 import { title } from "process";
 import LogoutBtn from "../components/main/LogoutBtn";
 import { AccessAction } from "../redux/actions/AccessAction";
-<<<<<<< HEAD
-import { baseUrl } from "../redux/actions/url";
-=======
 import { kakaoUrl } from "../redux/actions/url";
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -148,11 +144,7 @@ export default function LoginPage() {
     const access_token = localStorage.getItem("access_token");
     const refresh_token = localStorage.getItem("refresh_token");
     if (access_token || refresh_token) {
-<<<<<<< HEAD
-      window.location.href = `${baseUrl}/main`;
-=======
       window.location.href = `${kakaoUrl}/main`;
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
     } else window.location.href = KAKAO_AUTH_URL;
   };
   class star {

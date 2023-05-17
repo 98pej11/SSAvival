@@ -8,24 +8,9 @@ import LogoutBtn from "./LogoutBtn";
 import { useSelector } from "react-redux";
 
 function MainHeader() {
-<<<<<<< HEAD
   //redux state값 가져오기
   const nickname = useSelector((state) => state.mainReducer.nickname);
-  const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleLogout = () => {
-    LogoutBtn.logout();
-  };
-=======
->>>>>>> 10dcfc51b2ec7e229511ee3da8e078be6af4bf6e
   return (
     <AppBar
       elevation={0}
