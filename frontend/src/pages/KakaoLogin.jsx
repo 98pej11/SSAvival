@@ -7,14 +7,14 @@ import Button from "@mui/material/Button";
 import { REST_API_KEY, REDIRECT_URI } from "../components/KakaoLoginData";
 import { kakaoUrl, baseUrl } from "../redux/actions/url";
 import ssafy from "../assets/ssafy.png";
-import ssafybg from "../assets/ssafybg.jpg";
+import background from "../assets/background.png";
 
 const Pages = styled.div`
   position: relative;
   font-family: neodgm;
   display: flex;
   background-size: cover;
-  background-image: url(${ssafybg});
+  background-image: url(${background});
   height: 100vh;
 `;
 
@@ -23,7 +23,7 @@ const InputBox = styled.div`
   flex-direction: row;
   margin-top: 5px;
   padding: 12px;
-  border: 1px solid #bcb6ff;
+  border: 1px solid #3396f4;
   z-index: 3;
   width: 350px;
 `;
@@ -47,7 +47,7 @@ const DropBox = styled.select`
   flex-direction: row;
   margin-top: 5px;
   padding: 12px;
-  border: 1px solid #bcb6ff;
+  border: 1px solid #3396f4;
   z-index: 3;
   width: 350px;
   font-family: "neodgm";
@@ -245,7 +245,7 @@ export default function KakaoLogin() {
           <Button
             sx={{
               fontFamily: "neodgm",
-              bgcolor: "#bcb6ff",
+              bgcolor: "#3396F4",
               color: "white",
               width: "350px",
               marginTop: "50px",
