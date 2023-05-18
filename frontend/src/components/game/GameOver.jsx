@@ -18,6 +18,7 @@ import {
 } from "../KakaoLoginData";
 import { GameAction } from "../../redux/actions/GameAction";
 import { MainAction } from "../../redux/actions/MainAction";
+import { fetchQuizImage } from "../../redux/actions/DifferenceGameAction";
 
 const Comp = styled.div`
   font-family: "neodgm";
@@ -101,7 +102,13 @@ function GameOver(props) {
       dispatch(MainAction.patchStatistics(result1));
       dispatch(MainAction.patchStatistics(result2));
     }
-    window.location.replace("/game");
+    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
+    dispatch(GameAction.getRemindAnswer("한식"));
+    dispatch(GameAction.getKarloImage("classroom"));
+    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    dispatch(fetchQuizImage());
+    navigate("/start"); // /start 경로로 이동
+    // window.location.replace("/game");
   };
 
   useEffect(() => {
