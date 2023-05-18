@@ -1,25 +1,49 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-  Box,
-} from "@mui/material";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 const Comp = styled.div`
   display: flex;
   gap: 10;
 `;
 
+const IPData = [
+  {
+    ipAddress: "427.598.152.654",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "783.984.115.452",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "201.583.754.493",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "823.211.687.902",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "857.601.248.462",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "054.540.268.318",
+    subnetMask: "123.456.789.123",
+    gateway: "123.456.789.123",
+  },
+];
+
+const RandomIP = IPData[Math.floor(Math.random() * IPData.length)];
+
 function IPgame() {
-  const [answer, setAnswer] = useState({
-    ipAddress: "123.123.123.123",
-    subnetMask: "123.123.123.123",
-    gateway: "123.123.123.123",
-  });
   const [inputs, setInputs] = useState({
     ipAddress: "",
     subnetMask: "",
@@ -53,14 +77,12 @@ function IPgame() {
   };
 
   const submit = () => {
-    if (JSON.stringify(inputs) === JSON.stringify(answer)) {
-      alert("PASS");
+    if (inputs.ipAddress === RandomIP.ipAddress) {
       if (minigameActive) {
         dispatch({ type: "SET_MINIGAME_CLEAR" });
         console.log("게임결과: " + minigameClear);
       }
     } else {
-      alert("FAIL");
     }
   };
 
@@ -92,8 +114,7 @@ function IPgame() {
       {/* 정답 예시 */}
       <Wrapper>
         <Header>
-          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
-          <HeaderRight>X</HeaderRight>
+          <HeaderTitle>인터넷 프로토콜 버전(TCP/IPv4) 속성</HeaderTitle>
         </Header>
         <Body>
           <Tab>일반</Tab>
@@ -130,12 +151,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.ipAddress}
+                      value={RandomIP.ipAddress}
                       name="ipAddress"
                       tabIndex="1"
                       onChange={(e) => onChangeHandler(e, 1)}
                       onKeyDown={(e) => handleKeyPress(e, 1)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                   <InputForm>
@@ -145,12 +169,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.subnetMask}
+                      value={RandomIP.subnetMask}
                       name="subnetMask"
                       tabIndex="2"
                       onChange={(e) => onChangeHandler(e, 2)}
                       onKeyDown={(e) => handleKeyPress(e, 2)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                   <InputForm>
@@ -160,12 +187,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.gateway}
+                      value={RandomIP.gateway}
                       name="gateway"
                       tabIndex="3"
                       onChange={(e) => onChangeHandler(e, 3)}
                       onKeyDown={(e) => handleKeyPress(e, 3)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                 </fieldset>
@@ -188,8 +218,7 @@ function IPgame() {
       {/* 실제 게임 진행 입력란*/}
       <Wrapper style={{ backgroundColor: "#FFDE69" }}>
         <Header>
-          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
-          <HeaderRight>X</HeaderRight>
+          <HeaderTitle>인터넷 프로토콜 버전(TCP/IPv4) 속성</HeaderTitle>
         </Header>
         <Body>
           <Tab>일반</Tab>
@@ -221,7 +250,7 @@ function IPgame() {
                   </legend>
                   <InputForm>
                     <div>IP 주소(I):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
@@ -235,31 +264,31 @@ function IPgame() {
                   </InputForm>
                   <InputForm>
                     <div>서브넷 마스크(U):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={inputs.subnetMask}
+                      value={RandomIP.subnetMask}
                       name="subnetMask"
                       tabIndex="2"
                       onChange={(e) => onChangeHandler(e, 2)}
                       onKeyDown={(e) => handleKeyPress(e, 2)}
-                    ></input>
+                    ></Input>
                   </InputForm>
                   <InputForm>
                     <div>기본 게이트웨이(D):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={inputs.gateway}
+                      value={RandomIP.gateway}
                       name="gateway"
                       tabIndex="3"
                       onChange={(e) => onChangeHandler(e, 3)}
                       onKeyDown={(e) => handleKeyPress(e, 3)}
-                    ></input>
+                    ></Input>
                   </InputForm>
                 </fieldset>
               </StyledRadioGroup>
@@ -282,6 +311,7 @@ function IPgame() {
 }
 
 const Input = styled.input`
+  margin-left: 10px;
   border: 1px solid;
   background-color: #f5f5f5;
 `;
@@ -289,9 +319,9 @@ const Input = styled.input`
 const Wrapper = styled.div`
   font-family: gmarket;
   width: 45%;
-  height: 55vh;
+  height: auto;
   background-color: #b7b7b7;
-  font-size: 14px;
+  font-size: 0.8rem;
   margin: 0 auto;
 `;
 const Header = styled.div`
@@ -309,7 +339,7 @@ const HeaderRight = styled.div`
   margin: 5px 8px;
 `;
 const Body = styled.div`
-  height: 100%;
+  height: 80%;
   width: 95%;
   margin: 15px auto;
 `;
@@ -319,17 +349,18 @@ const Tab = styled.div`
   border-left: 0.5px solid lightgrey;
   border-right: 0.5px solid lightgrey;
   padding: 2px 5px 2px 4px;
-  width: 15%;
+  width: 20%;
 `;
 const Content = styled.div`
   background-color: white;
   height: auto;
+  font-size: 0.7rem;
 `;
 const ContentTop = styled.div`
   padding: 10px;
 `;
 const ContentMain = styled.div`
-  padding: 10px;
+  padding: 5px;
 `;
 const StyledRadioGroup = styled(RadioGroup)`
   .MuiFormControlLabel-label {
@@ -339,18 +370,21 @@ const StyledRadioGroup = styled(RadioGroup)`
 
 const StyledFormControlLabel = styled(FormControlLabel)`
   .MuiTypography-root {
-    font-size: 12px;
-    line-height: 7px;
+    font-size: 0.7rem;
   }
 `;
 
 const InputForm = styled.div`
   display: flex;
-  justify-content: flex-start;
-  margin-top: -5px;
-  padding: 8px;
+  justify-content: space-evenly;
+  margin: 1%;
+  padding: 1%;
+  font-size: 0.7rem;
   div {
     margin-right: auto;
+  }
+  input {
+    width: 120px;
   }
 `;
 const Footer = styled.div`
@@ -359,7 +393,7 @@ const Footer = styled.div`
   margin-right: 5px;
 `;
 const Button = styled.button`
-  margin: 10% 8px;
-  padding: 3px 30px;
+  margin: 5% 8px;
+  padding: 3px 20px;
 `;
 export default IPgame;

@@ -27,8 +27,8 @@ export default function TissueGame() {
 
   const image2Style = {
     position: "relative",
-    top: "-40px",
-    left: "5%",
+    top: -53,
+    left: "4%",
     zIndex: 100,
   };
 
@@ -131,8 +131,7 @@ export default function TissueGame() {
   );
 
   useEffect(() => {
-    if (count === 10) {
-      alert("게임끝");
+    if (count === 5) {
       if (minigameActive) {
         dispatch({ type: "SET_MINIGAME_CLEAR" });
       }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,6 +9,13 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import gameReducer from "../../redux/reducers/game";
+import { GameAction } from "../../redux/actions/GameAction";
+
+import { store } from "../../redux/store";
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -17,35 +24,53 @@ const Rank = styled.div`
     text-align: center;
   }
 `;
-
-const columns = [
-  { field: "id", headerName: "", width: 30 },
-  { field: "user", headerName: "", width: 200 },
-  { field: "score", headerName: "", width: 200 },
-  { field: "fight", headerName: "", width: 150 },
-];
-
-const rows = [
-  { id: 1, user: "은동이", score: 35 },
-  { id: 2, user: "리윤두", score: 42 },
-  { id: 3, user: "김행균", score: 45 },
-  { id: 4, user: "양용용", score: 16 },
-  { id: 5, user: "서영둔", score: 12 },
-];
-
 const Pag = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-export default function Ranking() {
+export default function Ranking2(value) {
+  const campus = value.value;
+  console.log(campus);
+
+  //redux에서 campus에 맞는 top 5 users 가져오기
+  const users = useSelector((state) => state.mainReducer.users);
+  const [topFive, setTopFive] = useState([]);
+
+  useEffect(() => {
+    if (users && users.length > 0) {
+      const filterUsers = users.filter((user) => user.campus === campus);
+      console.log(filterUsers);
+
+      const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
+        ...user,
+        rank: index + 1,
+      }));
+      console.log(calculatedTopFive);
+
+      setTopFive(calculatedTopFive); // topFive 상태 업데이트
+
+      // 이후에 추가로 작업을 진행하면 됩니다.
+    }
+  }, [users, campus]);
+
+  // 가상 대전 버튼 누르면 multiplay game으로 이동
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleChallenge = () => {
+    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    navigate("/start"); // /game 경로로 이동
+  };
+
   return (
     <Rank>
       <Box sx={{ width: "100%", height: "100px" }}>
         <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
-            {rows.map((item) => (
-              <TableRow key={item.id}>
+            {topFive.map((item) => (
+              <TableRow key={item.rank}>
+                {/* {campusRanking.map((item) => (
+              <TableRow key={item.userId}> */}
                 <TableCell
                   sx={{
                     width: "0%",
@@ -55,7 +80,8 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.id}
+                  {item.rank}
+                  {/* {item.userId} */}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -66,7 +92,7 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.user}
+                  {item.nickname}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -77,7 +103,7 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.score} M
+                  {item.mileage} M
                 </TableCell>
                 <TableCell
                   sx={{
@@ -88,6 +114,7 @@ export default function Ranking() {
                   }}
                 >
                   <Button
+                    onClick={handleChallenge}
                     sx={{
                       fontFamily: "neodgm",
                       bgcolor: "#FFD211",
@@ -101,6 +128,7 @@ export default function Ranking() {
                     }}
                     variant="contained"
                     endIcon={<ArrowCircleRightIcon />}
+                    // onClick={() => startMultiGame(item.userId)}
                   >
                     가상대전
                   </Button>

@@ -15,6 +15,8 @@ import happy_pepe2 from "../../assets/happy_pepe2.png";
 import find from "../../assets/find.png";
 import { GameAction } from "../../redux/actions/GameAction";
 import Ranking2 from "./Ranking2";
+import gameReducer from "../../redux/reducers/game";
+import { fetchQuizImage } from "../../redux/actions/DifferenceGameAction";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
@@ -73,28 +75,18 @@ export default function MainComp1() {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch(GameAction.getRemindAnswer("음식"));
     dispatch(GameAction.getKarloImage("classroom"));
-    dispatch(GameAction.gameStart(localStorage.getItem("userId"))).then(
-      (res) => {
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log("여기야아");
-        console.log(res);
-        localStorage.setItem("gameId", res.data.gameId);
-      }
-    );
-    navigate("/game"); // /game 경로로 이동
+    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    dispatch(fetchQuizImage());
+    navigate("/start"); // /start 경로로 이동
   };
 
   const handleMultiPlayerClick = () => {
     setOpen(true);
-
-    // dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
-    // navigate("/game"); // /game 경로로 이동
   };
 
+  const campus = useSelector((state) => state.mainReducer.campus);
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(campus); //default campus는 user의 campus
 
   const handleClose = () => {
     setOpen(false);
@@ -177,6 +169,7 @@ export default function MainComp1() {
 
             <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
           </Box>
+
           <Dialog open={open} onClose={handleClose}>
             <DialogContent
               style={{
@@ -198,44 +191,44 @@ export default function MainComp1() {
                 >
                   <Tab value={0} label="서울" />
                   <Tab value={1} label="대전" />
-                  <Tab value={2} label="부울경" />
-                  <Tab value={3} label="광주" />
-                  <Tab value={4} label="구미" />
+                  <Tab value={2} label="광주" />
+                  <Tab value={3} label="구미" />
+                  <Tab value={4} label="부울경" />
                 </Tabs>
               </Box>
               <SwipeableViews index={value} onChangeIndex={handleChange}>
                 <div role="tabpanel" hidden={value !== 0} id="tabpanel-0">
                   {value === 0 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={0} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 1} id="tabpanel-1">
                   {value === 1 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={1} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 2} id="tabpanel-2">
                   {value === 2 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={2} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 3} id="tabpanel-3">
                   {value === 3 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={3} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 4} id="tabpanel-4">
                   {value === 4 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={4} />
                     </RankingContainer>
                   )}
                 </div>

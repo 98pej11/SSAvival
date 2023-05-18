@@ -1,6 +1,7 @@
 package com.oguogu.m59s.model.service;
 
 import com.oguogu.m59s.entity.User;
+import com.oguogu.m59s.model.dto.GameDto;
 import com.oguogu.m59s.model.dto.UserDto;
 import com.oguogu.m59s.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Cacheable(value = "List<UserDto>", cacheManager = "cacheManager")
+//    @Cacheable(value = "List<UserDto>", cacheManager = "cacheManager")
     //랭크 순서대로 리스트 출력
     public List<UserDto> listUser(){
         Sort sort = Sort.by(Sort.Direction.DESC, "mileage");
@@ -70,5 +71,15 @@ public class UserServiceImpl implements UserService{
     public void registUser(UserDto userDto) {
         System.out.println("USERDTO "+ userDto);
         userRepository.save(userDto.toEntity());
+    }
+
+    @Override
+    public void updateUser(GameDto gameDto) {
+        UserDto userDto = userRepository.findById(gameDto.getUserId()).get().toDto();
+        int mileage = userDto.getMileage();
+        if(mileage<gameDto.getTotalScore()) {
+            userDto.setMileage(gameDto.getTotalScore());
+            userRepository.save(userDto.toEntity());
+        }
     }
 }

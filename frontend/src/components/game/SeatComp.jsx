@@ -2,7 +2,12 @@ import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  cancel,
+} from "react-beautiful-dnd";
 
 export default function Seating() {
   const dispatch = useDispatch();
@@ -39,6 +44,17 @@ export default function Seating() {
     }
   };
 
+  // Cancel the drag when the component is unmounted
+  // useEffect(() => {
+  //   return () => {
+  //     const cleanup = () => {
+  //       cancel(); // Cancel the drag when the component is unmounted
+  //     };
+
+  //     return cleanup;
+  //   };
+  // }, []);
+
   const selectIndex = (selectingNumber) => {
     let temp = Array.from({ length: 12 }, (v, i) => i);
 
@@ -66,9 +82,9 @@ export default function Seating() {
       },
       { id: "item-2", content: "", imageUrl: "loudly-crying-face.svg" },
       { id: "item-3", content: "", imageUrl: "face-screaming-in-fear.svg" },
-      { id: "item-4", content: "", imageUrl: "pleading-face.svg" },
-      { id: "item-5", content: "", imageUrl: "disguised-face.svg" },
-      { id: "item-6", content: "", imageUrl: "loudly-crying-face.svg" },
+      // { id: "item-4", content: "", imageUrl: "pleading-face.svg" },
+      // { id: "item-5", content: "", imageUrl: "disguised-face.svg" },
+      // { id: "item-6", content: "", imageUrl: "loudly-crying-face.svg" },
     ],
     items2: [],
     items3: [],
@@ -530,7 +546,7 @@ export default function Seating() {
               </FirstSet>
             </First>
             {/*  */}
-            <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
+            <div>{showSuccess && <Success>성공!!! {count}/3 </Success>}</div>
             {/* 2분단 */}
             <Second>
               <SecondSet>
