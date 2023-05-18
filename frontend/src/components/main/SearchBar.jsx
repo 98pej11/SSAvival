@@ -37,8 +37,8 @@ export default function SearchBar() {
     });
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
     dispatch(GameAction.getRemindAnswer("한식"));
-    dispatch(GameAction.getKarloImage("classroom"));
-    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    // dispatch(GameAction.getKarloImage("classroom"));
+    // dispatch(GameAction.gameStart(localStorage.getItem("userId")));
     dispatch(fetchQuizImage());
     navigate("/start"); // /game 경로로 이동
   };

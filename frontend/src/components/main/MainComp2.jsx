@@ -79,6 +79,7 @@ export default function MainComp2() {
   }, []);
 
   // redux
+  // const mileage = 5732;
   const mileage = useSelector((state) => state.mainReducer.mileage);
   const tier = useSelector((state) => state.mainReducer.tier);
   const totalCnt = useSelector((state) => state.mainReducer.totalCnt);

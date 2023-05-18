@@ -48,7 +48,7 @@ function GameOver(props) {
       userId: userId,
     };
 
-    dispatch(GameAction.setGameDone(finalData));
+    // dispatch(GSameAction.setGameDone(finalData));
 
     if (gameMode == "multi") {
       const result1 = {
@@ -101,6 +101,8 @@ function GameOver(props) {
       dispatch(MainAction.patchStatistics(result2));
       dispatch(MainAction.postRecord(recordData1));
       dispatch(MainAction.postRecord(recordData2));
+    } else {
+      dispatch(GameAction.setGameDone(finalData));
     }
     navigate("/main");
   };
@@ -113,7 +115,7 @@ function GameOver(props) {
       gameDate: Date.now(), //현재 시간
       userId: userId,
     };
-    dispatch(GameAction.setGameDone(finalData));
+    // dispatch(GameAction.setGameDone(finalData));
     if (gameMode == "multi") {
       const result1 = {
         userId: userId,
@@ -164,6 +166,8 @@ function GameOver(props) {
       dispatch(MainAction.patchStatistics(result2));
       dispatch(MainAction.postRecord(recordData1));
       dispatch(MainAction.postRecord(recordData2));
+    } else {
+      dispatch(GameAction.setGameDone(finalData));
     }
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch({ type: "RESET_ROUND" });

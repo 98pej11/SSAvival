@@ -83,8 +83,8 @@ export default function Ranking2(value) {
       console.log("CHALLENGEID", challengeId);
       dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
       dispatch(GameAction.getRemindAnswer("한식"));
-      dispatch(GameAction.getKarloImage("classroom"));
-      dispatch(GameAction.gameStart(challengeId));
+      // dispatch(GameAction.getKarloImage("classroom"));
+      // dispatch(GameAction.gameStart(challengeId));
       dispatch(fetchQuizImage());
       setFlag(false);
       navigate("/start"); // /game 경로로 이동
