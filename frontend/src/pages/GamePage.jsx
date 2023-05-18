@@ -62,8 +62,15 @@ const Text = styled.div`
   font-size: 1.3rem;
   display: flex;
   justify-content: center;
-
   height: 50px;
+  align-items: center;
+  /* font-family: neodgm;
+  width: 95%;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin: 10px; */
 `;
 
 export default function GamePage() {
@@ -86,10 +93,12 @@ export default function GamePage() {
   const [gameOver, setGameOver] = useState(false);
   const [flag, setFlag] = useState(false);
   const [inputs, setInputs] = useState({});
+  // const [openScore, setOpenScore] = useState(false);
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
+    <DifferenceGame key="DifferenceGame" />,
     <LockerGame key="LockerGame" />,
     <TypoGame key="TypoGame" />,
     <IPGame key="IPGame" />,
@@ -100,7 +109,6 @@ export default function GamePage() {
     <Seating key="Seating" />,
     <Puzzle key="Puzzle" />,
     <AttendanceGame key="AttendanceGame" />,
-    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // 게임 페이지 마운트되면 "SET_MINIGAME_START" dispatch 보내기
@@ -156,7 +164,10 @@ export default function GamePage() {
             console.log("Check  145");
             onCapture(count);
             clearInterval(interval);
-            setTimeout(() => {}, 3000); //3초 대기
+            // setOpenScore(true);
+            setTimeout(() => {
+              // setOpenScore(false);
+            }, 2500); //3초 대기
             // return;
           }
         }, 500);
@@ -171,7 +182,9 @@ export default function GamePage() {
   const [blobs, setBlobs] = useState([]);
 
   const onCapture = (count) => {
-    html2canvas(document.getElementById("gameContainer")).then((canvas) => {
+    html2canvas(document.getElementById("gameContainer"), {
+      useCORS: true,
+    }).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
         if (!minigameClear) {
@@ -300,13 +313,15 @@ export default function GamePage() {
   return (
     <Box
       style={{
-        backgroundImage: inter ? `url(${classroom})` : `url(${pageBg})`,
+        backgroundImage: `url(${pageBg})`,
+        // backgroundImage: inter ? `url(${classroom})` : `url(${pageBg})`,
         backgroundSize: "cover",
         position: "relative",
         width: "100%",
         height: "auto",
       }}
     >
+      {minigameActive ? "" : <Interval />}
       {gameOver ? <GameOver /> : ""}
       <Header />
       <Box sx={container}>
@@ -337,14 +352,15 @@ export default function GamePage() {
           <Box sx={Comp}>
             <Box sx={gameContainer}>
               {/* checkkkkkkkkkkkkkkkkkkkkk */}
-              <Text>상대방 게임 녹화화면</Text>
+              {/* <Text>상대방 게임 녹화화면</Text> */}
+              <TimerBomb />
               {images.length > currentIndex && (
                 <img
                   src={images[currentIndex].imageUrl}
                   alt="Slider"
                   style={{
                     padding: 5,
-                    width: "85%",
+                    width: "95%",
                     height: "auto",
                   }}
                 />

@@ -13,11 +13,11 @@ function getUserInfo(userId) {
       })
       .then((response) => {
         const data = response.data.user;
-        console.log("getUserInfo axios성공 및 데이타:",data);
-        dispatch({ type: "GET_USER", payload:data });
+        console.log("getUserInfo axios성공 및 데이타:", data);
+        dispatch({ type: "GET_USER", payload: data });
       })
       .catch((error) => {
-        console.log("getUserInfo axios실패 및 에러:",error);
+        console.log("getUserInfo axios실패 및 에러:", error);
       });
   };
 }
@@ -60,11 +60,11 @@ function getStatistics(userId) {
       .get(url)
       .then((response) => {
         const data = response.data;
-        console.log("getStatistics axios성공 및 데이타:",data);
+        console.log("getStatistics axios성공 및 데이타:", data);
         dispatch({ type: "GET_STATISTICS", payload: data });
       })
       .catch((error) => {
-        console.log("getStatistics axios실패 및 에러:",error);
+        console.log("getStatistics axios실패 및 에러:", error);
       });
   };
 }
@@ -78,11 +78,11 @@ function getRecords(userId) {
       .get(url)
       .then((response) => {
         const data = response.data;
-        console.log("getRecords axios성공 및 데이타:",data);
+        console.log("getRecords axios성공 및 데이타:", data);
         dispatch({ type: "GET_RECORDS", payload: data });
       })
       .catch((error) => {
-        console.log("getRecords axios실패 및 에러:",error);
+        console.log("getRecords axios실패 및 에러:", error);
       });
   };
 }
@@ -96,24 +96,28 @@ function getChallenge(challengerId) {
       .get(url)
       .then((response) => {
         const data = response.data;
-        console.log("getChallenge axios성공 및 데이타:",data);
+        console.log("getChallenge axios성공 및 데이타:", data);
         dispatch({ type: "GET_CHALLENGE", payload: { data } });
       })
       .catch((error) => {
-        console.log("getChallenge axios실패 및 에러:",error);
+        console.log("getChallenge axios실패 및 에러:", error);
       });
   };
 }
 
 function patchStatistics(data) {
-  console.log('여기까지',data)
-  const req = data
+  console.log("여기까지", data);
+  const req = data;
   return async () => {
     const url = `${baseUrl}/main/statistics/done/`;
     await axios
-    .patch(url, req)
-    .then((response) => {
-      const data = response.data;
+      .patch(url, JSON.stringify(req), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        const data = response.data;
         console.log("patchStatistics axios성공 및 데이타:", data);
       })
       .catch((error) => {
