@@ -207,13 +207,19 @@ def save_and_upload(quizImg, quizImgName, quizImgFolder):
     quizImgPath = os.path.join(BackendFlaskPath, quizImgFolder, quizImgName)
 
     pil_image = create_pil_image(quizImg)
-    pil_image.save(quizImgPath, 'PNG')
+
+    # (영준) 프론트에서 이미지 가로 길이를 250px로 제한하게 됨, 비례해서 이미지 축소
+    width = 250
+    resized_rate = width / pil_image.width
+    height = int(pil_image.size[1] * width / pil_image.size[0])
+    resized_image = pil_image.resize((width, height))
+    resized_image.save(quizImgPath, 'PNG')
 
     s3_file_path = f"{quizImgFolder}/{quizImgName}"
     s3.upload_file(quizImgPath, AWS_S3_BUCKET, s3_file_path)
 
     quizImgUrl = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{s3_file_path}"
-    return quizImgUrl, pil_image.width, pil_image.height
+    return quizImgUrl, resized_image.width, resized_image.height, resized_rate
 
 #   이미지를 로드하는 함수
 #   in: None
@@ -275,9 +281,15 @@ class GetNextQuiz(Resource):
         quizImgLeftName, quizImgRightName, quizImgAnsName = "quizImgLeft.png", "quizImgRight.png", "quizImgAns.png"
         quizImgFolder = "quizImg"
 
-        quizImgLeftUrl, width, height = save_and_upload(src, quizImgLeftName, quizImgFolder)
-        quizImgRightUrl, width, height = save_and_upload(dst, quizImgRightName, quizImgFolder)
-        quizImgAnsUrl, width, height = save_and_upload(ref, quizImgAnsName, quizImgFolder)
+        quizImgLeftUrl, width, height, rate = save_and_upload(src, quizImgLeftName, quizImgFolder)
+        quizImgRightUrl, width, height, rate = save_and_upload(dst, quizImgRightName, quizImgFolder)
+        quizImgAnsUrl, width, height, rate = save_and_upload(ref, quizImgAnsName, quizImgFolder)
+
+        resized_pts = []
+        for pt in pts_c:
+            x = int(pt[0] * rate)
+            y = int(pt[1] * rate)
+            resized_pts.append([x, y, pt[2]])
 
         # (영준) 추가 필요 : 이미지 제외 나머지 데이터도 로컬에 저장해 두기, 추후 불러올 필요도 있음
         response = {
@@ -286,7 +298,7 @@ class GetNextQuiz(Resource):
             'quizImgAnsUrl' : quizImgAnsUrl,
             'width' : width,
             'height' : height,
-            'pts' : pts_c
+            'pts' : resized_pts
             # 't' : t
         } # (영준) 병합된 이미지 경로(원본, 틀린그림, 정답그림), 가로, 세로, 정답 좌표, 이동한 좌표
         return jsonify(response)
