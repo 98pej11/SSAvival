@@ -88,6 +88,7 @@ public class GameRestController {
     @PatchMapping("/final/done")
     public ResponseEntity<Map<String, Object>> gameFinalInfoSave(@RequestBody GameDto gameDto){
         gameService.updateGame(gameDto);
+        userService.updateUser(gameDto);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("result",SUCCESS);
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
