@@ -56,6 +56,7 @@ export default function Ranking2(value) {
   const dispatch = useDispatch();
   const handleChallenge = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
     navigate("/start"); // /game 경로로 이동
   };
 
@@ -125,7 +126,6 @@ export default function Ranking2(value) {
                     }}
                     variant="contained"
                     endIcon={<ArrowCircleRightIcon />}
-                    // onClick={() => startMultiGame(item.userId)}
                   >
                     가상대전
                   </Button>
