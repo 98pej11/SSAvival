@@ -16,6 +16,7 @@ import gameReducer from "../../redux/reducers/game";
 import { GameAction } from "../../redux/actions/GameAction";
 
 import { store } from "../../redux/store";
+import { fetchQuizImage } from "../../redux/actions/DifferenceGameAction";
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -66,7 +67,10 @@ export default function Ranking2(value) {
       },
     });
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    dispatch(GameAction.getRemindAnswer("한식"));
+    dispatch(GameAction.getKarloImage("classroom"));
     dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    dispatch(fetchQuizImage());
     navigate("/start"); // /game 경로로 이동
   };
 

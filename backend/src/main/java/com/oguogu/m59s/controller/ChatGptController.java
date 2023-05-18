@@ -42,7 +42,7 @@ public class ChatGptController {
         //단어 리스트 정제
         String[] ingredients = chatGptResponseDtoList.getChoices().get(0).getText().trim().split("[\n,]"); // 줄바꿈 문자('\n')를 기준으로 문자열을 나누어 배열에 저장
         for (int i = 0; i < ingredients.length; i++) {
-            if(ingredients[i].equals(" ") || ingredients[i].equals(".") || ingredients[i].equals("")) continue;
+            if(ingredients[i].equals(" ") || ingredients[i].equals(".") || ingredients[i].equals("") || ingredients[i].equals("면")) continue;
             String word = ingredients[i].trim();
 //            if(word.equals(" ") || word.equals(".")) continue;
             wordList.add(word);
