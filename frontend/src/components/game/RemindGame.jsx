@@ -125,7 +125,7 @@ export default function RemindGame() {
         if (currentIndex < wordList.length) {
           setCurrentWords((currentWords) => [
             ...currentWords,
-            wordList[currentIndex - 1],
+            wordList[currentIndex],
           ]);
           currentIndex += 1;
         } else {
@@ -154,11 +154,11 @@ export default function RemindGame() {
           dispatch({ type: "SET_MINIGAME_CLEAR" });
         }
         // Inputs match the answer
-        alert("정답이에용");
+        // alert("정답이에용");
       } else {
         // Inputs do not match the answer
         console.log("오답", updatedInputs, answer);
-        alert("틀려써요");
+        // alert("틀려써요");
       }
     }
   };
