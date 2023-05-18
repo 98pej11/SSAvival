@@ -31,4 +31,9 @@ public class RecordServiceImpl implements RecordService{
         }
         return recordDtoList;
     }
+
+    @Override
+    public void saveRecord(RecordDto recordDto) {
+        recordRepository.save(recordDto.toEntity());
+    }
 }

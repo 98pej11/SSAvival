@@ -36,7 +36,11 @@ export default function Ranking2(value) {
 
   //redux에서 campus에 맞는 top 5 users 가져오기
   const users = useSelector((state) => state.mainReducer.users);
+  const challengeId = useSelector(
+    (state) => state.mainReducer.challengeInfo.challengeId
+  );
   const [topFive, setTopFive] = useState([]);
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
     if (users && users.length > 0) {
@@ -56,21 +60,36 @@ export default function Ranking2(value) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleChallenge = (id, mileage) => {
+  const handleChallenge = (id, mileage, nickname) => {
     dispatch({
       type: "SET_CHALLENGE_INFO",
       payload: {
         challengeTotalScore: mileage,
         challengeId: id,
+        challengeNickname: nickname,
       },
     });
-    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
-    dispatch(GameAction.getRemindAnswer("한식"));
-    dispatch(GameAction.getKarloImage("classroom"));
-    dispatch(GameAction.gameStart(localStorage.getItem("userId")));
-    dispatch(fetchQuizImage());
-    navigate("/start"); // /game 경로로 이동
+    setFlag(true);
+    // dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    // dispatch(GameAction.getRemindAnswer("한식"));
+    // dispatch(GameAction.getKarloImage("classroom"));
+    // dispatch(GameAction.gameStart(localStorage.getItem("userId")));
+    // dispatch(fetchQuizImage());
+    // navigate("/start"); // /game 경로로 이동
   };
+
+  useEffect(() => {
+    if (flag) {
+      console.log("CHALLENGEID", challengeId);
+      dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+      dispatch(GameAction.getRemindAnswer("한식"));
+      dispatch(GameAction.getKarloImage("classroom"));
+      dispatch(GameAction.gameStart(challengeId));
+      dispatch(fetchQuizImage());
+      setFlag(false);
+      navigate("/start"); // /game 경로로 이동
+    }
+  }, [challengeId]);
 
   return (
     <Rank>
@@ -125,7 +144,9 @@ export default function Ranking2(value) {
                   }}
                 >
                   <Button
-                    onClick={() => handleChallenge(item.userId, item.mileage)}
+                    onClick={() =>
+                      handleChallenge(item.userId, item.mileage, item.nickname)
+                    }
                     sx={{
                       fontFamily: "neodgm",
                       bgcolor: "#FFD211",

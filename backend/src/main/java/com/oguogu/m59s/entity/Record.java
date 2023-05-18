@@ -23,7 +23,6 @@ public class Record {
     @Column(nullable = false)
     private Short isWin;
     @Column
-    @ColumnDefault("0")
     private String date;
     @Column
     @ColumnDefault("0")

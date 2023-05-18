@@ -32,5 +32,12 @@ public class RecordRestController {
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<Map<String, Object>> recordList(@RequestBody RecordDto recordDto) {
 
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        recordService.saveRecord(recordDto);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
 }

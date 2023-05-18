@@ -37,6 +37,7 @@ function GameOver(props) {
   const round = useSelector((state) => state.gameReducer.round);
   const userId = localStorage.getItem("userId");
   const challengeInfo = useSelector((state) => state.mainReducer.challengeInfo);
+  const nickname = useSelector((state) => state.mainReducer.nickname);
 
   // 게임 종료 눌렀을 때
   const offGame = () => {
@@ -46,7 +47,9 @@ function GameOver(props) {
       gameDate: Date.now(), //현재 시간
       userId: userId,
     };
+
     dispatch(GameAction.setGameDone(finalData));
+
     if (gameMode == "multi") {
       const result1 = {
         userId: userId,
@@ -66,8 +69,38 @@ function GameOver(props) {
             ? 1
             : 0, //0승 ,1패 , 2무
       };
+
+      const recordData1 = {
+        isWin:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 1
+            : 0, //0승 ,1패 , 2무,
+        date: Date.now(),
+        challengerId: challengeInfo.challengeId,
+        challengerNickname: challengeInfo.challengerNickname,
+        userNickname: nickname,
+        userId: localStorage.getItem("userId"),
+      };
+
+      const recordData2 = {
+        isWin:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 0
+            : 1, //0승 ,1패 , 2무,
+        date: Date.now(),
+        challengerId: localStorage.getItem("userId"),
+        challengerNickname: nickname,
+        userNickname: challengeInfo.challengerNickname,
+        userId: challengeInfo.challengeId,
+      };
       dispatch(MainAction.patchStatistics(result1));
       dispatch(MainAction.patchStatistics(result2));
+      dispatch(MainAction.postRecord(recordData1));
+      dispatch(MainAction.postRecord(recordData2));
     }
     navigate("/main");
   };
@@ -100,8 +133,37 @@ function GameOver(props) {
             ? 1
             : 0, //0승 ,1패 , 2무
       };
+      const recordData1 = {
+        isWin:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 1
+            : 0, //0승 ,1패 , 2무,
+        date: Date.now(),
+        challengerId: challengeInfo.challengeId,
+        challengerNickname: challengeInfo.challengerNickname,
+        userNickname: nickname,
+        userId: localStorage.getItem("userId"),
+      };
+
+      const recordData2 = {
+        isWin:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 0
+            : 1, //0승 ,1패 , 2무,
+        date: Date.now(),
+        challengerId: localStorage.getItem("userId"),
+        challengerNickname: nickname,
+        userNickname: challengeInfo.challengerNickname,
+        userId: challengeInfo.challengeId,
+      };
       dispatch(MainAction.patchStatistics(result1));
       dispatch(MainAction.patchStatistics(result2));
+      dispatch(MainAction.postRecord(recordData1));
+      dispatch(MainAction.postRecord(recordData2));
     }
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
     dispatch({ type: "RESET_ROUND" });

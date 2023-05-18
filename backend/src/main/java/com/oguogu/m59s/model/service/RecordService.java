@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RecordService {
     List<RecordDto> listRecord(long userId);
+    void saveRecord(RecordDto recordDto);
 }

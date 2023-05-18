@@ -126,6 +126,26 @@ function patchStatistics(data) {
   };
 }
 
+function postRecord(data) {
+  console.log("datassss", data);
+  return async (dispatch) => {
+    const url = `${baseUrl}/main/record/save`;
+    await axios
+      .post(url, JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 export const MainAction = {
   getUserInfo,
   getCampusAvg,
@@ -134,4 +154,5 @@ export const MainAction = {
   getRecords,
   getChallenge,
   patchStatistics,
+  postRecord,
 };

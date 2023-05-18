@@ -24,6 +24,7 @@ const initialState = {
   challengeInfo: {
     challengeTotalScore: 0,
     challengeId: null,
+    challengeNickname: "",
   },
 
   totalCnt: 0,
@@ -87,11 +88,13 @@ function mainReducer(state = initialState, action = {}) {
       };
     case "SET_CHALLENGE_INFO":
       console.log("SET_CHALLENGE_INFO 리듀서 실행");
+
       return {
         ...state,
         challengeInfo: {
           challengeTotalScore: payload.challengeTotalScore,
           challengeId: payload.challengeId,
+          challengeNickname: payload.challengeNickname,
         },
       };
 
