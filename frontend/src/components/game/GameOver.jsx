@@ -79,7 +79,7 @@ function GameOver(props) {
             : 0, //0승 ,1패 , 2무,
         date: Date.now(),
         challengerId: challengeInfo.challengeId,
-        challengerNickname: challengeInfo.challengerNickname,
+        challengerNickname: challengeInfo.challengeNickname,
         userNickname: nickname,
         userId: localStorage.getItem("userId"),
       };
@@ -94,7 +94,7 @@ function GameOver(props) {
         date: Date.now(),
         challengerId: localStorage.getItem("userId"),
         challengerNickname: nickname,
-        userNickname: challengeInfo.challengerNickname,
+        userNickname: challengeInfo.challengeNickname,
         userId: challengeInfo.challengeId,
       };
       dispatch(MainAction.patchStatistics(result1));
@@ -142,7 +142,7 @@ function GameOver(props) {
             : 0, //0승 ,1패 , 2무,
         date: Date.now(),
         challengerId: challengeInfo.challengeId,
-        challengerNickname: challengeInfo.challengerNickname,
+        challengerNickname: challengeInfo.challengeNickname,
         userNickname: nickname,
         userId: localStorage.getItem("userId"),
       };
@@ -157,7 +157,7 @@ function GameOver(props) {
         date: Date.now(),
         challengerId: localStorage.getItem("userId"),
         challengerNickname: nickname,
-        userNickname: challengeInfo.challengerNickname,
+        userNickname: challengeInfo.challengeNickname,
         userId: challengeInfo.challengeId,
       };
       dispatch(MainAction.patchStatistics(result1));
