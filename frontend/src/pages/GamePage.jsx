@@ -63,7 +63,7 @@ const Text = styled.div`
   display: flex;
   justify-content: center;
 
-  margin-top: 20px;
+  height: 50px;
 `;
 
 export default function GamePage() {
@@ -344,7 +344,6 @@ export default function GamePage() {
                   alt="Slider"
                   style={{
                     padding: 5,
-
                     width: "85%",
                     height: "auto",
                   }}
