@@ -141,7 +141,7 @@ function GameOver(props) {
           }}
           variant="h6"
         >
-          3,202M
+          {totalScore} M
         </Typography>
         <Typography
           sx={{

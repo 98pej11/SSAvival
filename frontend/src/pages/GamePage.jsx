@@ -98,7 +98,6 @@ export default function GamePage() {
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
-    <DifferenceGame key="DifferenceGame" />,
     <LockerGame key="LockerGame" />,
     <TypoGame key="TypoGame" />,
     <IPGame key="IPGame" />,
@@ -109,6 +108,7 @@ export default function GamePage() {
     <Seating key="Seating" />,
     <Puzzle key="Puzzle" />,
     <AttendanceGame key="AttendanceGame" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // 게임 페이지 마운트되면 "SET_MINIGAME_START" dispatch 보내기
