@@ -27,14 +27,14 @@
 ### 서비스 주요 기능 :
 
 - 싱글 플레이
-  - `[**Karlo API**](https://kakaobrain.com/techplayground/karlo/demo)`를 활용하여 퍼즐 게임 이미지 자동 생성 기능 구현
-  - `[**ChatGPT API**](https://openai.com/blog/introducing-chatgpt-and-whisper-apis)`를 이용하여 연상 게임 정답 단어 1개, 관련 단어 5개를 추출하는 기능 구현
-  - `[**OpenCV**](https://opencv.org/)`의 `cv2.xphoto.inpaint` 메서드를 사용하여 틀린 그림 찾기 게임의 틀린 그림 제작 기능 구현
-  - `[**react-beautiful-dnd**](https://github.com/atlassian/react-beautiful-dnd)` 라이브러리를 활용하여 드래그&드롭 게임의 트래킹 기능 구현
+  - [**Karlo API**](https://kakaobrain.com/techplayground/karlo/demo)를 활용하여 퍼즐 게임 이미지 자동 생성 기능 구현
+  - [**ChatGPT API**](https://openai.com/blog/introducing-chatgpt-and-whisper-apis)를 이용하여 연상 게임 정답 단어 1개, 관련 단어 5개를 추출하는 기능 구현
+  - [**OpenCV**](https://opencv.org/)의 `cv2.xphoto.inpaint` 메서드를 사용하여 틀린 그림 찾기 게임의 틀린 그림 제작 기능 구현
+  - [**react-beautiful-dnd**](https://github.com/atlassian/react-beautiful-dnd) 라이브러리를 활용하여 드래그&드롭 게임의 트래킹 기능 구현
 - 가상 대전
-  - `[**html2canvas**](https://html2canvas.hertzen.com/documentation)` 를 사용하여 싱글 플레이 시 매 게임 진행 시간 동안 0.5초 간격으로 게임 컴포넌트 캡쳐, 저장
+  - [**html2canvas**](https://html2canvas.hertzen.com/documentation) 를 사용하여 싱글 플레이 시 매 게임 진행 시간 동안 0.5초 간격으로 게임 컴포넌트 캡쳐, 저장
   - 멀티 플레이 시, 저장된 화면을 상대 화면으로 출력하는 방식으로 가상 대전 기능 구현
-  - `[**Kakao API**](https://developers.kakao.com/)` 로그인 및 친구에게 게임 결과 메시징 기능 구현
+  - [**Kakao API**](https://developers.kakao.com/) 로그인 및 친구에게 게임 결과 메시징 기능 구현
 
 ### 개발기간 : 2023.04.10 ~ 2023.05.19 (총 6주)
 
