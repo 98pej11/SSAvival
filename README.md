@@ -1,8 +1,6 @@
-# 포트폴리오
+# SSAvival(싸바이벌)
 
-## SSAvival(싸바이벌)
-
-- SSAFY 교육생들의 일과를 테마로 한 미니 게임 웹 서비스
+## SSAFY 교육생들의 일과를 테마로 한 미니 게임 웹 서비스
 
 - 소개 UCC
 
@@ -13,10 +11,10 @@
   **[Front-end]**
   - 사용 스택 : React, Redux, JavaScript, MUI, Styled-Component
   - IDE : VS code
-  **[Back-end]**
+    **[Back-end]**
   - 사용 스택 : SpringBoot, Spring Data JPA, Flask, Java, Python, Spring Security, MySQL, Redis
   - IDE : IntelliJ, VS code
-  **[Infra]**
+    **[Infra]**
   - 서버 : AWS EC2, ubuntu, S3, Docker, Docker-compose, Jenkins, SSL/TLS, Nginx, GitLab, Jira
 - 서비스 주요 기능 :
 
@@ -78,17 +76,19 @@
   ![Untitled](./images/Untitled%205.png)
 - **회원가입 화면**
   - 카카오 로그인 후, 닉네임과 지역 설정
-  ![Untitled](./images/Untitled%206.png)
+    ![Untitled](./images/Untitled%206.png)
 - **메인 화면**
   - 내 전적 및 티어, 마일리지 확인
   - 싱글/멀티 플레이 입장 버튼
   - 캠퍼스 랭킹 / 캠퍼스 별 유저 랭킹
-  ![Untitled](./images/Untitled%207.png)
+    ![Untitled](./images/Untitled%207.png)
 - **게임 시작 화면**
   - 10초 \* 12개의 미니게임
-  ![Untitled](./images/Untitled%208.png)
+    ![Untitled](./images/Untitled%208.png)
 - **싱글 플레이 게임 화면**
+
   - 각 게임 별 이겼을 시 클리어 시간에 비례한 점수 부여
+
   1. Git bash 게임
 
      ![01. 깃배시 게임_싱글.gif](./images/01.%20%EA%B9%83%EB%B0%B0%EC%8B%9C%20%EA%B2%8C%EC%9E%84_%EC%8B%B1%EA%B8%80.gif)
@@ -136,7 +136,9 @@
   1. 틀린 그림 찾기 게임
 
      ![12. 틀린 그림 찾기_싱글.gif](./images/12.%20%ED%8B%80%EB%A6%B0%20%EA%B7%B8%EB%A6%BC%20%EC%B0%BE%EA%B8%B0_%EC%8B%B1%EA%B8%80.gif)
+
 - **가상 대전 화면**
+
   1. 대전 상대 검색
 
      ![14. 대전 상대 검색_멀티.gif](./images/14.%20%EB%8C%80%EC%A0%84%20%EC%83%81%EB%8C%80%20%EA%B2%80%EC%83%89_%EB%A9%80%ED%8B%B0.gif)
